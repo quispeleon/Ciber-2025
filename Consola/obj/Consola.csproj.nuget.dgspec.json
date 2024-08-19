@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dev\\Documents\\repos\\Ciber-\\Consola\\Consola.csproj": {}
+    "/home/et12alumno/Escritorio/Ciber-/Consola/Consola.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dev\\Documents\\repos\\Ciber-\\Consola\\Consola.csproj": {
+    "/home/et12alumno/Escritorio/Ciber-/Consola/Consola.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\Consola\\Consola.csproj",
+        "projectUniqueName": "/home/et12alumno/Escritorio/Ciber-/Consola/Consola.csproj",
         "projectName": "Consola",
-        "projectPath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\Consola\\Consola.csproj",
-        "packagesPath": "C:\\Users\\dev\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\Consola\\obj\\",
+        "projectPath": "/home/et12alumno/Escritorio/Ciber-/Consola/Consola.csproj",
+        "packagesPath": "/home/et12alumno/.nuget/packages/",
+        "outputPath": "/home/et12alumno/Escritorio/Ciber-/Consola/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\dev\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/et12alumno/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -26,8 +26,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\dev\\Documents\\repos\\Ciber-\\prueba\\prueba.csproj": {
-                "projectPath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\prueba\\prueba.csproj"
+              "/home/et12alumno/Escritorio/Ciber-/prueba/prueba.csproj": {
+                "projectPath": "/home/et12alumno/Escritorio/Ciber-/prueba/prueba.csproj"
               }
             }
           }
@@ -36,11 +36,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -62,21 +57,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.301/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.107/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\dev\\Documents\\repos\\Ciber-\\prueba\\prueba.csproj": {
+    "/home/et12alumno/Escritorio/Ciber-/prueba/prueba.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\prueba\\prueba.csproj",
+        "projectUniqueName": "/home/et12alumno/Escritorio/Ciber-/prueba/prueba.csproj",
         "projectName": "prueba",
-        "projectPath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\prueba\\prueba.csproj",
-        "packagesPath": "C:\\Users\\dev\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\prueba\\obj\\",
+        "projectPath": "/home/et12alumno/Escritorio/Ciber-/prueba/prueba.csproj",
+        "packagesPath": "/home/et12alumno/.nuget/packages/",
+        "outputPath": "/home/et12alumno/Escritorio/Ciber-/prueba/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\dev\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/et12alumno/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -94,11 +89,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -120,7 +110,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.301/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.107/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
