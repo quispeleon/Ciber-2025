@@ -4,3 +4,13 @@
 /home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/obj/Debug/net8.0/Ciber.Dapper.AssemblyInfo.cs
 /home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/obj/Debug/net8.0/Ciber.Dapper.csproj.CoreCompileInputs.cache
 /home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/obj/Debug/net8.0/Ciber.Dapper.sourcelink.json
+/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/bin/Debug/net8.0/Ciber.Dapper.deps.json
+/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/bin/Debug/net8.0/Ciber.Dapper.dll
+/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/bin/Debug/net8.0/Ciber.Dapper.pdb
+/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/bin/Debug/net8.0/Ciber.core.dll
+/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/bin/Debug/net8.0/Ciber.core.pdb
+/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/obj/Debug/net8.0/Ciber.Dapper.csproj.CopyComplete
+/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/obj/Debug/net8.0/Ciber.Dapper.dll
+/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/obj/Debug/net8.0/refint/Ciber.Dapper.dll
+/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/obj/Debug/net8.0/Ciber.Dapper.pdb
+/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/obj/Debug/net8.0/ref/Ciber.Dapper.dll

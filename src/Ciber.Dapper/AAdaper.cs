@@ -1,4 +1,9 @@
-public class AAdaper : IADO
+using Dapper;
+using MySqlConnector;
+using Ciber.core;
+using System.Data;
+namespace Ciber.Dapper;
+public class AAdaper : Iciber
 {
     private readonly IDbConnection _conexion;
 
@@ -19,17 +24,6 @@ public class AAdaper : IADO
         });
     }
 
-    public Maquina ObtenerMaquina(int nMaquina)
-    {
-        string sql = "SELECT * FROM Maquina WHERE Nmaquina = @Nmaquina";
-        return _conexion.QueryFirstOrDefault<Maquina>(sql, new { Nmaquina = nMaquina });
-    }
+    public List<Maquina> ObtenerMaquinas() => _conexion.Query<Maquina>(_queryMaquina).ToList();
 }
 
-// Uso en el código principal
-var adaptador = new AAdaper("cadena_de_conexion");
-var maquina = new Maquina { Nmaquina = 1, estado = true, Caracteristicas = "Caracteristicas de la maquina" };
-adaptador.AltaMaquina(maquina, maquina.Caracteristicas);
-
-var maquinaRecuperada = adaptador.ObtenerMaquina(1);
-Console.WriteLine($"Maquina: {maquinaRecuperada.Nmaquina}, Estado: {maquinaRecuperada.estado}, Caracteristicas: {maquinaRecuperada.Caracteristicas}");

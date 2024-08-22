@@ -44,3 +44,11 @@ public class CiberService
         }
     }
 }
+
+
+var adaptador = new AAdaper("cadena_de_conexion");
+var maquina = new Maquina { Nmaquina = 1, estado = true, Caracteristicas = "Caracteristicas de la maquina" };
+adaptador.AltaMaquina(maquina, maquina.Caracteristicas);
+
+var maquinaRecuperada = adaptador.ObtenerMaquina(1);
+Console.WriteLine($"Maquina: {maquinaRecuperada.Nmaquina}, Estado: {maquinaRecuperada.estado}, Caracteristicas: {maquinaRecuperada.Caracteristicas}");
