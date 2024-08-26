@@ -2,10 +2,10 @@
 using Ciber.Dapper;
 
 
-string connectionString = "Server=localhost;Database=ciber;User=root;Password=1234;";
+string connectionString = "Server=localhost;Database=Ciber;User=5to_agbd;Password=Trigg3rs!;";
 
-// ]las instancias
-ICuentaRepository cuentaRepo = new CuentaRepository(connectionString);
+// las instancias
+IDAO cuentaRepo = new CuentaRepository(connectionString);
 // IMaquinaRepository maquinaRepo = new MaquinaRepository(connectionString);
 // ITipoRepository tipoRepo = new TipoRepository(connectionString);
 // IAlquilerRepository alquilerRepo = new AlquilerRepository(connectionString);
@@ -22,7 +22,11 @@ var nuevaCuenta = new Cuenta
 cuentaRepo.AgregarCuenta(nuevaCuenta);
 
 var cuentas = cuentaRepo.ObtenerTodasLasCuentas();
-foreach (var cuenta in cuentas)
-{
-    Console.WriteLine($"{cuenta.Nombre} - {cuenta.Dni}");
-}
+// foreach (var cuenta in cuentas)
+// {
+//     Console.WriteLine($"{cuenta.Nombre} - {cuenta.Dni}");
+// }
+
+var cuentasid = cuentaRepo.ObtenerCuentaPorId(2);
+
+Console.WriteLine($"{cuentasid.Nombre}- {cuentasid.Dni}");

@@ -4,7 +4,7 @@ using MySqlConnector;
 // using MySql.Data.MySqlClient;
 using Ciber.core;
 namespace Ciber.Dapper;
-public class CuentaRepository : ICuentaRepository
+public class CuentaRepository : IDAO 
 {
     private readonly MySqlConnection _dbConnection;
 
@@ -42,4 +42,102 @@ public class CuentaRepository : ICuentaRepository
         var sql = "SELECT * FROM Cuenta";
         return _dbConnection.Query<Cuenta>(sql);
     }
+
+    public void AgregarMaquina(Maquina maquina)
+    {
+        
+        var sql = "INSERT INTO Maquina()"
+    }
+
+    public Maquina ObtenerMaquinaPorId(int nmaquina)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ActualizarMaquina(Maquina maquina)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void EliminarMaquina(int nmaquina)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void AgregarTipo(Tipo tipo)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Tipo ObtenerTipoPorId(int idTipo)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ActualizarTipo(Tipo tipo)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void EliminarTipo(int idTipo)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<Tipo> ObtenerTodosLosTipos()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void AgregarAlquiler(Alquiler alquiler)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Alquiler ObtenerAlquilerPorId(int idAlquiler)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ActualizarAlquiler(Alquiler alquiler)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void EliminarAlquiler(int idAlquiler)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<Alquiler> ObtenerTodosLosAlquileres()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void AgregarHistorial(HistorialdeAlquiler historial)
+    {
+        throw new NotImplementedException();
+    }
+
+    public HistorialdeAlquiler ObtenerHistorialPorId(int idHistorial)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ActualizarHistorial(HistorialdeAlquiler historial)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void EliminarHistorial(int idHistorial)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<HistorialdeAlquiler> ObtenerTodoElHistorial()
+    {
+        throw new NotImplementedException();
+    }
 }
+
+

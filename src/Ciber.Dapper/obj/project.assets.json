@@ -1790,19 +1790,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dev\\.nuget\\packages\\": {}
+    "/home/et12alumno/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.Dapper\\Ciber.Dapper.csproj",
+      "projectUniqueName": "/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/Ciber.Dapper.csproj",
       "projectName": "Ciber.Dapper",
-      "projectPath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.Dapper\\Ciber.Dapper.csproj",
-      "packagesPath": "C:\\Users\\dev\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.Dapper\\obj\\",
+      "projectPath": "/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/Ciber.Dapper.csproj",
+      "packagesPath": "/home/et12alumno/.nuget/packages/",
+      "outputPath": "/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\dev\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/et12alumno/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -1814,8 +1814,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.core\\Ciber.core.csproj": {
-              "projectPath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.core\\Ciber.core.csproj"
+            "/home/et12alumno/Escritorio/Ciber-/src/Ciber.core/Ciber.core.csproj": {
+              "projectPath": "/home/et12alumno/Escritorio/Ciber-/src/Ciber.core/Ciber.core.csproj"
             }
           }
         }
@@ -1824,11 +1824,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -1864,7 +1859,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.301/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.107/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

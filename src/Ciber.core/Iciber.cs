@@ -2,44 +2,36 @@
 
 namespace Ciber.core;
 
-public interface ICuentaRepository
+public interface IDAO
 {
     void AgregarCuenta(Cuenta cuenta);
     Cuenta ObtenerCuentaPorId(int ncuenta);
     void ActualizarCuenta(Cuenta cuenta);
     void EliminarCuenta(int ncuenta);
     IEnumerable<Cuenta> ObtenerTodasLasCuentas();
-}
 
-public interface IMaquinaRepository
-{
+
+    // Tabla maquina 
     void AgregarMaquina(Maquina maquina);
     Maquina ObtenerMaquinaPorId(int nmaquina);
     void ActualizarMaquina(Maquina maquina);
     void EliminarMaquina(int nmaquina);
-    IEnumerable<Maquina> ObtenerTodasLasMaquinas();
-}
 
-public interface ITipoRepository
-{
+    // tabla tipo 
+
     void AgregarTipo(Tipo tipo);
     Tipo ObtenerTipoPorId(int idTipo);
     void ActualizarTipo(Tipo tipo);
     void EliminarTipo(int idTipo);
     IEnumerable<Tipo> ObtenerTodosLosTipos();
-}
-
-public interface IAlquilerRepository
-{
+    // Alquiler 
     void AgregarAlquiler(Alquiler alquiler);
     Alquiler ObtenerAlquilerPorId(int idAlquiler);
     void ActualizarAlquiler(Alquiler alquiler);
     void EliminarAlquiler(int idAlquiler);
     IEnumerable<Alquiler> ObtenerTodosLosAlquileres();
-}
 
-public interface IHistorialdeAlquilerRepository
-{
+// historial 
     void AgregarHistorial(HistorialdeAlquiler historial);
     HistorialdeAlquiler ObtenerHistorialPorId(int idHistorial);
     void ActualizarHistorial(HistorialdeAlquiler historial);
