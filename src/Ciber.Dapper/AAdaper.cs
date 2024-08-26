@@ -46,7 +46,7 @@ public class CuentaRepository : IDAO
     public void AgregarMaquina(Maquina maquina)
     {
         
-        var sql = "INSERT INTO Maquina()"
+        var sql = "INSERT INTO Maquina()";
     }
 
     public Maquina ObtenerMaquinaPorId(int nmaquina)

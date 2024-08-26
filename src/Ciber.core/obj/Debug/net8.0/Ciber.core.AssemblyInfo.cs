@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Ciber.core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6fb604684a5135b4437ecffd436abffcd4c5b35d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+60a0fd48733719a4482c44dcf68aa6de413dd027")]
 [assembly: System.Reflection.AssemblyProductAttribute("Ciber.core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Ciber.core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
