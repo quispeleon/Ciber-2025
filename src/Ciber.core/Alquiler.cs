@@ -1,16 +1,12 @@
 namespace Ciber.core;
 
 public class Alquiler
-{   
-    public int id {get;set;}
-    public int cuenta {get;set;}
-
-    public int maquina {get;set;}
-
-    public DateTime CantidadTiempo {get;set;}
-
-    public int tipo {get;set;}
-    public bool pagado {get;set;}
-    
-
+{
+    public int IdAlquiler { get; set; }
+    public int Ncuenta { get; set; }
+    public int Nmaquina { get; set; }
+    public int Tipo { get; set; }
+    public TimeSpan? CantidadTiempo { get; set; } // Si es nullable
+    public bool? Pagado { get; set; } // Nullable
 }
+

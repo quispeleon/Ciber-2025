@@ -2,6 +2,6 @@ namespace Ciber.core;
 
 public class Tipo
 {
-    public int id {get;set;}
-    public string tipo {get;set;}
+    public int IdTipo { get; set; }
+    public string TipoDescripcion { get; set; }
 }

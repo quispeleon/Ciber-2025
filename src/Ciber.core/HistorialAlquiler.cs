@@ -1,11 +1,13 @@
 
 namespace Ciber.core;
 
-public class HistorialAlquiler
+public class HistorialdeAlquiler
 {
-    public int id {get;set;}
-    public string tipo {get;set;}
-    public List<Alquiler> alquileres {get;set;}
-    
-
+    public int IdHistorial { get; set; }
+    public int Ncuenta { get; set; }
+    public int Nmaquina { get; set; }
+    public DateTime FechaInicio { get; set; }
+    public DateTime FechaFin { get; set; }
+    public decimal TotalPagar { get; set; }
 }
+

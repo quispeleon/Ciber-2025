@@ -3,11 +3,9 @@ namespace Ciber.core;
 
 public class Cuenta
 {
-    public int id {get;set;}
-    public string Nombre {get;set;}
-    public string pass {get;set;}
-    public int dni {get;set;}
-    public DateTime Horaregistrada {get;set;}
-    public List<HistorialAlquiler> historial {get;set;}
-
+    public int Ncuenta { get; set; }
+    public string Nombre { get; set; }
+    public string Pass { get; set; }
+    public int Dni { get; set; }
+    public TimeSpan HoraRegistrada { get; set; }
 }

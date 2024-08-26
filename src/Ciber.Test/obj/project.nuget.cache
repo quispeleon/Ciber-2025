@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "LpOhsjjzh264AVFDiX0O0b6FMR5FDRT1BWDPFHKUutS+5zkS0RGNaxD/k6q542koI0zL5F5uMAFhpGZQtXOydg==",
+  "dgSpecHash": "5Uc4GR3cFp4=",
   "success": true,
-  "projectFilePath": "/home/et12alumno/Escritorio/Ciber-/src/Ciber.Test/Ciber.Test.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.Test\\Ciber.Test.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\dev\\.nuget\\packages\\dapper\\2.1.35\\dapper.2.1.35.nupkg.sha512",
+    "C:\\Users\\dev\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.1\\microsoft.extensions.logging.abstractions.7.0.1.nupkg.sha512",
+    "C:\\Users\\dev\\.nuget\\packages\\mysqlconnector\\2.3.7\\mysqlconnector.2.3.7.nupkg.sha512"
+  ],
   "logs": []
 }

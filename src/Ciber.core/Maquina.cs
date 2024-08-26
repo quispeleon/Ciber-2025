@@ -2,8 +2,8 @@ namespace Ciber.core;
 
 public class Maquina
 {
-    public int Nmaquina {get;set;}
-    public bool estado {get;set;}
-    public string Caracteristicas {get;set;}
-
+    public int Nmaquina { get; set; }
+    public bool Estado { get; set; }
+    public string Caracteristicas { get; set; }
 }
+
