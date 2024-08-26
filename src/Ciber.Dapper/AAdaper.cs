@@ -14,7 +14,7 @@ public class CuentaRepository : ICuentaRepository
     }
 
     public void AgregarCuenta(Cuenta cuenta)
-    {
+    {                                 
         var sql = "INSERT INTO Cuenta (nombre, pass, dni, horaRegistrada) VALUES (@Nombre, @Pass, @Dni, @HoraRegistrada)";
         _dbConnection.Execute(sql, cuenta);
     }
