@@ -14,9 +14,9 @@ IDAO cuentaRepo = new CuentaRepository(connectionString);
 // agregar una nueva cuenta
 var nuevaCuenta = new Cuenta
 {
-    Nombre = "Juan Perez",
-    Pass = "1234",
-    Dni = 12345678,
+    Nombre = "pedrasdfod",
+    Pass = "juanasdfs",
+    Dni = 1783,
     HoraRegistrada = DateTime.Now.TimeOfDay
 };
 cuentaRepo.AgregarCuenta(nuevaCuenta);

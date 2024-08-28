@@ -46,22 +46,29 @@ public class CuentaRepository : IDAO
     public void AgregarMaquina(Maquina maquina)
     {
         
-        var sql = "INSERT INTO Maquina()"
+        var sql = "INSERT INTO Maquina(Nmaquina, estado ,caracteristcas) VALUES (@Nmaquina,@Estado,@Caracteristicas)";
+
+        _dbConnection.Execute(sql, maquina);
     }
 
     public Maquina ObtenerMaquinaPorId(int nmaquina)
     {
-        throw new NotImplementedException();
+        var sql = "SELECT * FROM Maquina WHERE Nmaquina = @nmaquina ";
+        return _dbConnection.QueryFirstOrDefault<Maquina>(sql, new {
+            Nmaquina = nmaquina
+        });
     }
 
     public void ActualizarMaquina(Maquina maquina)
     {
-        throw new NotImplementedException();
+        var sql = "UPDATE Maquina SET Nmaquina = @Nmaquina , estado = @estado , caracteristicas = @Caracteristicas";
+        _dbConnection.Execute(sql,maquina);
     }
 
     public void EliminarMaquina(int nmaquina)
     {
-        throw new NotImplementedException();
+        var sql = "DELETE FROM Maquina WHERE Nmaquina = @Nmaquna ";
+        _dbConnection.Execute(sql,new {Ncuenta = nmaquina});
     }
 
     public void AgregarTipo(Tipo tipo)
