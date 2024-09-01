@@ -1,20 +1,78 @@
 {
   "format": 1,
   "restore": {
-    "/home/et12alumno/Escritorio/Ciber-/src/Ciber.tests/Ciber.tests.csproj": {}
+    "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.tests\\Ciber.tests.csproj": {}
   },
   "projects": {
-    "/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/Ciber.Dapper.csproj": {
+    "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.core\\Ciber.core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/Ciber.Dapper.csproj",
-        "projectName": "Ciber.Dapper",
-        "projectPath": "/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/Ciber.Dapper.csproj",
-        "packagesPath": "/home/et12alumno/.nuget/packages/",
-        "outputPath": "/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/obj/",
+        "projectUniqueName": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.core\\Ciber.core.csproj",
+        "projectName": "Ciber.core",
+        "projectPath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.core\\Ciber.core.csproj",
+        "packagesPath": "C:\\Users\\dev\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/et12alumno/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\dev\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.301/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.Dapper\\Ciber.Dapper.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.Dapper\\Ciber.Dapper.csproj",
+        "projectName": "Ciber.Dapper",
+        "projectPath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.Dapper\\Ciber.Dapper.csproj",
+        "packagesPath": "C:\\Users\\dev\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.Dapper\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\dev\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -26,8 +84,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/et12alumno/Escritorio/Ciber-/src/Ciber.core/Ciber.core.csproj": {
-                "projectPath": "/home/et12alumno/Escritorio/Ciber-/src/Ciber.core/Ciber.core.csproj"
+              "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.core\\Ciber.core.csproj": {
+                "projectPath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.core\\Ciber.core.csproj"
               }
             }
           }
@@ -36,6 +94,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -71,74 +134,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.107/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.301/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/home/et12alumno/Escritorio/Ciber-/src/Ciber.core/Ciber.core.csproj": {
+    "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.tests\\Ciber.tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/et12alumno/Escritorio/Ciber-/src/Ciber.core/Ciber.core.csproj",
-        "projectName": "Ciber.core",
-        "projectPath": "/home/et12alumno/Escritorio/Ciber-/src/Ciber.core/Ciber.core.csproj",
-        "packagesPath": "/home/et12alumno/.nuget/packages/",
-        "outputPath": "/home/et12alumno/Escritorio/Ciber-/src/Ciber.core/obj/",
-        "projectStyle": "PackageReference",
-        "configFilePaths": [
-          "/home/et12alumno/.nuget/NuGet/NuGet.Config"
-        ],
-        "originalTargetFrameworks": [
-          "net8.0"
-        ],
-        "sources": {
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
-            "projectReferences": {}
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        }
-      },
-      "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.107/PortableRuntimeIdentifierGraph.json"
-        }
-      }
-    },
-    "/home/et12alumno/Escritorio/Ciber-/src/Ciber.tests/Ciber.tests.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "/home/et12alumno/Escritorio/Ciber-/src/Ciber.tests/Ciber.tests.csproj",
+        "projectUniqueName": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.tests\\Ciber.tests.csproj",
         "projectName": "Ciber.tests",
-        "projectPath": "/home/et12alumno/Escritorio/Ciber-/src/Ciber.tests/Ciber.tests.csproj",
-        "packagesPath": "/home/et12alumno/.nuget/packages/",
-        "outputPath": "/home/et12alumno/Escritorio/Ciber-/src/Ciber.tests/obj/",
+        "projectPath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.tests\\Ciber.tests.csproj",
+        "packagesPath": "C:\\Users\\dev\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/et12alumno/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\dev\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -150,11 +160,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/Ciber.Dapper.csproj": {
-                "projectPath": "/home/et12alumno/Escritorio/Ciber-/src/Ciber.Dapper/Ciber.Dapper.csproj"
+              "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.core\\Ciber.core.csproj": {
+                "projectPath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.core\\Ciber.core.csproj"
               },
-              "/home/et12alumno/Escritorio/Ciber-/src/Ciber.core/Ciber.core.csproj": {
-                "projectPath": "/home/et12alumno/Escritorio/Ciber-/src/Ciber.core/Ciber.core.csproj"
+              "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.Dapper\\Ciber.Dapper.csproj": {
+                "projectPath": "C:\\Users\\dev\\Documents\\repos\\Ciber-\\src\\Ciber.Dapper\\Ciber.Dapper.csproj"
               }
             }
           }
@@ -163,6 +173,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -184,7 +199,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.107/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.301/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
