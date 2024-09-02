@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Ciber.tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b50d8a6e712d47269e7c53eef804ee44d534d271")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe03d9b848e49b5164b3e808ed3525446a59705d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Ciber.tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Ciber.tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
