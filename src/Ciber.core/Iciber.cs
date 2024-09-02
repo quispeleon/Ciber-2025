@@ -20,21 +20,16 @@ public interface IDAO
     // tabla tipo 
 
     void AgregarTipo(Tipo tipo);
-    Tipo ObtenerTipoPorId(int idTipo);
-    void ActualizarTipo(Tipo tipo);
-    void EliminarTipo(int idTipo);
-    IEnumerable<Tipo> ObtenerTodosLosTipos();
     // Alquiler 
     void AgregarAlquiler(Alquiler alquiler);
     Alquiler ObtenerAlquilerPorId(int idAlquiler);
-    void ActualizarAlquiler(Alquiler alquiler);
+   
     void EliminarAlquiler(int idAlquiler);
     IEnumerable<Alquiler> ObtenerTodosLosAlquileres();
 
 // historial 
     void AgregarHistorial(HistorialdeAlquiler historial);
     HistorialdeAlquiler ObtenerHistorialPorId(int idHistorial);
-    void ActualizarHistorial(HistorialdeAlquiler historial);
     void EliminarHistorial(int idHistorial);
     IEnumerable<HistorialdeAlquiler> ObtenerTodoElHistorial();
 }

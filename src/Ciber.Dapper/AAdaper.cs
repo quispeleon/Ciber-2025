@@ -3,148 +3,120 @@ using MySqlConnector;
 
 // using MySql.Data.MySqlClient;
 using Ciber.core;
-namespace Ciber.Dapper;
-public class CuentaRepository : IDAO 
+namespace Ciber.Dapper
 {
-    private readonly MySqlConnection _dbConnection;
-
-    public CuentaRepository(string connectionString)
+    public class CuentaRepository : IDAO
     {
-        _dbConnection = new MySqlConnection(connectionString);
-    }
+        private readonly MySqlConnection _dbConnection;
 
-    public void AgregarCuenta(Cuenta cuenta)
-    {                                 
-        var sql = "INSERT INTO Cuenta (nombre, pass, dni, horaRegistrada) VALUES (@Nombre, @Pass, @Dni, @HoraRegistrada)";
-        _dbConnection.Execute(sql, cuenta);
-    }
+        public CuentaRepository(string connectionString)
+        {
+            _dbConnection = new MySqlConnection(connectionString);
+        }
 
-    public Cuenta ObtenerCuentaPorId(int ncuenta)
-    {
-        var sql = "SELECT * FROM Cuenta WHERE Ncuenta = @Ncuenta";
-        return _dbConnection.QueryFirstOrDefault<Cuenta>(sql, new { Ncuenta = ncuenta });
-    }
+        public void AgregarCuenta(Cuenta cuenta)
+        {
+            var sql = "INSERT INTO Cuenta (nombre, pass, dni, horaRegistrada) VALUES (@Nombre, sha2(@Pass, 256), @Dni, @HoraRegistrada)";
+            _dbConnection.Execute(sql, cuenta);
+        }
 
-    public void ActualizarCuenta(Cuenta cuenta)
-    {
-        var sql = "UPDATE Cuenta SET nombre = @Nombre, pass = @Pass, dni = @Dni, horaRegistrada = @HoraRegistrada WHERE Ncuenta = @Ncuenta";
-        _dbConnection.Execute(sql, cuenta);
-    }
+        public Cuenta ObtenerCuentaPorId(int ncuenta)
+        {
+            var sql = "SELECT * FROM Cuenta WHERE Ncuenta = @Ncuenta";
+            return _dbConnection.QueryFirstOrDefault<Cuenta>(sql, new { Ncuenta = ncuenta });
+        }
 
-    public void EliminarCuenta(int ncuenta)
-    {
-        var sql = "DELETE FROM Cuenta WHERE Ncuenta = @Ncuenta";
-        _dbConnection.Execute(sql, new { Ncuenta = ncuenta });
-    }
+        public void ActualizarCuenta(Cuenta cuenta)
+        {
+            var sql = "UPDATE Cuenta SET nombre = @Nombre, pass = sha2(@Pass, 256), dni = @Dni, horaRegistrada = @HoraRegistrada WHERE Ncuenta = @Ncuenta";
+            _dbConnection.Execute(sql, cuenta);
+        }
 
-    public IEnumerable<Cuenta> ObtenerTodasLasCuentas()
-    {
-        var sql = "SELECT * FROM Cuenta";
-        return _dbConnection.Query<Cuenta>(sql);
-    }
+        public void EliminarCuenta(int ncuenta)
+        {
+            var sql = "DELETE FROM Cuenta WHERE Ncuenta = @Ncuenta";
+            _dbConnection.Execute(sql, new { Ncuenta = ncuenta });
+        }
 
-    public void AgregarMaquina(Maquina maquina)
-    {
-        
-        var sql = "INSERT INTO Maquina(Nmaquina, estado ,caracteristcas) VALUES (@Nmaquina,@Estado,@Caracteristicas)";
+        public IEnumerable<Cuenta> ObtenerTodasLasCuentas()
+        {
+            var sql = "SELECT * FROM Cuenta";
+            return _dbConnection.Query<Cuenta>(sql);
+        }
 
-        _dbConnection.Execute(sql, maquina);
-    }
+        public void AgregarMaquina(Maquina maquina)
+        {
+            var sql = "INSERT INTO Maquina (Nmaquina, estado, caracteristicas) VALUES (@Nmaquina, @Estado, @Caracteristicas)";
+            _dbConnection.Execute(sql, maquina);
+        }
 
-    public Maquina ObtenerMaquinaPorId(int nmaquina)
-    {
-        var sql = "SELECT * FROM Maquina WHERE Nmaquina = @nmaquina ";
-        return _dbConnection.QueryFirstOrDefault<Maquina>(sql, new {
-            Nmaquina = nmaquina
-        });
-    }
+        public Maquina ObtenerMaquinaPorId(int nmaquina)
+        {
+            var sql = "SELECT * FROM Maquina WHERE Nmaquina = @Nmaquina";
+            return _dbConnection.QueryFirstOrDefault<Maquina>(sql, new { Nmaquina = nmaquina });
+        }
 
-    public void ActualizarMaquina(Maquina maquina)
-    {
-        var sql = "UPDATE Maquina SET Nmaquina = @Nmaquina , estado = @estado , caracteristicas = @Caracteristicas";
-        _dbConnection.Execute(sql,maquina);
-    }
+        public void ActualizarMaquina(Maquina maquina)
+        {
+            var sql = "UPDATE Maquina SET estado = @Estado, caracteristicas = @Caracteristicas WHERE Nmaquina = @Nmaquina";
+            _dbConnection.Execute(sql, maquina);
+        }
 
-    public void EliminarMaquina(int nmaquina)
-    {
-        var sql = "DELETE FROM Maquina WHERE Nmaquina = @Nmaquna ";
-        _dbConnection.Execute(sql,new {Ncuenta = nmaquina});
-    }
+        public void EliminarMaquina(int nmaquina)
+        {
+            var sql = "DELETE FROM Maquina WHERE Nmaquina = @Nmaquina";
+            _dbConnection.Execute(sql, new { Nmaquina = nmaquina });
+        }
 
-    public void AgregarTipo(Tipo tipo)
-    {
-        throw new NotImplementedException();
-    }
+        public void AgregarTipo(Tipo tipo)
+        {
+            var sql = "INSERT INTO Tipo (IdTipo, TipoDescripcion) VALUES (@IdTipo, @TipoDescripcion)";
+            _dbConnection.Execute(sql, tipo);
+        }
 
-    public Tipo ObtenerTipoPorId(int idTipo)
-    {
-        throw new NotImplementedException();
-    }
+        public void AgregarAlquiler(Alquiler alquiler)
+        {
+            var sql = "INSERT INTO Alquiler (Ncuenta, Nmaquina, Tipo, CantidadTiempo, Pagado) VALUES (@Ncuenta, @Nmaquina, @Tipo, @CantidadTiempo, @Pagado)";
+            _dbConnection.Execute(sql, alquiler);
+        }
 
-    public void ActualizarTipo(Tipo tipo)
-    {
-        throw new NotImplementedException();
-    }
+        public Alquiler ObtenerAlquilerPorId(int idAlquiler)
+        {
+            var sql = "SELECT * FROM Alquiler WHERE idAlquiler = @IdAlquiler";
+            return _dbConnection.QueryFirstOrDefault<Alquiler>(sql, new { IdAlquiler = idAlquiler });
+        }
 
-    public void EliminarTipo(int idTipo)
-    {
-        throw new NotImplementedException();
-    }
+        public void EliminarAlquiler(int idAlquiler)
+        {
+            var sql = "DELETE FROM Alquiler WHERE idAlquiler = @IdAlquiler";
+            _dbConnection.Execute(sql, new { IdAlquiler = idAlquiler });
+        }
 
-    public IEnumerable<Tipo> ObtenerTodosLosTipos()
-    {
-        throw new NotImplementedException();
-    }
+        public IEnumerable<Alquiler> ObtenerTodosLosAlquileres()
+        {
+            var sql = "SELECT * FROM Alquiler";
+            return _dbConnection.Query<Alquiler>(sql);
+        }
 
-    public void AgregarAlquiler(Alquiler alquiler)
-    {
-        throw new NotImplementedException();
-    }
+        public void AgregarHistorial(HistorialdeAlquiler historial)
+        {
+            var sql = "INSERT INTO HistorialAlquiler (Ncuenta, Nmaquina, FechaInicio, FechaFin, TotalPagara) VALUES (@Ncuenta, @Nmaquina, @FechaInicio, @FechaFin, @TotalPagara)";
+            _dbConnection.Execute(sql, historial);
+        }
 
-    public Alquiler ObtenerAlquilerPorId(int idAlquiler)
-    {
-        throw new NotImplementedException();
-    }
+        public HistorialdeAlquiler ObtenerHistorialPorId(int idHistorial)
+        {
+            var sql = "SELECT * FROM HistorialAlquiler WHERE idHistorial = @IdHistorial";
+            return _dbConnection.QueryFirstOrDefault<HistorialdeAlquiler>(sql, new { IdHistorial = idHistorial });
+        }
+        public void EliminarHistorial(int idHistorial)
+        {
+            throw new NotImplementedException();
+        }
 
-    public void ActualizarAlquiler(Alquiler alquiler)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void EliminarAlquiler(int idAlquiler)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IEnumerable<Alquiler> ObtenerTodosLosAlquileres()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void AgregarHistorial(HistorialdeAlquiler historial)
-    {
-        throw new NotImplementedException();
-    }
-
-    public HistorialdeAlquiler ObtenerHistorialPorId(int idHistorial)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void ActualizarHistorial(HistorialdeAlquiler historial)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void EliminarHistorial(int idHistorial)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IEnumerable<HistorialdeAlquiler> ObtenerTodoElHistorial()
-    {
-        throw new NotImplementedException();
+        public IEnumerable<HistorialdeAlquiler> ObtenerTodoElHistorial()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
-
-
