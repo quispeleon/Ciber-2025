@@ -38,19 +38,13 @@ namespace Ciber.Dapper
             _dbConnection.Execute(sql, new { Ncuenta = ncuenta });
         }
 
-<<<<<<< HEAD
+
         public IEnumerable<Cuenta> ObtenerTodasLasCuentas()
         {
             var sql = "SELECT * FROM Cuenta";
             return _dbConnection.Query<Cuenta>(sql);
         }
-=======
-    public void AgregarMaquina(Maquina maquina)
-    {
-        
-        var sql = "INSERT INTO Maquina(Nmaquina, estado, caracteristicas) VALUES (@Nmaquina, @Estado, @Caracteristicas)";
-    }
->>>>>>> 25a1e714bf3397cd0d98a2a5a3c78d947d37b317
+
 
         public void AgregarMaquina(Maquina maquina)
         {
@@ -70,20 +64,11 @@ namespace Ciber.Dapper
             _dbConnection.Execute(sql, maquina);
         }
 
-<<<<<<< HEAD
         public void EliminarMaquina(int nmaquina)
         {
             var sql = "DELETE FROM Maquina WHERE Nmaquina = @Nmaquina";
             _dbConnection.Execute(sql, new { Nmaquina = nmaquina });
         }
-=======
-    public void AgregarTipo(Tipo tipo)
-    {
-        
-        throw new NotImplementedException();
-    }
->>>>>>> 25a1e714bf3397cd0d98a2a5a3c78d947d37b317
-
         public void AgregarTipo(Tipo tipo)
         {
             var sql = "INSERT INTO Tipo (IdTipo, TipoDescripcion) VALUES (@IdTipo, @TipoDescripcion)";
