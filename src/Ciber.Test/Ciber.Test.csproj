@@ -1,6 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 <ItemGroup>
-    <ProjectReference Include="..\Ciber.Core\Ciber.core.csproj" />
+   <ProjectReference Include="..\Ciber.core\Ciber.core.csproj" />
     <ProjectReference Include="..\Ciber.Dapper\Ciber.Dapper.csproj" />
   </ItemGroup>
   <PropertyGroup>
@@ -8,5 +8,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
+  
+    <ItemGroup>
+   
+      </ItemGroup>
+      <ItemGroup>
+            <PackageReference Include="xunit" Version="2.9.0" />
+            <PackageReference Include="xunit.assert" Version="2.9.0" />
+            <PackageReference Include="xunit.abstractions" Version="2.0.3" />
+            <PackageReference Include="xunit.runner.console" Version="2.9.0" />
+            <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+            <PackageReference Include="Dapper" Version="2.1.35" />
+            <PackageReference Include="MySqlConnector" Version="2.3.7" />
+      </ItemGroup>
 </Project>
