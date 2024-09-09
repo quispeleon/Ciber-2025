@@ -37,7 +37,7 @@ public class TestCuenta : TestAdo
         {
             Nombre = "Pedro Lopez",
             Pass = "789123",
-            Dni = 112233,
+            Dni = 1163,
             HoraRegistrada = new TimeSpan (0,0,0)
         };
 
@@ -60,7 +60,7 @@ public class TestCuenta : TestAdo
         {
             Nombre = "Carlos Diaz",
             Pass = "passOriginal",
-            Dni = 665578,
+            Dni = 6668,
             HoraRegistrada = new TimeSpan(0,0,0)
         };
         Ado.AgregarCuenta(cuenta);
@@ -84,7 +84,7 @@ public class TestCuenta : TestAdo
         {
             Nombre = "Delete Test",
             Pass = "deletepass",
-            Dni = 998877,
+            Dni = 993,
             HoraRegistrada = new TimeSpan(0,0,0)
         };
 
@@ -106,7 +106,7 @@ public class TestCuenta : TestAdo
         {
             Nombre = "First User",
             Pass = "pass1",
-            Dni = 111111,
+            Dni = 156111,
             HoraRegistrada = new TimeSpan(0,0,0)
         };
 
@@ -114,7 +114,7 @@ public class TestCuenta : TestAdo
         {
             Nombre = "Second User",
             Pass = "pass2",
-            Dni = 2222,
+            Dni = 272,
             HoraRegistrada = new TimeSpan(0,0,0)
         };
 
