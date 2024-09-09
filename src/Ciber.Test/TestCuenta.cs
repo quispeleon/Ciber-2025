@@ -1,6 +1,5 @@
 using Ciber.core;
 using Ciber.Dapper;
-using Org.BouncyCastle.Asn1.Cms;
 using Xunit;
 
 namespace Ciber.Test;
@@ -14,10 +13,10 @@ public class TestCuenta : TestAdo
         // Arrange
         var cuenta = new Cuenta
         {
-            Nombre = "dJuleio 2shutup",
+            Nombre = "dJuleio 2sutup",
             Pass = "1112",
-            Dni = 2341,
-            HoraRegistrada =  DateTime.Now,
+            Dni = 23141,
+            HoraRegistrada =  new TimeSpan(0,0,0)
         };
 
         // Act
@@ -39,7 +38,7 @@ public class TestCuenta : TestAdo
             Nombre = "Pedro Lopez",
             Pass = "789123",
             Dni = 112233,
-            HoraRegistrada = DateTime.Now
+            HoraRegistrada = new TimeSpan (0,0,0)
         };
 
         Ado.AgregarCuenta(cuenta);
@@ -62,7 +61,7 @@ public class TestCuenta : TestAdo
             Nombre = "Carlos Diaz",
             Pass = "passOriginal",
             Dni = 665578,
-            HoraRegistrada = DateTime.Now
+            HoraRegistrada = new TimeSpan(0,0,0)
         };
         Ado.AgregarCuenta(cuenta);
 
@@ -86,7 +85,7 @@ public class TestCuenta : TestAdo
             Nombre = "Delete Test",
             Pass = "deletepass",
             Dni = 998877,
-            HoraRegistrada = DateTime.Now
+            HoraRegistrada = new TimeSpan(0,0,0)
         };
 
         Ado.AgregarCuenta(cuenta);
@@ -108,7 +107,7 @@ public class TestCuenta : TestAdo
             Nombre = "First User",
             Pass = "pass1",
             Dni = 111111,
-            HoraRegistrada = DateTime.Now
+            HoraRegistrada = new TimeSpan(0,0,0)
         };
 
         var cuenta2 = new Cuenta
@@ -116,7 +115,7 @@ public class TestCuenta : TestAdo
             Nombre = "Second User",
             Pass = "pass2",
             Dni = 2222,
-            HoraRegistrada = DateTime.Now
+            HoraRegistrada = new TimeSpan(0,0,0)
         };
 
         Ado.AgregarCuenta(cuenta1);

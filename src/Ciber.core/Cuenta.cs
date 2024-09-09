@@ -7,5 +7,5 @@ public class Cuenta
     public string Nombre { get; set; }
     public string Pass { get; set; }
     public int Dni { get; set; }
-    public DateTime HoraRegistrada { get; set; }
+    public TimeSpan HoraRegistrada { get; set; }
 }
