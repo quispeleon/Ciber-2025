@@ -1,5 +1,6 @@
 using Ciber.core;
 using Ciber.Dapper;
+using Org.BouncyCastle.Asn1.Cms;
 using Xunit;
 
 namespace Ciber.Test;
@@ -13,10 +14,10 @@ public class TestCuenta : TestAdo
         // Arrange
         var cuenta = new Cuenta
         {
-            Nombre = "Juan Perez",
-            Pass = "123456",
-            Dni = 987654,
-            HoraRegistrada = DateTime.Now
+            Nombre = "dJuleio 2shutup",
+            Pass = "1112",
+            Dni = 2341,
+            HoraRegistrada =  DateTime.Now,
         };
 
         // Act

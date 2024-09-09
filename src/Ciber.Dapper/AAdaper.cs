@@ -16,9 +16,15 @@ namespace Ciber.Dapper
 
         public void AgregarCuenta(Cuenta cuenta)
         {
-            var sql = "INSERT INTO Cuenta (nombre, pass, dni, horaRegistrada) VALUES (@Nombre, sha2(@Pass, 256), @Dni, @HoraRegistrada)";
-            _dbConnection.Execute(sql, cuenta);
+            var sql = "INSERT INTO Cuenta (nombre, pass, dni, horaRegistrada) VALUES (@Nombre, sha2(@Pass, 256), @Dni, @HoraRegistrada); SELECT LAST_INSERT_ID();";
+
+            // Execute the insert and get the newly generated Ncuenta
+            var newId = _dbConnection.ExecuteScalar<int>(sql, cuenta);
+
+            // Assign the newId to the Ncuenta property
+            cuenta.Ncuenta = newId;
         }
+
 
         public Cuenta ObtenerCuentaPorId(int ncuenta)
         {
