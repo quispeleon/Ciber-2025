@@ -13,9 +13,9 @@ public class TestCuenta : TestAdo
         // Arrange
         var cuenta = new Cuenta
         {
-            Nombre = "dJuleio 2sutup",
-            Pass = "1112",
-            Dni = 23141,
+            Nombre = "doio 2sutup",
+            Pass = "1192",
+            Dni = 2391,
             HoraRegistrada =  new TimeSpan(0,0,0)
         };
 

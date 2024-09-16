@@ -4,17 +4,18 @@ using Xunit;
 
 namespace Ciber.Test;
 
-public class TestMaquina
+public class TestMaquina : TestAdo
 
 {
     public TestMaquina() : base() { }
     [Fact]
-    public void TestMaquina(){
-        var maquina = new Maquina{
+    public void TesstMaquina(){
+        var maquina1 = new Maquina{
             Estado = true,
-            Caracteristicas = "Programador de lol en bacarrota"
-
-        }
+            Caracteristicas = "julio aaa"
+        }; 
+        Ado.AgregarMaquina(maquina1);
+      
     }
 
 }

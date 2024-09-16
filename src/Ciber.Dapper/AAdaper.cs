@@ -5,15 +5,15 @@ using MySqlConnector;
 using Ciber.core;
 namespace Ciber.Dapper
 {
-    public class CuentaRepository : IDAO
-    {
+public class CuentaRepository : IDAO
+{
         private readonly MySqlConnection _dbConnection;
 
         public CuentaRepository(string connectionString)
         {
             _dbConnection = new MySqlConnection(connectionString);
         }
-
+                                        
         public void AgregarCuenta(Cuenta cuenta)
         {
             var sql = "INSERT INTO Cuenta (nombre, pass, dni, horaRegistrada) VALUES (@Nombre, sha2(@Pass, 256), @Dni, @HoraRegistrada); SELECT LAST_INSERT_ID();";
@@ -30,7 +30,7 @@ namespace Ciber.Dapper
         {
             var sql = "SELECT * FROM Cuenta WHERE Ncuenta = @Ncuenta";
             return _dbConnection.QueryFirstOrDefault<Cuenta>(sql, new { Ncuenta = ncuenta });
-        }
+        }   
 
         public void ActualizarCuenta(Cuenta cuenta)
         {
@@ -54,9 +54,12 @@ namespace Ciber.Dapper
 
         public void AgregarMaquina(Maquina maquina)
         {
-            var sql = "INSERT INTO Maquina (Nmaquina, estado, caracteristicas) VALUES (@Nmaquina, @Estado, @Caracteristicas)";
-            _dbConnection.Execute(sql, maquina);
+            var sql = "INSERT INTO Maquina (Nmaquina, estado, caracteristicas) VALUES (@Nmaquina, @Estado, @Caracteristicas); SELECT LAST_INSERT_ID();";
+            var newId = _dbConnection.ExecuteScalar<int>(sql, maquina);
+            maquina.Nmaquina = newId;
+
         }
+
 
         public Maquina ObtenerMaquinaPorId(int nmaquina)
         {
