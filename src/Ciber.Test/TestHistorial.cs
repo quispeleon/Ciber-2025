@@ -1,12 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Ciber.Test
+using Ciber.core;
+using Ciber.Dapper;
+using Xunit;
+
+namespace Ciber.Test;
+
+public class TestHistorial
 {
-    public class TestHistorial
-    {
-        
-    }
+
 }

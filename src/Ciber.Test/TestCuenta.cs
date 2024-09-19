@@ -5,7 +5,10 @@ using Xunit;
 namespace Ciber.Test;
 public class TestCuenta : TestAdo
 {
-    public TestCuenta() : base() { }
+    public TestCuenta() : base() {
+
+        //datos del test
+     }
 
     [Fact]
     public void TestAgregarCuenta()
