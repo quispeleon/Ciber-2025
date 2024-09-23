@@ -7,8 +7,9 @@ namespace Ciber.Test;
 public class TestMaquina : TestAdo
 
 {
-    private List<Maquina>  _maquinapruebas;
-    public TestMaquina() : base() {
+    private List<Maquina> _maquinapruebas;
+    public TestMaquina() : base()
+    {
 
         _maquinapruebas = new List<Maquina>{
             new Maquina{
@@ -20,21 +21,24 @@ public class TestMaquina : TestAdo
                 Estado = false,
                 Caracteristicas = "Windows 10"
             }
-            
+
         };
-        foreach (var maquina in _maquinapruebas){
+        foreach (var maquina in _maquinapruebas)
+        {
             Ado.AgregarMaquina(maquina);
         }
 
-     }
+    }
     [Fact]
-    public void TesstMaquina(){
-        var maquina1 = new Maquina{
+    public void TesstMaquina()
+    {
+        var maquina1 = new Maquina
+        {
             Estado = true,
             Caracteristicas = "julio aaa"
-        }; 
+        };
         Ado.AgregarMaquina(maquina1);
-      
+
     }
 
     public void TestObtenerMaquinaPorId()
@@ -46,21 +50,26 @@ public class TestMaquina : TestAdo
     }
 
     [Fact]
-    public void  TestActulizarMaquina(){
+    public void TestActulizarMaquina()
+    {
         var Maquinaid = Ado.ObtenerMaquinaPorId(_maquinapruebas[0].Nmaquina);
         var maquina1 = _maquinapruebas[1];
-        maquina1.Caracteristicas = "Windows 11 Actualizado";
+        maquina1.Caracteristicas = "Windows 13 Actualizado";  // Update the correct value
         Ado.ActualizarMaquina(maquina1);
 
         var maquina = Ado.ObtenerMaquinaPorId(maquina1.Nmaquina);
 
         Assert.NotNull(maquina);
-        Assert.Equal(maquina.Caracteristicas,"Windows 11 Actualizado");
-
+        Assert.Equal("Windows 13 Actualizado", maquina.Caracteristicas);  // Assert the expected value
     }
+
     [Theory]
-    [InlineData(57)]
-    public void TestEliminarMaquina(int idMaquina){
+    [InlineData(31)]
+    [InlineData(30)]
+    [InlineData(29)]
+    [InlineData(28)]
+    public void TestEliminarMaquina(int idMaquina)
+    {
 
         Ado.EliminarMaquina(idMaquina);
         var maquin1 = Ado.ObtenerMaquinaPorId(idMaquina);

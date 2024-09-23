@@ -85,10 +85,11 @@ public class CuentaRepository : IDAO
 
         public void AgregarAlquiler(Alquiler alquiler)
         {
-            var sql = "INSERT INTO Alquiler (Ncuenta, Nmaquina, Tipo, CantidadTiempo, Pagado) VALUES (@Ncuenta, @Nmaquina, @Tipo, @CantidadTiempo, @Pagado)";
-            _dbConnection.Execute(sql, alquiler);
+            var sql = "INSERT INTO Alquiler (Ncuenta, Nmaquina, Tipo, CantidadTiempo, Pagado) VALUES (@Ncuenta, @Nmaquina, @Tipo, @CantidadTiempo, @Pagado);SELECT LAST_INSERT_ID();";
+            var newId = _dbConnection.ExecuteScalar<int>(sql, alquiler);
+            alquiler.IdAlquiler = newId;
         }
-
+      
         public Alquiler ObtenerAlquilerPorId(int idAlquiler)
         {
             var sql = "SELECT * FROM Alquiler WHERE idAlquiler = @IdAlquiler";

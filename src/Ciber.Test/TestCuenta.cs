@@ -5,15 +5,11 @@ using Xunit;
 namespace Ciber.Test;
 public class TestCuenta : TestAdo
 {
-    public TestCuenta() : base() {
-
-        //datos del test
-     }
-
+   
     [Fact]
     public void TestAgregarCuenta()
     {
-        // Arrange
+   
         var cuenta = new Cuenta
         {
             Nombre = "doio 2sutup",
@@ -22,11 +18,10 @@ public class TestCuenta : TestAdo
             HoraRegistrada =  new TimeSpan(0,0,0)
         };
 
-        // Act
+      
         Ado.AgregarCuenta(cuenta);
         var cuentaObtenida = Ado.ObtenerCuentaPorId(cuenta.Ncuenta);
 
-        // Assert
         Assert.NotNull(cuentaObtenida);
         Assert.Equal(cuenta.Nombre, cuentaObtenida.Nombre);
         Assert.Equal(cuenta.Dni, cuentaObtenida.Dni);
@@ -35,7 +30,7 @@ public class TestCuenta : TestAdo
     [Fact]
     public void TestObtenerCuentaPorId()
     {
-        // Arrange
+  
         var cuenta = new Cuenta
         {
             Nombre = "Pedro Lopez",
@@ -46,10 +41,9 @@ public class TestCuenta : TestAdo
 
         Ado.AgregarCuenta(cuenta);
 
-        // Act
+
         var cuentaObtenida = Ado.ObtenerCuentaPorId(cuenta.Ncuenta);
 
-        // Assert
         Assert.NotNull(cuentaObtenida);
         Assert.Equal(cuenta.Nombre, cuentaObtenida.Nombre);
         Assert.Equal(cuenta.Dni, cuentaObtenida.Dni);
@@ -58,7 +52,7 @@ public class TestCuenta : TestAdo
     [Fact]
     public void TestActualizarCuenta()
     {
-        // Arrange
+   
         var cuenta = new Cuenta
         {
             Nombre = "Carlos Diaz",
@@ -68,13 +62,13 @@ public class TestCuenta : TestAdo
         };
         Ado.AgregarCuenta(cuenta);
 
-        // Act
+
         cuenta.Nombre = "Carlos Diaz Updated";
         cuenta.Pass = "passUpdated";
         Ado.ActualizarCuenta(cuenta);
         var cuentaObtenida = Ado.ObtenerCuentaPorId(cuenta.Ncuenta);
 
-        // Assert
+    
         Assert.NotNull(cuentaObtenida);
         Assert.Equal("Carlos Diaz Updated", cuentaObtenida.Nombre);
     }
@@ -82,7 +76,7 @@ public class TestCuenta : TestAdo
     [Fact]
     public void TestEliminarCuenta()
     {
-        // Arrange
+    
         var cuenta = new Cuenta
         {
             Nombre = "Delete Test",
@@ -93,18 +87,18 @@ public class TestCuenta : TestAdo
 
         Ado.AgregarCuenta(cuenta);
 
-        // Act
+        
         Ado.EliminarCuenta(cuenta.Ncuenta);
         var cuentaObtenida = Ado.ObtenerCuentaPorId(cuenta.Ncuenta);
 
-        // Assert
-        Assert.Null(cuentaObtenida); // The record should not exist
+        
+        Assert.Null(cuentaObtenida); 
     }
 
     [Fact]
     public void TestObtenerTodasLasCuentas()
     {
-        // Arrange
+   
         var cuenta1 = new Cuenta
         {
             Nombre = "First User",
@@ -124,10 +118,9 @@ public class TestCuenta : TestAdo
         Ado.AgregarCuenta(cuenta1);
         Ado.AgregarCuenta(cuenta2);
 
-        // Act
+   
         var cuentas = Ado.ObtenerTodasLasCuentas();
 
-        // Assert
         Assert.NotEmpty(cuentas);
         Assert.Contains(cuentas, c => c.Nombre == "First User");
         Assert.Contains(cuentas, c => c.Nombre == "Second User");

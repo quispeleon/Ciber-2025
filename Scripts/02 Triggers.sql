@@ -94,9 +94,7 @@ begin
     DECLARE total_time INT;
     DECLARE total_cost DECIMAL(10,2);
 
-    -- Verificar que la máquina ha sido liberada (estado cambiado a true)
     IF NEW.estado = TRUE THEN
-        -- Obtener la hora de inicio del alquiler correspondiente
         SELECT fechaInicio INTO start_time 
         FROM HistorialdeAlquiler 
         WHERE Nmaquina = NEW.Nmaquina AND fechaFin IS NULL
@@ -106,8 +104,6 @@ begin
         SET end_time = NOW();
         SET total_time = TIMESTAMPDIFF(SECOND, start_time, end_time);
         SET total_cost = total_time / 60 * 8.33;
-
-        -- Actualizar el historial con la hora de fin y el total a pagar
         UPDATE HistorialdeAlquiler 
         SET fechaFin = end_time,  TotalPagar = total_cost
         WHERE Nmaquina = NEW.Nmaquina AND fechaFin IS NULL
