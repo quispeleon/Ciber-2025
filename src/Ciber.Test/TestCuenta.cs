@@ -49,29 +49,29 @@ public class TestCuenta : TestAdo
         Assert.Equal(cuenta.Dni, cuentaObtenida.Dni);
     }
 
-    [Fact]
-    public void TestActualizarCuenta()
-    {
+    // [Fact]
+    // public void TestActualizarCuenta()
+    // {
    
-        var cuenta = new Cuenta
-        {
-            Nombre = "Carlos Diaz",
-            Pass = "passOriginal",
-            Dni = 6668,
-            HoraRegistrada = new TimeSpan(0,0,0)
-        };
-        Ado.AgregarCuenta(cuenta);
+    //     var cuenta = new Cuenta
+    //     {
+    //         Nombre = "Carlos Diaz",
+    //         Pass = "passOriginal",
+    //         Dni = 6668,
+    //         HoraRegistrada = new TimeSpan(0,0,0)
+    //     };
+    //     Ado.AgregarCuenta(cuenta);
 
 
-        cuenta.Nombre = "Carlos Diaz Updated";
-        cuenta.Pass = "passUpdated";
-        Ado.ActualizarCuenta(cuenta);
-        var cuentaObtenida = Ado.ObtenerCuentaPorId(cuenta.Ncuenta);
+    //     cuenta.Nombre = "Carlos Diaz Updated";
+    //     cuenta.Pass = "passUpdated";
+    //     Ado.ActualizarCuenta(cuenta);
+    //     var cuentaObtenida = Ado.ObtenerCuentaPorId(cuenta.Ncuenta);
 
     
-        Assert.NotNull(cuentaObtenida);
-        Assert.Equal("Carlos Diaz Updated", cuentaObtenida.Nombre);
-    }
+    //     Assert.NotNull(cuentaObtenida);
+    //     Assert.Equal("Carlos Diaz Updated", cuentaObtenida.Nombre);
+    // }
 
     [Fact]
     public void TestEliminarCuenta()

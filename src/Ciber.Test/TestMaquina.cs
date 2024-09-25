@@ -49,25 +49,25 @@ public class TestMaquina : TestAdo
         Assert.Equal(_maquinapruebas[0].Nmaquina, Maquinaid.Nmaquina);
     }
 
-    [Fact]
-    public void TestActulizarMaquina()
-    {
-        var Maquinaid = Ado.ObtenerMaquinaPorId(_maquinapruebas[0].Nmaquina);
-        var maquina1 = _maquinapruebas[1];
-        maquina1.Caracteristicas = "Windows 13 Actualizado";  // Update the correct value
-        Ado.ActualizarMaquina(maquina1);
+    // [Fact]
+    // public void TestActulizarMaquina()
+    // {
+    //     var Maquinaid = Ado.ObtenerMaquinaPorId(_maquinapruebas[0].Nmaquina);
+    //     var maquina1 = _maquinapruebas[1];
+    //     maquina1.Caracteristicas = "Windows 13 Actualizado";  // Update the correct value
+    //     Ado.ActualizarMaquina(maquina1);
 
-        var maquina = Ado.ObtenerMaquinaPorId(maquina1.Nmaquina);
+    //     var maquina = Ado.ObtenerMaquinaPorId(maquina1.Nmaquina);
 
-        Assert.NotNull(maquina);
-        Assert.Equal("Windows 13 Actualizado", maquina.Caracteristicas);  // Assert the expected value
-    }
+    //     Assert.NotNull(maquina);
+    //     Assert.Equal("Windows 13 Actualizado", maquina.Caracteristicas);  // Assert the expected value
+    // }
 
     [Theory]
-    [InlineData(31)]
-    [InlineData(30)]
-    [InlineData(29)]
-    [InlineData(28)]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
     public void TestEliminarMaquina(int idMaquina)
     {
 

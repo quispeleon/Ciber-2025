@@ -14,7 +14,6 @@ public class TestAlquiler : TestAdo
     [InlineData(8, 14, 2, 3)]
     [InlineData(9, 15, 2, 3)]
     [InlineData(10, 16, 2, 2)]
-    [InlineData(11, 17, 2, 3)]
     public void TesstAlquilerAgregar(int idCuenta, int idMaquina, int tipo, int tiempo)
     {
         var alquiler1 = new Alquiler

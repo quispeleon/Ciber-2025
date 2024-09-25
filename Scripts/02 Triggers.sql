@@ -15,13 +15,11 @@ BEGIN
     -- Calcular el costo total (8.33 pesos por minuto)
     SET total_cost = TIME_TO_SEC(NEW.cantidadTiempo) / 60 * 8.33;
     
-    update maquina 
-    set estado = false
-    where Nmaquina = new.Nmaquina;
+    
    
     if new.tipo = 2 then
      if new.tipo = 2 and new.pagado = true  then
-			INSERT INTO historialdealquiler(Ncuenta, Nmaquina, fechaInicio,fechaFin, TotalPagar)
+			INSERT INTO HistorialdeAlquiler(Ncuenta, Nmaquina, fechaInicio,fechaFin, TotalPagar)
 				VALUES (NEW.Ncuenta,NEW.Nmaquina,NOW(),end_time,total_cost);
 		else
 			signal sqlstate '45000'
@@ -47,11 +45,11 @@ BEGIN
     
     
     select estado into validar 
-    from maquina
+    from Maquina
     where Nmaquina = new.Nmaquina;
     
     if exists(select Ncuenta 
-		from alquiler 
+		from Alquiler 
         where Ncuenta = NEW.Ncuenta) then
         signal sqlstate '45000'
         set MESSAGE_TEXT = 'El usuario este ya esta usando otra maquina';
