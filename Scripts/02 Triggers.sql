@@ -15,7 +15,11 @@ BEGIN
     -- Calcular el costo total (8.33 pesos por minuto)
     SET total_cost = TIME_TO_SEC(NEW.cantidadTiempo) / 60 * 8.33;
     
-    
+
+    -- Cabia a Falso por que informa que la maquina va estar ocupada
+    update Maquina 
+    set estado = false
+    where Nmaquina = new.Nmaquina;
    
     if new.tipo = 2 then
      if new.tipo = 2 and new.pagado = true  then

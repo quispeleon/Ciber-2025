@@ -21,7 +21,7 @@ public interface IDAO
 
     void AgregarTipo(Tipo tipo);
     // Alquiler 
-    void AgregarAlquiler(Alquiler alquiler);
+    void AgregarAlquiler(Alquiler alquiler, bool tipoAlquiler);
     Alquiler ObtenerAlquilerPorId(int idAlquiler);
    
     void EliminarAlquiler(int idAlquiler);
@@ -30,6 +30,5 @@ public interface IDAO
 // historial 
     void AgregarHistorial(HistorialdeAlquiler historial);
     HistorialdeAlquiler ObtenerHistorialPorId(int idHistorial);
-    void EliminarHistorial(int idHistorial);
     IEnumerable<HistorialdeAlquiler> ObtenerTodoElHistorial();
 }

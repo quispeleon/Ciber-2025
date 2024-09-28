@@ -25,7 +25,7 @@ public class TestAlquiler : TestAdo
             Pagado = true
         };
         
-        Ado.AgregarAlquiler(alquiler1);
+        Ado.AgregarAlquiler(alquiler1,true);
         var obteberAlquiler = Ado.ObtenerAlquilerPorId(alquiler1.IdAlquiler);
 
         Assert.NotNull(obteberAlquiler);

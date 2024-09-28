@@ -3,6 +3,7 @@ using MySqlConnector;
 
 // using MySql.Data.MySqlClient;
 using Ciber.core;
+using System.Data;
 namespace Ciber.Dapper
 {
 public class CuentaRepository : IDAO
@@ -14,15 +15,21 @@ public class CuentaRepository : IDAO
             _dbConnection = new MySqlConnection(connectionString);
         }
                                         
-        public void AgregarCuenta(Cuenta cuenta)
+       public void AgregarCuenta(Cuenta cuenta)
         {
-            var sql = "INSERT INTO Cuenta (nombre, pass, dni, horaRegistrada) VALUES (@Nombre, sha2(@Pass, 256), @Dni, @HoraRegistrada); SELECT LAST_INSERT_ID();";
+            var parameters = new DynamicParameters();
+            parameters.Add("uNcuenta", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            parameters.Add("unnombre", cuenta.Nombre);
+            parameters.Add("unPas", cuenta.Pass);  // Suponiendo que el pass viene ya en su formato
+            parameters.Add("dni", cuenta.Dni);
+            parameters.Add("hora", cuenta.HoraRegistrada);
 
-          
-            var newId = _dbConnection.ExecuteScalar<int>(sql, cuenta);
-
-            cuenta.Ncuenta = newId;
+            _dbConnection.Execute("Cuentas", parameters, commandType: CommandType.StoredProcedure);
+            
+            // Obtener el valor del id generado por el procedimiento almacenado
+            cuenta.Ncuenta = parameters.Get<int>("uNcuenta");
         }
+
 
 
         public Cuenta ObtenerCuentaPorId(int ncuenta)
@@ -51,13 +58,19 @@ public class CuentaRepository : IDAO
         }
 
 
-        public void AgregarMaquina(Maquina maquina)
+       public void AgregarMaquina(Maquina maquina)
         {
-            var sql = "INSERT INTO Maquina (Nmaquina, estado, caracteristicas) VALUES (@Nmaquina, @Estado, @Caracteristicas); SELECT LAST_INSERT_ID();";
-            var newId = _dbConnection.ExecuteScalar<int>(sql, maquina);
-            maquina.Nmaquina = newId;
+            var parameters = new DynamicParameters();
+            parameters.Add("uNmaquina", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            parameters.Add("unestado", maquina.Estado);
+            parameters.Add("UnaCaracteristicas", maquina.Caracteristicas);
 
+            _dbConnection.Execute("Maquinas", parameters, commandType: CommandType.StoredProcedure);
+
+            // Obtener el valor del id generado por el procedimiento almacenado
+            maquina.Nmaquina = parameters.Get<int>("uNmaquina");
         }
+
 
 
         public Maquina ObtenerMaquinaPorId(int nmaquina)
@@ -83,14 +96,30 @@ public class CuentaRepository : IDAO
             _dbConnection.Execute(sql, tipo);
         }
 
-        public void AgregarAlquiler(Alquiler alquiler)
+       public void AgregarAlquiler(Alquiler alquiler, bool tipoAlquiler)
         {
-            var sql = "INSERT INTO Alquiler (Ncuenta, Nmaquina, Tipo, CantidadTiempo, Pagado) VALUES (@Ncuenta, @Nmaquina, @Tipo, @CantidadTiempo, @Pagado); SELECT LAST_INSERT_ID();";
-            var nId = _dbConnection.ExecuteScalar<int>(sql, alquiler);
-            alquiler.IdAlquiler = nId;
-            
+            var procedureName = tipoAlquiler ? "alquilarMaquina2" : "alquilarMaquina1";
+            var parameters = new DynamicParameters();
+            parameters.Add("unNcuenta", alquiler.Ncuenta);
+            parameters.Add("unNmaquina", alquiler.Nmaquina);
+
+            if (tipoAlquiler)
+            {
+                parameters.Add("tcantidad", alquiler.CantidadTiempo);
+                parameters.Add("pagadood", alquiler.Pagado);
+            }
+
+            // Añade el parámetro de salida para el ID
+            parameters.Add("nIdAlquiler", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            _dbConnection.Execute(procedureName, parameters, commandType: CommandType.StoredProcedure);
+
+            // Asigna el ID obtenido al alquiler
+            alquiler.IdAlquiler = parameters.Get<int>("nIdAlquiler");
         }
-      
+
+
+
         public Alquiler ObtenerAlquilerPorId(int idAlquiler)
         {
             var sql = "SELECT * FROM Alquiler WHERE idAlquiler = @IdAlquiler";
@@ -120,10 +149,7 @@ public class CuentaRepository : IDAO
             var sql = "SELECT * FROM HistorialAlquiler WHERE idHistorial = @IdHistorial";
             return _dbConnection.QueryFirstOrDefault<HistorialdeAlquiler>(sql, new { IdHistorial = idHistorial });
         }
-        public void EliminarHistorial(int idHistorial)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public IEnumerable<HistorialdeAlquiler> ObtenerTodoElHistorial()
         {

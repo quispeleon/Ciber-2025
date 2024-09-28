@@ -35,13 +35,14 @@ DROP PROCEDURE IF EXISTS alquilarMaquina2 $$
 CREATE PROCEDURE alquilarMaquina2( IN unNcuenta INT ,
   							  IN unNmaquina INT,
                        		 IN tcantidad TIME,
-                       		 IN pagadood bool)
-                      		 
+                       		 IN pagadood bool,
+                      		 OUT nIdAlquiler INT)
                       		 
 BEGIN
-	INSERT INTO Alquiler(Ncuenta,Nmaquina,tipo,cantidadTiempo,pagado)
-  	  values (unNcuenta,unNmaquina,2,tcantidad,pagadood);
+ 	INSERT INTO Alquiler(Ncuenta, Nmaquina, tipo, cantidadTiempo, pagado)
+    VALUES (unNcuenta, unNmaquina, 2, tcantidad, pagadood);
 
+    SET nIdAlquiler = LAST_INSERT_ID();
 END $$
 
 DROP PROCEDURE IF EXISTS alquilarMaquina1 $$
