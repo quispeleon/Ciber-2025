@@ -25,6 +25,7 @@ CREATE PROCEDURE Cuentas(OUT uNcuenta INT,IN unnombre VARCHAR(45), IN unPas CHAR
 BEGIN
 
 	INSERT INTO Cuenta(nombre,pass,dni,horaRegistrada)
+	
   	  VALUES(unnombre,sha2(unPas,256),dni,hora);
 	set uNcuenta = last_insert_id();
 	 
