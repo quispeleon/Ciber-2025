@@ -31,19 +31,20 @@ public class TestMaquina : TestAdo
         Assert.Equal(id, Maquinaid.Nmaquina);
     }
 
-    // [Fact]
-    // public void TestActulizarMaquina()
-    // {
-    //     var Maquinaid = Ado.ObtenerMaquinaPorId(_maquinapruebas[0].Nmaquina);
-    //     var maquina1 = _maquinapruebas[1];
-    //     maquina1.Caracteristicas = "Windows 13 Actualizado";  // Update the correct value
-    //     Ado.ActualizarMaquina(maquina1);
+    [Theory]
+    [InlineData(5)]
+    [InlineData(6)]
+    public void TestActulizarMaquina(int id)
+    {
+        var  maquina1 = Ado.ObtenerMaquinaPorId(id);
+        maquina1.Caracteristicas = "Windows 13 Actualizado";  // Update the correct value
+        Ado.ActualizarMaquina(maquina1);
 
-    //     var maquina = Ado.ObtenerMaquinaPorId(maquina1.Nmaquina);
+        var maquina = Ado.ObtenerMaquinaPorId(maquina1.Nmaquina);
 
-    //     Assert.NotNull(maquina);
-    //     Assert.Equal("Windows 13 Actualizado", maquina.Caracteristicas);  // Assert the expected value
-    // }
+        Assert.NotNull(maquina);
+        Assert.Equal("Windows 13 Actualizado", maquina.Caracteristicas);  // Assert the expected value
+    }
 
     [Theory]
     [InlineData(1)]

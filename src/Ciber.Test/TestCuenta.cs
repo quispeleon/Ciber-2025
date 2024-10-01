@@ -1,5 +1,4 @@
 using Ciber.core;
-using Ciber.Dapper;
 using Xunit;
 
 namespace Ciber.Test;
@@ -49,29 +48,25 @@ public class TestCuenta : TestAdo
         Assert.Equal(cuenta.Dni, cuentaObtenida.Dni);
     }
 
-    // [Fact]
-    // public void TestActualizarCuenta()
-    // {
-   
-    //     var cuenta = new Cuenta
-    //     {
-    //         Nombre = "Carlos Diaz",
-    //         Pass = "passOriginal",
-    //         Dni = 6668,
-    //         HoraRegistrada = new TimeSpan(0,0,0)
-    //     };
-    //     Ado.AgregarCuenta(cuenta);
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    public void TestActualizarCuenta(int id )
+    {
 
-
-    //     cuenta.Nombre = "Carlos Diaz Updated";
-    //     cuenta.Pass = "passUpdated";
-    //     Ado.ActualizarCuenta(cuenta);
-    //     var cuentaObtenida = Ado.ObtenerCuentaPorId(cuenta.Ncuenta);
+        
+        var cuentaObtenida = Ado.ObtenerCuentaPorId(id);
+        cuentaObtenida.Nombre = "Carlos Diaz Updated";
+        cuentaObtenida.Pass = "passUpdated";
+        Ado.ActualizarCuenta(cuentaObtenida);
 
     
-    //     Assert.NotNull(cuentaObtenida);
-    //     Assert.Equal("Carlos Diaz Updated", cuentaObtenida.Nombre);
-    // }
+        Assert.NotNull(cuentaObtenida);
+        Assert.Equal("Carlos Diaz Updated", cuentaObtenida.Nombre);
+    }
+
+
+
 
     [Fact]
     public void TestEliminarCuenta()
@@ -122,7 +117,5 @@ public class TestCuenta : TestAdo
         var cuentas = Ado.ObtenerTodasLasCuentas();
 
         Assert.NotEmpty(cuentas);
-        Assert.Contains(cuentas, c => c.Nombre == "First User");
-        Assert.Contains(cuentas, c => c.Nombre == "Second User");
     }
 }

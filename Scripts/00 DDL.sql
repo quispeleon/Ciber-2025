@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS Ciber;
-CREATE DATABASE Ciber;
-USE Ciber;
+DROP DATABASE IF EXISTS 5to_Ciber;
+CREATE DATABASE 5to_Ciber;
+USE 5to_Ciber;
 
 
 -- Tabla Cuenta
