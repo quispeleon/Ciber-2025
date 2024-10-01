@@ -7,28 +7,7 @@ namespace Ciber.Test;
 public class TestMaquina : TestAdo
 
 {
-    private List<Maquina> _maquinapruebas;
-    public TestMaquina() : base()
-    {
-
-        _maquinapruebas = new List<Maquina>{
-            new Maquina{
-                Estado = true,
-                Caracteristicas = "Windows xp"
-
-            },
-            new Maquina{
-                Estado = false,
-                Caracteristicas = "Windows 10"
-            }
-
-        };
-        foreach (var maquina in _maquinapruebas)
-        {
-            Ado.AgregarMaquina(maquina);
-        }
-
-    }
+    
     [Fact]
     public void TesstMaquina()
     {
@@ -41,12 +20,15 @@ public class TestMaquina : TestAdo
 
     }
 
-    public void TestObtenerMaquinaPorId()
+    [Theory]
+    [InlineData(5)]
+    [InlineData(6)]
+    public void TestObtenerMaquinaPorId(int id)
     {
-        var Maquinaid = Ado.ObtenerMaquinaPorId(_maquinapruebas[0].Nmaquina);
+        var Maquinaid = Ado.ObtenerMaquinaPorId(id);
 
         Assert.NotNull(Maquinaid);
-        Assert.Equal(_maquinapruebas[0].Nmaquina, Maquinaid.Nmaquina);
+        Assert.Equal(id, Maquinaid.Nmaquina);
     }
 
     // [Fact]

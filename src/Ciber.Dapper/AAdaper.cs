@@ -67,7 +67,7 @@ public class CuentaRepository : IDAO
 
             _dbConnection.Execute("Maquinas", parameters, commandType: CommandType.StoredProcedure);
 
-            // Obtener el valor del id generado por el procedimiento almacenado
+            // Obtiene el valor id generado aca
             maquina.Nmaquina = parameters.Get<int>("uNmaquina");
         }
 
@@ -109,7 +109,7 @@ public class CuentaRepository : IDAO
                 parameters.Add("pagadood", alquiler.Pagado);
             }
 
-            // Añade el parámetro de salida para el ID
+            // Añade el parametro de salida para el ID
             parameters.Add("nIdAlquiler", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
             _dbConnection.Execute(procedureName, parameters, commandType: CommandType.StoredProcedure);
