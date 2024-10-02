@@ -1,8 +1,7 @@
 ﻿using Ciber.core;
 using Ciber.Dapper;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
+
 
 Console.WriteLine(AppContext.BaseDirectory);
 
