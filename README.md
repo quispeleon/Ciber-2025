@@ -22,3 +22,7 @@ var configuration = new ConfigurationBuilder()
                         var cadena1 = configuration.GetConnectionString("Ciber");
 
 ```
+# DIAGRAMA DE CLASES 
+![plot](./docs/der/CiberD.drawio.svg)
+# DER(DIAGRAMA DE ENTIDAD RELACION)
+![plot](./docs/der/DER.png)
