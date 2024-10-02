@@ -16,6 +16,7 @@ public interface IDAO
     Maquina ObtenerMaquinaPorId(int nmaquina);
     void ActualizarMaquina(Maquina maquina);
     void EliminarMaquina(int nmaquina);
+    IEnumerable<Maquina> ObtenerTodasLasMaquinas();
 
     // tabla tipo 
 

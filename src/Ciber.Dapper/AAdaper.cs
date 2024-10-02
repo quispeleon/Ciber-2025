@@ -38,6 +38,11 @@ public class CuentaRepository : IDAO
             return _dbConnection.QueryFirstOrDefault<Cuenta>(sql, new { Ncuenta = ncuenta });
         }   
 
+
+
+
+
+
         public void ActualizarCuenta(Cuenta cuenta)
         {
             var sql = "UPDATE Cuenta SET nombre = @Nombre, pass = sha2(@Pass, 256), dni = @Dni, horaRegistrada = @HoraRegistrada WHERE Ncuenta = @Ncuenta";
@@ -67,12 +72,11 @@ public class CuentaRepository : IDAO
 
             _dbConnection.Execute("Maquinas", parameters, commandType: CommandType.StoredProcedure);
 
-            // Obtiene el valor id generado aca
             maquina.Nmaquina = parameters.Get<int>("uNmaquina");
         }
 
 
-
+      
         public Maquina ObtenerMaquinaPorId(int nmaquina)
         {
             var sql = "SELECT * FROM Maquina WHERE Nmaquina = @Nmaquina";
@@ -90,6 +94,15 @@ public class CuentaRepository : IDAO
             var sql = "DELETE FROM Maquina WHERE Nmaquina = @Nmaquina";
             _dbConnection.Execute(sql, new { Nmaquina = nmaquina });
         }
+
+        public IEnumerable<Maquina> ObtenerTodasLasMaquinas(){
+            var sql = "SELECT * FROM Maquina";
+            return _dbConnection.Query<Maquina>(sql);
+        }
+
+
+
+
         public void AgregarTipo(Tipo tipo)
         {
             var sql = "INSERT INTO Tipo (IdTipo, TipoDescripcion) VALUES (@IdTipo, @TipoDescripcion)";
@@ -155,5 +168,7 @@ public class CuentaRepository : IDAO
         {
             throw new NotImplementedException();
         }
+       
     }
+
 }
