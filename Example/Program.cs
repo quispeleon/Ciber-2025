@@ -15,6 +15,12 @@ var configuration = new ConfigurationBuilder()
 
                         var cadena1 = configuration.GetConnectionString("Ciber");
 
+var CadenaCiberDbadena = configuration.GetConnectionString("CiberDb");
+
+if (string.IsNullOrEmpty(cadena))
+{
+    throw new InvalidOperationException("La cadena de conexión 'CiberDb' no está configurada.");
+}
 
 IDAO ado = new CuentaRepository(cadena);
 
@@ -26,7 +32,14 @@ foreach (var cuenta in cuentas)
     Console.WriteLine($"ID: {cuenta.Ncuenta}, Nombre: {cuenta.Nombre}, DNI: {cuenta.Dni}, Hora Registrada: {cuenta.HoraRegistrada}");
 }
 
-IDAO otroado = new CuentaRepository(cadena1);
+var cadena2 = configuration.GetConnectionString("Ciber");
+
+if (string.IsNullOrEmpty(cadena2))
+{
+    throw new InvalidOperationException("La cadena de conexión 'Ciber' no está configurada.");
+}
+
+IDAO otroado = new CuentaRepository(cadena2);
 
 IEnumerable<Maquina> maquinas = otroado.ObtenerTodasLasMaquinas();
 
