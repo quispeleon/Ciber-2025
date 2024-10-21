@@ -165,8 +165,10 @@ public class CuentaRepository : IDAO
        
 
         public IEnumerable<HistorialdeAlquiler> ObtenerTodoElHistorial()
+
         {
-            throw new NotImplementedException();
+            var sql =
+            
         }
        
     }
