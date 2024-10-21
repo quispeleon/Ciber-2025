@@ -167,10 +167,12 @@ public class CuentaRepository : IDAO
         public IEnumerable<HistorialdeAlquiler> ObtenerTodoElHistorial()
 
         {
-            var sql =
-            
+            var sql = "SELECT * FROM HistorialAlquiler";
+            return _dbConnection.Query<HistorialAlquiler>(sql);
         }
+
        
     }
 
 }
+ 
