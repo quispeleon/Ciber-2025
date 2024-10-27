@@ -168,7 +168,7 @@ public class CuentaRepository : IDAO
 
         {
             var sql = "SELECT * FROM HistorialAlquiler";
-            return _dbConnection.Query<HistorialAlquiler>(sql);
+            return _dbConnection.Query<HistorialdeAlquiler>(sql);
         }
 
        
