@@ -38,11 +38,6 @@ public class CuentaRepository : IDAO
             return _dbConnection.QueryFirstOrDefault<Cuenta>(sql, new { Ncuenta = ncuenta });
         }   
 
-
-
-
-
-
         public void ActualizarCuenta(Cuenta cuenta)
         {
             var sql = "UPDATE Cuenta SET nombre = @Nombre, pass = sha2(@Pass, 256), dni = @Dni, horaRegistrada = @HoraRegistrada WHERE Ncuenta = @Ncuenta";
@@ -170,8 +165,6 @@ public class CuentaRepository : IDAO
             var sql = "SELECT * FROM HistorialAlquiler";
             return _dbConnection.Query<HistorialdeAlquiler>(sql);
         }
-
-       
     }
 
 }

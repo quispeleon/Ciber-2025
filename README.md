@@ -1,3 +1,39 @@
+# Pasos 
+# Antes de correr el programa
+Cambia estos datos con los tuyos , esta en src/Ciber.Test/itest.cs
+```c#
+public class TestAdo
+{
+    protected readonly IDAO Ado;
+    private const string   _cadena = "Server=localhost;Database=LATABLA;Uid=LABASEDEDATOS;pwd=TUCONTRASEÑA;Allow User Variables=True";
+    
+
+    public TestAdo() => Ado = new CuentaRepository(_cadena);
+    public TestAdo(string cadena) => Ado = new CuentaRepository(cadena);
+} 
+```
+
+## Abre 2 terminales 
+* <h4>Primer terminal 
+
+Dirigete ala carpeta Scripts 
+dentro de tu terminal, ejecuta 
+```
+mysql -u NombreDeBaseDeDatos -p 
+```
+te pedira tu contraseña 
+Una vez dentro ejecuta 
+```sql
+source install.sql
+```
+* <h4>Segunda terminal
+Dirigete ala carpeta Ciber.Test y ejecuta 
+```c#
+dotnet test
+``` 
+
+
+<!-- 
 # use json para tu db
 ```json
 {
@@ -6,12 +42,10 @@
     "Ciber": "Server=localhost;Database=Ciber;Uid=5to_agbd;pwd=Trigg3rs!;Allow User Variables=True"
 
   }
-}
-```
+} -->
 
-# En el Program.cs
-```c#
-using Microsoft.Extensions.Configuration;
+
+<!-- using Microsoft.Extensions.Configuration;
 var configuration = new ConfigurationBuilder()
                 .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json")
@@ -19,10 +53,9 @@ var configuration = new ConfigurationBuilder()
 
                         var cadena = configuration.GetConnectionString("CiberDb");
 
-                        var cadena1 = configuration.GetConnectionString("Ciber");
+                        var cadena1 = configuration.GetConnectionString("Ciber"); -->
 
-```
 # DIAGRAMA DE CLASES 
-![plot](./docs/der/CiberD.drawio.svg)
+![plot](./docs/der/CiberD.png)
 # DER(DIAGRAMA DE ENTIDAD RELACION)
 ![plot](./docs/der/DER.png)
