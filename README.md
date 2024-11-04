@@ -1,4 +1,22 @@
-# Pasos 
+## INTEGRANTES 
+
+<a href="https://github.com/Sherklan12e">
+  <img src="https://github.com/Sherklan12e.png" alt="tercer-contribuidor" width="50" style="border-radius: 50%;">
+</a>
+<a href="https://github.com/ET12JULIO">
+  <img src="https://github.com/ET12JULIO.png" alt="tercer-contribuidor" width="50" style="border-radius: 50%;">
+</a>
+<a href="https://github.com/quispeleon">
+  <img src="https://github.com/quispeleon.png" alt="tercer-contribuidor" width="50" style="border-radius: 50%;">
+</a>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
 # Antes de correr el programa
 Cambia estos datos con los tuyos , esta en src/Ciber.Test/itest.cs
 ```c#

@@ -32,4 +32,6 @@ public interface IDAO
     void AgregarHistorial(HistorialdeAlquiler historial);
     HistorialdeAlquiler ObtenerHistorialPorId(int idHistorial);
     IEnumerable<HistorialdeAlquiler> ObtenerTodoElHistorial();
+    // Alquilar maquina
+ 
 }

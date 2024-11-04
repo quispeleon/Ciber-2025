@@ -6,11 +6,11 @@ using Ciber.core;
 using System.Data;
 namespace Ciber.Dapper
 {
-public class CuentaRepository : IDAO
+public class ADOD: IDAO
 {
         private readonly MySqlConnection _dbConnection;
 
-        public CuentaRepository(string connectionString)
+        public ADOD(string connectionString)
         {
             _dbConnection = new MySqlConnection(connectionString);
         }
@@ -165,7 +165,8 @@ public class CuentaRepository : IDAO
             var sql = "SELECT * FROM HistorialAlquiler";
             return _dbConnection.Query<HistorialdeAlquiler>(sql);
         }
-    }
+        
+    }   
 
 }
  

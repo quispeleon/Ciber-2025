@@ -31,5 +31,24 @@ public class TestAlquiler : TestAdo
         Assert.NotNull(obteberAlquiler);
 
     }
+    [Theory]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    public void TraerAlquiler(int idAlquiler){
+        var alquiler = Ado.ObtenerAlquilerPorId(idAlquiler);
+        Assert.NotNull(alquiler);
+    }
+    // [Theory]
+    // [InlineData(2)]
+    // [InlineData(3)]
+    // public void EliminarAlquilerr(int idAlquiler){
+    //     var alquiler = Ado.ObtenerAlquilerPorId(idAlquiler);
+    //     Ado.EliminarAlquiler(idAlquiler);
+    //     Assert.Null(alquiler);
+        
+    // }
 
 }
