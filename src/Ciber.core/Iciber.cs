@@ -1,5 +1,3 @@
-
-
 namespace Ciber.core;
 
 public interface IDAO
@@ -34,4 +32,26 @@ public interface IDAO
     IEnumerable<HistorialdeAlquiler> ObtenerTodoElHistorial();
     // Alquilar maquina
  
+    // Métodos asíncronos
+    Task AgregarCuentaAsync(Cuenta cuenta);
+    Task<Cuenta> ObtenerCuentaPorIdAsync(int ncuenta);
+    Task ActualizarCuentaAsync(Cuenta cuenta);
+    Task EliminarCuentaAsync(int ncuenta);
+    Task<IEnumerable<Cuenta>> ObtenerTodasLasCuentasAsync();
+
+    Task AgregarMaquinaAsync(Maquina maquina);
+    Task<Maquina> ObtenerMaquinaPorIdAsync(int nmaquina);
+    Task ActualizarMaquinaAsync(Maquina maquina);
+    Task EliminarMaquinaAsync(int nmaquina);
+    Task<IEnumerable<Maquina>> ObtenerTodasLasMaquinasAsync();
+
+    Task AgregarTipoAsync(Tipo tipo);
+    Task AgregarAlquilerAsync(Alquiler alquiler, bool tipoAlquiler);
+    Task<Alquiler> ObtenerAlquilerPorIdAsync(int idAlquiler);
+    Task EliminarAlquilerAsync(int idAlquiler);
+    Task<IEnumerable<Alquiler>> ObtenerTodosLosAlquileresAsync();
+
+    Task AgregarHistorialAsync(HistorialdeAlquiler historial);
+    Task<HistorialdeAlquiler> ObtenerHistorialPorIdAsync(int idHistorial);
+    Task<IEnumerable<HistorialdeAlquiler>> ObtenerTodoElHistorialAsync();
 }
