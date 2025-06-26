@@ -2,9 +2,6 @@ using Dapper;
 using MySqlConnector;
 
 // using MySql.Data.MySqlClient;
-
-using Dapper;
-using MySqlConnector;
 using Ciber.core;
 using System.Data;
 using System.Threading.Tasks;
