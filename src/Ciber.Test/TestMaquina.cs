@@ -1,61 +1,65 @@
 using Ciber.core;
-using Ciber.Dapper;
 using Xunit;
+using System.Threading.Tasks;
 
-namespace Ciber.Test;
-
-public class TestMaquina : TestAdo
-
+namespace Ciber.Test
 {
-    
-    [Fact]
-    public void TesstMaquina()
+    public class TestMaquina : TestAdo
     {
-        var maquina1 = new Maquina
+        [Fact]
+        public async Task TestAgregarMaquinaAsync()
         {
-            Estado = true,
-            Caracteristicas = "julio aaa"
-        };
-        Ado.AgregarMaquina(maquina1);
+            var maquina1 = new Maquina
+            {
+                Estado = true,
+                Caracteristicas = "julio aaa"
+            };
 
-    }
+            await Ado.AgregarMaquina(maquina1);
 
-    [Theory]
-    [InlineData(5)]
-    [InlineData(6)]
-    public void TestObtenerMaquinaPorId(int id)
-    {
-        var Maquinaid = Ado.ObtenerMaquinaPorId(id);
+            var maquinaObtenida = await Ado.ObtenerMaquinaPorId(maquina1.Nmaquina);
+            Assert.NotNull(maquinaObtenida);
+            Assert.Equal(maquina1.Caracteristicas, maquinaObtenida.Caracteristicas);
+        }
 
-        Assert.NotNull(Maquinaid);
-        Assert.Equal(id, Maquinaid.Nmaquina);
-    }
+        [Theory]
+        [InlineData(5)]
+        [InlineData(6)]
+        public async Task TestObtenerMaquinaPorIdAsync(int id)
+        {
+            var maquina = await Ado.ObtenerMaquinaPorId(id);
 
-    [Theory]
-    [InlineData(5)]
-    [InlineData(6)]
-    public void TestActulizarMaquina(int id)
-    {
-        var  maquina1 = Ado.ObtenerMaquinaPorId(id);
-        maquina1.Caracteristicas = "Windows 13 Actualizado";  // Update the correct value
-        Ado.ActualizarMaquina(maquina1);
+            Assert.NotNull(maquina);
+            Assert.Equal(id, maquina.Nmaquina);
+        }
 
-        var maquina = Ado.ObtenerMaquinaPorId(maquina1.Nmaquina);
+        [Theory]
+        [InlineData(5)]
+        [InlineData(6)]
+        public async Task TestActualizarMaquinaAsync(int id)
+        {
+            var maquina1 = await Ado.ObtenerMaquinaPorId(id);
+            Assert.NotNull(maquina1); // Asegura que existe
 
-        Assert.NotNull(maquina);
-        Assert.Equal("Windows 13 Actualizado", maquina.Caracteristicas);  // Assert the expected value
-    }
+            maquina1.Caracteristicas = "Windows 13 Actualizado";
+            await Ado.ActualizarMaquina(maquina1);
 
-    [Theory]
-    [InlineData(1)]
-    [InlineData(2)]
-    [InlineData(3)]
-    [InlineData(4)]
-    public void TestEliminarMaquina(int idMaquina)
-    {
+            var maquinaActualizada = await Ado.ObtenerMaquinaPorId(id);
 
-        Ado.EliminarMaquina(idMaquina);
-        var maquin1 = Ado.ObtenerMaquinaPorId(idMaquina);
-        Assert.Null(maquin1);
+            Assert.NotNull(maquinaActualizada);
+            Assert.Equal("Windows 13 Actualizado", maquinaActualizada.Caracteristicas);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData(4)]
+        public async Task TestEliminarMaquinaAsync(int idMaquina)
+        {
+            await Ado.EliminarMaquina(idMaquina);
+            var maquina = await Ado.ObtenerMaquinaPorId(idMaquina);
+            Assert.Null(maquina);
+        }
     }
 }

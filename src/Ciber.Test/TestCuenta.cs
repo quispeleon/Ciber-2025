@@ -1,121 +1,109 @@
 using Ciber.core;
 using Xunit;
+using System;
+using System.Threading.Tasks;
 
-namespace Ciber.Test;
-public class TestCuenta : TestAdo
+namespace Ciber.Test
 {
-   
-    [Fact]
-    public void TestAgregarCuenta()
+    public class TestCuenta : TestAdo
     {
-   
-        var cuenta = new Cuenta
+        [Fact]
+        public async Task TestAgregarCuentaAsync()
         {
-            Nombre = "doio 2sutup",
-            Pass = "1192",
-            Dni = 2391,
-            HoraRegistrada =  new TimeSpan(0,0,0)
-        };
+            var cuenta = new Cuenta
+            {
+                Nombre = "doio 2sutup",
+                Pass = "1192",
+                Dni = 2391,
+                HoraRegistrada = new TimeSpan(0, 0, 0)
+            };
 
-      
-        Ado.AgregarCuenta(cuenta);
-        var cuentaObtenida = Ado.ObtenerCuentaPorId(cuenta.Ncuenta);
+            await Ado.AgregarCuenta(cuenta);
+            var cuentaObtenida = await Ado.ObtenerCuentaPorId(cuenta.Ncuenta);
 
-        Assert.NotNull(cuentaObtenida);
-        Assert.Equal(cuenta.Nombre, cuentaObtenida.Nombre);
-        Assert.Equal(cuenta.Dni, cuentaObtenida.Dni);
-    }
+            Assert.NotNull(cuentaObtenida);
+            Assert.Equal(cuenta.Nombre, cuentaObtenida.Nombre);
+            Assert.Equal(cuenta.Dni, cuentaObtenida.Dni);
+        }
 
-    [Fact]
-    public void TestObtenerCuentaPorId()
-    {
-  
-        var cuenta = new Cuenta
+        [Fact]
+        public async Task TestObtenerCuentaPorIdAsync()
         {
-            Nombre = "Pedro Lopez",
-            Pass = "789123",
-            Dni = 1163,
-            HoraRegistrada = new TimeSpan (0,0,0)
-        };
+            var cuenta = new Cuenta
+            {
+                Nombre = "Pedro Lopez",
+                Pass = "789123",
+                Dni = 1163,
+                HoraRegistrada = new TimeSpan(0, 0, 0)
+            };
 
-        Ado.AgregarCuenta(cuenta);
+            await Ado.AgregarCuenta(cuenta);
+            var cuentaObtenida = await Ado.ObtenerCuentaPorId(cuenta.Ncuenta);
 
+            Assert.NotNull(cuentaObtenida);
+            Assert.Equal(cuenta.Nombre, cuentaObtenida.Nombre);
+            Assert.Equal(cuenta.Dni, cuentaObtenida.Dni);
+        }
 
-        var cuentaObtenida = Ado.ObtenerCuentaPorId(cuenta.Ncuenta);
-
-        Assert.NotNull(cuentaObtenida);
-        Assert.Equal(cuenta.Nombre, cuentaObtenida.Nombre);
-        Assert.Equal(cuenta.Dni, cuentaObtenida.Dni);
-    }
-
-    [Theory]
-    [InlineData(1)]
-    [InlineData(2)]
-    public void TestActualizarCuenta(int id )
-    {
-
-        
-        var cuentaObtenida = Ado.ObtenerCuentaPorId(id);
-        cuentaObtenida.Nombre = "Carlos Diaz Updated";
-        cuentaObtenida.Pass = "passUpdated";
-        Ado.ActualizarCuenta(cuentaObtenida);
-
-    
-        Assert.NotNull(cuentaObtenida);
-        Assert.Equal("Carlos Diaz Updated", cuentaObtenida.Nombre);
-    }
-
-
-
-
-    [Fact]
-    public void TestEliminarCuenta()
-    {
-    
-        var cuenta = new Cuenta
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public async Task TestActualizarCuentaAsync(int id)
         {
-            Nombre = "Delete Test",
-            Pass = "deletepass",
-            Dni = 993,
-            HoraRegistrada = new TimeSpan(0,0,0)
-        };
+            var cuentaObtenida = await Ado.ObtenerCuentaPorId(id);
+            Assert.NotNull(cuentaObtenida); // Asegura que existe antes de actualizar
 
-        Ado.AgregarCuenta(cuenta);
+            cuentaObtenida.Nombre = "Carlos Diaz Updated";
+            cuentaObtenida.Pass = "passUpdated";
 
-        
-        Ado.EliminarCuenta(cuenta.Ncuenta);
-        var cuentaObtenida = Ado.ObtenerCuentaPorId(cuenta.Ncuenta);
+            await Ado.ActualizarCuenta(cuentaObtenida);
+            var actualizada = await Ado.ObtenerCuentaPorId(id);
 
-        
-        Assert.Null(cuentaObtenida); 
-    }
+            Assert.Equal("Carlos Diaz Updated", actualizada.Nombre);
+        }
 
-    [Fact]
-    public void TestObtenerTodasLasCuentas()
-    {
-   
-        var cuenta1 = new Cuenta
+        [Fact]
+        public async Task TestEliminarCuentaAsync()
         {
-            Nombre = "First User",
-            Pass = "pass1",
-            Dni = 156111,
-            HoraRegistrada = new TimeSpan(0,0,0)
-        };
+            var cuenta = new Cuenta
+            {
+                Nombre = "Delete Test",
+                Pass = "deletepass",
+                Dni = 993,
+                HoraRegistrada = new TimeSpan(0, 0, 0)
+            };
 
-        var cuenta2 = new Cuenta
+            await Ado.AgregarCuenta(cuenta);
+            await Ado.EliminarCuenta(cuenta.Ncuenta);
+
+            var cuentaObtenida = await Ado.ObtenerCuentaPorId(cuenta.Ncuenta);
+            Assert.Null(cuentaObtenida);
+        }
+
+        [Fact]
+        public async Task TestObtenerTodasLasCuentasAsync()
         {
-            Nombre = "Second User",
-            Pass = "pass2",
-            Dni = 272,
-            HoraRegistrada = new TimeSpan(0,0,0)
-        };
+            var cuenta1 = new Cuenta
+            {
+                Nombre = "First User",
+                Pass = "pass1",
+                Dni = 156111,
+                HoraRegistrada = new TimeSpan(0, 0, 0)
+            };
 
-        Ado.AgregarCuenta(cuenta1);
-        Ado.AgregarCuenta(cuenta2);
+            var cuenta2 = new Cuenta
+            {
+                Nombre = "Second User",
+                Pass = "pass2",
+                Dni = 272,
+                HoraRegistrada = new TimeSpan(0, 0, 0)
+            };
 
-   
-        var cuentas = Ado.ObtenerTodasLasCuentas();
+            await Ado.AgregarCuenta(cuenta1);
+            await Ado.AgregarCuenta(cuenta2);
 
-        Assert.NotEmpty(cuentas);
+            var cuentas = await Ado.ObtenerTodasLasCuentas();
+            Assert.NotEmpty(cuentas);
+        }
     }
 }
