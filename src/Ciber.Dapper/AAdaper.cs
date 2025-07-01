@@ -5,7 +5,7 @@ using MySqlConnector;
 using Ciber.core;
 using System.Data;
 using System.Threading.Tasks;
-
+// hola
 namespace Ciber.Dapper
 {
     public class ADOD : IDAO
