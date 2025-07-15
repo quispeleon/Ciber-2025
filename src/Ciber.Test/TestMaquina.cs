@@ -58,4 +58,41 @@ public class TestMaquina : TestAdo
         var maquin1 = Ado.ObtenerMaquinaPorId(idMaquina);
         Assert.Null(maquin1);
     }
+
+    // async 
+    [Fact]
+    public async Task TestAgregarYObtenerMaquinaAsync()
+    {
+        var maquina = new Maquina { Estado = true, Caracteristicas = "Intel i5, 8GB RAM" };
+
+        await Ado.AgregarMaquinaAsync(maquina);
+        var obtenida = await Ado.ObtenerMaquinaPorIdAsync(maquina.Nmaquina);
+
+        Assert.NotNull(obtenida);
+        Assert.Equal(maquina.Caracteristicas, obtenida.Caracteristicas);
+    }
+
+    [Fact]
+    public async Task TestActualizarMaquinaAsync()
+    {
+        var maquina = new Maquina { Estado = true, Caracteristicas = "Vieja" };
+        await Ado.AgregarMaquinaAsync(maquina);
+
+        maquina.Caracteristicas = "Nueva";
+        await Ado.ActualizarMaquinaAsync(maquina);
+
+        var obtenida = await Ado.ObtenerMaquinaPorIdAsync(maquina.Nmaquina);
+        Assert.Equal("Nueva", obtenida.Caracteristicas);
+    }
+
+    [Fact]
+    public async Task TestEliminarMaquinaAsync()
+    {
+        var maquina = new Maquina { Estado = false, Caracteristicas = "Eliminar esta" };
+        await Ado.AgregarMaquinaAsync(maquina);
+        await Ado.EliminarMaquinaAsync(maquina.Nmaquina);
+
+        var obtenida = await Ado.ObtenerMaquinaPorIdAsync(maquina.Nmaquina);
+        Assert.Null(obtenida);
+    }
 }

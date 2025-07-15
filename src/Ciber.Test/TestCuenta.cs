@@ -118,4 +118,81 @@ public class TestCuenta : TestAdo
 
         Assert.NotEmpty(cuentas);
     }
+
+    // async
+
+    [Fact]
+    public async Task TestAgregarCuentaAsync()
+    {
+        var cuenta = new Cuenta
+        {
+            Nombre = "Usuario Async",
+            Pass = "clave123",
+            Dni = 1111,
+            HoraRegistrada = new TimeSpan(0, 0, 0)
+        };
+
+        await Ado.AgregarCuentaAsync(cuenta);
+
+        var cuentaObtenida = await Ado.ObtenerCuentaPorIdAsync(cuenta.Ncuenta);
+
+        Assert.NotNull(cuentaObtenida);
+        Assert.Equal(cuenta.Nombre, cuentaObtenida.Nombre);
+        Assert.Equal(cuenta.Dni, cuentaObtenida.Dni);
+    }
+
+    [Fact]
+    public async Task TestActualizarCuentaAsync()
+    {
+        var cuenta = new Cuenta
+        {
+            Nombre = "Original",
+            Pass = "pass",
+            Dni = 2222,
+            HoraRegistrada = new TimeSpan(0, 0, 0)
+        };
+
+        await Ado.AgregarCuentaAsync(cuenta);
+        cuenta.Nombre = "Actualizado";
+        cuenta.Pass = "nuevoPass";
+
+        await Ado.ActualizarCuentaAsync(cuenta);
+        var cuentaObtenida = await Ado.ObtenerCuentaPorIdAsync(cuenta.Ncuenta);
+
+        Assert.Equal("Actualizado", cuentaObtenida.Nombre);
+        Assert.Equal("nuevoPass", cuentaObtenida.Pass);
+    }
+
+    [Fact]
+    public async Task TestEliminarCuentaAsync()
+    {
+        var cuenta = new Cuenta
+        {
+            Nombre = "Eliminar",
+            Pass = "delete",
+            Dni = 3333,
+            HoraRegistrada = new TimeSpan(0, 0, 0)
+        };
+
+        await Ado.AgregarCuentaAsync(cuenta);
+        await Ado.EliminarCuentaAsync(cuenta.Ncuenta);
+        var cuentaObtenida = await Ado.ObtenerCuentaPorIdAsync(cuenta.Ncuenta);
+
+        Assert.Null(cuentaObtenida);
+    }
+
+    [Fact]
+    public async Task TestObtenerTodasLasCuentasAsync()
+    {
+        var cuenta1 = new Cuenta { Nombre = "Uno", Pass = "1", Dni = 123, HoraRegistrada = new TimeSpan(0, 0, 0) };
+        var cuenta2 = new Cuenta { Nombre = "Dos", Pass = "2", Dni = 456, HoraRegistrada = new TimeSpan(0, 0, 0) };
+
+        await Ado.AgregarCuentaAsync(cuenta1);
+        await Ado.AgregarCuentaAsync(cuenta2);
+
+        var cuentas = await Ado.ObtenerTodasLasCuentasAsync();
+
+        Assert.Contains(cuentas, c => c.Nombre == "Uno");
+        Assert.Contains(cuentas, c => c.Nombre == "Dos");
+    }
 }

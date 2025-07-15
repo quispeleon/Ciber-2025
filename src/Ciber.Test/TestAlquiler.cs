@@ -11,9 +11,6 @@ public class TestAlquiler : TestAdo
     [InlineData(5, 11, 2, 1)]
     [InlineData(6, 12, 2, 3)]
     [InlineData(7, 13, 2, 1)]
-    [InlineData(8, 14, 2, 3)]
-    [InlineData(9, 15, 2, 3)]
-    [InlineData(10, 16, 2, 2)]
     public void TesstAlquilerAgregar(int idCuenta, int idMaquina, int tipo, int tiempo)
     {
         var alquiler1 = new Alquiler
@@ -51,4 +48,35 @@ public class TestAlquiler : TestAdo
         
     // }
 
+
+    // async 
+
+
+
+    [Theory]
+    
+    [InlineData(8, 14, 2, 3)]
+    [InlineData(9, 15, 2, 3)]
+    [InlineData(10, 16, 2, 2)]
+    public async Task TestAlquilerAgregarAsync(int idCuenta, int idMaquina, int tipo, int tiempo)
+    {
+        var alquiler = new Alquiler
+        {
+            Ncuenta = idCuenta,
+            Nmaquina = idMaquina,
+            Tipo = tipo,
+            CantidadTiempo = TimeSpan.FromHours(tiempo),
+            Pagado = true
+        };
+
+        await Ado.AgregarAlquilerAsync(alquiler, true);
+        var obtenerAlquiler = await Ado.ObtenerAlquilerPorIdAsync(alquiler.IdAlquiler);
+
+        Assert.NotNull(obtenerAlquiler);
+        Assert.Equal(idCuenta, obtenerAlquiler.Ncuenta);
+        Assert.Equal(idMaquina, obtenerAlquiler.Nmaquina);
+        Assert.Equal(tipo, obtenerAlquiler.Tipo);
+        Assert.Equal(TimeSpan.FromHours(tiempo), obtenerAlquiler.CantidadTiempo);
+    }
+    
 }
