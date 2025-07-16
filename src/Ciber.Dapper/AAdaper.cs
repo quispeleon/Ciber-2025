@@ -4,18 +4,100 @@ using MySqlConnector;
 // using MySql.Data.MySqlClient;
 using Ciber.core;
 using System.Data;
-using System.Threading.Tasks;
-// hola
 namespace Ciber.Dapper
 {
-    public class ADOD : IDAO
-    {
-        private readonly MySqlConnection _dbConnection;
+public class ADOD: IDAO
+{
+        private readonly IDbConnection _dbConnection;
 
-        public ADOD(string connectionString)
+        public ADOD(IDbConnection connectionString)
         {
-            _dbConnection = new MySqlConnection(connectionString);
+            _dbConnection = connectionString;
         }
+        
+        --Sincronico--
+        public void AgregarCuenta(Cuenta cuenta)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("uNcuenta", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            parameters.Add("unnombre", cuenta.Nombre);
+            parameters.Add("unPas", cuenta.Pass);
+            parameters.Add("dni", cuenta.Dni);
+            parameters.Add("hora", cuenta.HoraRegistrada);
+
+            _dbConnection.Execute("Cuentas", parameters, commandType: CommandType.StoredProcedure);
+            cuenta.Ncuenta = parameters.Get<int>("uNcuenta");
+        }
+        public Cuenta ObtenerCuentaPorId(int ncuenta)
+        {
+            var sql = "SELECT * FROM Cuenta WHERE Ncuenta = @Ncuenta";
+            return _dbConnection.QueryFirstOrDefault<Cuenta>(sql, new { Ncuenta = ncuenta });
+        }   
+        public void ActualizarCuenta(Cuenta cuenta)
+        {
+            var sql = "UPDATE Cuenta SET nombre = @Nombre, pass = sha2(@Pass, 256), dni = @Dni, horaRegistrada = @HoraRegistrada WHERE Ncuenta = @Ncuenta";
+            _dbConnection.Execute(sql, cuenta);
+        }     
+        public void EliminarCuenta(int ncuenta)
+        {
+            var sql = "DELETE FROM Cuenta WHERE Ncuenta = @Ncuenta";
+            _dbConnection.Execute(sql, new { Ncuenta = ncuenta });
+        }             
+        public IEnumerable<Cuenta> ObtenerTodasLasCuentas()
+        {
+            var sql = "SELECT * FROM Cuenta";
+            return _dbConnection.Query<Cuenta>(sql);
+        }           
+        public void AgregarAlquiler(Alquiler alquiler, bool tipoAlquiler)
+        {
+            var procedureName = tipoAlquiler ? "alquilarMaquina2" : "alquilarMaquina1";
+            var parameters = new DynamicParameters();
+            parameters.Add("unNcuenta", alquiler.Ncuenta);
+            parameters.Add("unNmaquina", alquiler.Nmaquina);
+
+            if (tipoAlquiler)
+            {
+                parameters.Add("tcantidad", alquiler.CantidadTiempo);
+                parameters.Add("pagadood", alquiler.Pagado);
+            }
+
+            parameters.Add("nIdAlquiler", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            _dbConnection.Execute(procedureName, parameters, commandType: CommandType.StoredProcedure);
+
+            alquiler.IdAlquiler = parameters.Get<int>("nIdAlquiler");
+        }        
+        public Alquiler ObtenerAlquilerPorId(int idAlquiler)
+        {
+            var sql = "SELECT * FROM Alquiler WHERE idAlquiler = @IdAlquiler";
+            return _dbConnection.QueryFirstOrDefault<Alquiler>(sql, new { IdAlquiler = idAlquiler });
+        }        
+        public void EliminarAlquiler(int idAlquiler)
+        {
+            var sql = "DELETE FROM Alquiler WHERE idAlquiler = @IdAlquiler";
+            _dbConnection.Execute(sql, new { IdAlquiler = idAlquiler });
+        }        
+        public IEnumerable<Alquiler> ObtenerTodosLosAlquileres()
+        {
+            var sql = "SELECT * FROM Alquiler";
+            return _dbConnection.Query<Alquiler>(sql);
+        }        
+        public void AgregarHistorial(HistorialdeAlquiler historial)
+        {
+            var sql = "INSERT INTO HistorialAlquiler (Ncuenta, Nmaquina, FechaInicio, FechaFin, TotalPagara) VALUES (@Ncuenta, @Nmaquina, @FechaInicio, @FechaFin, @TotalPagara)";
+            _dbConnection.Execute(sql, historial);
+        }        
+        public HistorialdeAlquiler ObtenerHistorialPorId(int idHistorial)
+        {
+            var sql = "SELECT * FROM HistorialAlquiler WHERE idHistorial = @IdHistorial";
+            return _dbConnection.QueryFirstOrDefault<HistorialdeAlquiler>(sql, new { IdHistorial = idHistorial });
+        }
+        public IEnumerable<HistorialdeAlquiler> ObtenerTodoElHistorial()
+        {
+            var sql = "SELECT * FROM HistorialAlquiler";
+            return _dbConnection.Query<HistorialdeAlquiler>(sql);
+        }                
+        --Async--       
 
         public async Task AgregarCuenta(Cuenta cuenta)
         {

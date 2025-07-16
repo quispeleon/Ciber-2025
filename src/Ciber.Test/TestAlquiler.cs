@@ -7,6 +7,63 @@ namespace Ciber.Test
 {
     public class TestAlquiler : TestAdo
     {
+        // Sincronico 
+
+        [Theory]
+        [InlineData(3, 9, 2, 3)]
+        [InlineData(4, 10, 2, 5)]
+        [InlineData(5, 11, 2, 1)]
+        [InlineData(6, 12, 2, 3)]
+        [InlineData(7, 13, 2, 1)]
+        [InlineData(8, 14, 2, 3)]
+        [InlineData(9, 15, 2, 3)]
+        [InlineData(10, 16, 2, 2)]
+        public void TestAlquilerAgregar(int idCuenta, int idMaquina, int tipo, int tiempo)
+        {
+            var alquiler1 = new Alquiler
+            {
+                Ncuenta = idCuenta,
+                Nmaquina = idMaquina,
+                Tipo = tipo,
+                CantidadTiempo = TimeSpan.FromHours(tiempo),
+                Pagado = true
+            };
+
+            Ado.AgregarAlquiler(alquiler1, true); // Este método debe ser síncrono.
+
+            var obtenerAlquiler = Ado.ObtenerAlquilerPorId(alquiler1.IdAlquiler); // Este método debe ser síncrono.
+
+            Assert.NotNull(obtenerAlquiler);
+        }
+
+        [Theory]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData(4)]
+        [InlineData(5)]
+        [InlineData(6)]
+        public void TraerAlquiler(int idAlquiler)
+        {
+            var alquiler = Ado.ObtenerAlquilerPorId(idAlquiler); // Este método debe ser síncrono.
+            Assert.NotNull(alquiler);
+        }
+
+        // Para usar este test asegurate de que el alquiler con ese ID exista antes
+        [Theory]
+        [InlineData(2)]
+        [InlineData(3)]
+        public void EliminarAlquiler(int idAlquiler)
+        {
+            var alquiler = Ado.ObtenerAlquilerPorId(idAlquiler); // Este método debe ser síncrono.
+            Assert.NotNull(alquiler); // Verifica que existe antes
+
+            Ado.EliminarAlquiler(idAlquiler); // Este método debe ser síncrono.
+
+            var alquilerEliminado = Ado.ObtenerAlquilerPorId(idAlquiler); // Este método debe ser síncrono.
+            Assert.Null(alquilerEliminado);
+        }
+
+        // Async
         [Theory]
         [InlineData(3, 9, 2, 3)]
         [InlineData(4, 10, 2, 5)]

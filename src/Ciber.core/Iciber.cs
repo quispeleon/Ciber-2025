@@ -2,6 +2,38 @@ namespace Ciber.core
 {
     public interface IDAO
     {
+        //Sincronico
+        
+        // Cuenta
+        void AgregarCuenta(Cuenta cuenta);
+        Cuenta ObtenerCuentaPorId(int ncuenta);
+        void ActualizarCuenta(Cuenta cuenta);
+        void EliminarCuenta(int ncuenta);
+        IEnumerable<Cuenta> ObtenerTodasLasCuentas();
+
+        // Maquina
+        void AgregarMaquina(Maquina maquina);
+        Maquina ObtenerMaquinaPorId(int nmaquina);
+        void ActualizarMaquina(Maquina maquina);
+        void EliminarMaquina(int nmaquina);
+        IEnumerable<Maquina> ObtenerTodasLasMaquinas();
+
+        // Tipo
+        void AgregarTipo(Tipo tipo);
+
+        // Alquiler
+        void AgregarAlquiler(Alquiler alquiler, bool tipoAlquiler);
+        Alquiler ObtenerAlquilerPorId(int idAlquiler);
+        void EliminarAlquiler(int idAlquiler);
+        IEnumerable<Alquiler> ObtenerTodosLosAlquileres();
+
+        // Historial
+        void AgregarHistorial(HistorialdeAlquiler historial);
+        HistorialdeAlquiler ObtenerHistorialPorId(int idHistorial);
+        IEnumerable<HistorialdeAlquiler> ObtenerTodoElHistorial();
+
+        //Async
+
         // Cuenta
         Task AgregarCuenta(Cuenta cuenta);
         Task<Cuenta> ObtenerCuentaPorId(int ncuenta);

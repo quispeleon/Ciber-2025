@@ -6,6 +6,64 @@ namespace Ciber.Test
 {
     public class TestMaquina : TestAdo
     {
+        //Sincronico
+
+        [Fact]
+        public void TestAgregarMaquina()
+        {
+            var maquina1 = new Maquina
+            {
+                Estado = true,
+                Caracteristicas = "julio aaa"
+            };
+
+            Ado.AgregarMaquina(maquina1); 
+
+            var maquinaObtenida = Ado.ObtenerMaquinaPorId(maquina1.Nmaquina); 
+            Assert.NotNull(maquinaObtenida);
+            Assert.Equal(maquina1.Caracteristicas, maquinaObtenida.Caracteristicas);
+        }
+
+        [Theory]
+        [InlineData(5)]
+        [InlineData(6)]
+        public void TestObtenerMaquinaPorId(int id)
+        {
+            var maquina = Ado.ObtenerMaquinaPorId(id); 
+            Assert.NotNull(maquina);
+            Assert.Equal(id, maquina.Nmaquina);
+        }
+
+        [Theory]
+        [InlineData(5)]
+        [InlineData(6)]
+        public void TestActualizarMaquina(int id)
+        {
+            var maquina1 = Ado.ObtenerMaquinaPorId(id); 
+            Assert.NotNull(maquina1); 
+
+            maquina1.Caracteristicas = "Windows 13 Actualizado";
+            Ado.ActualizarMaquina(maquina1); 
+
+            var maquinaActualizada = Ado.ObtenerMaquinaPorId(id);
+
+            Assert.NotNull(maquinaActualizada);
+            Assert.Equal("Windows 13 Actualizado", maquinaActualizada.Caracteristicas);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData(4)]
+        public void TestEliminarMaquina(int idMaquina)
+        {
+            Ado.EliminarMaquina(idMaquina); 
+            var maquina = Ado.ObtenerMaquinaPorId(idMaquina);
+            Assert.Null(maquina);
+        }
+
+        //Async
         [Fact]
         public async Task TestAgregarMaquinaAsync()
         {
