@@ -15,13 +15,7 @@ var connectionString = builder.Configuration.GetConnectionString("MySQL");
 builder.Services.AddScoped<IDbConnection>(sp => new MySqlConnection(connectionString));
 
 //Cada vez que necesite la interfaz, se va a instanciar automaticamente AdoDapper y se va a pasar al metodo de la API
-builder.Services.AddScoped<IDAO>(sp =>
-{
-    var config = sp.GetRequiredService<IConfiguration>();
-    var connectionString = config.GetConnectionString("MySQL");
-    return new ADOD(connectionString);
-});
-
+builder.Services.AddScoped<IDAO, ADOD>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -37,41 +31,45 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
-// Cuentas
-app.MapGet("/cuentas", (IDAO db) =>
+
+// cuentas
+
+app.MapGet("/cuentas", async (IDAO db) =>
 {
-    var cuentas = db.ObtenerTodasLasCuentas();
+    var cuentas = await db.ObtenerTodasLasCuentasAsync();
     return Results.Ok(cuentas);
 });
 
-app.MapGet("/cuentas/{id}", (int id, IDAO db) =>
+app.MapGet("/cuentas/{id}", async (int id, IDAO db) =>
 {
-    var cuenta = db.ObtenerCuentaPorId(id);
+    var cuenta = await db.ObtenerCuentaPorIdAsync(id);
     return cuenta is not null ? Results.Ok(cuenta) : Results.NotFound();
 });
 
-app.MapPost("/cuentas", (Cuenta cuenta, IDAO db) =>
+app.MapPost("/cuentas", async (Cuenta cuenta, IDAO db) =>
 {
-    db.AgregarCuenta(cuenta);
+    await db.AgregarCuentaAsync(cuenta);
     return Results.Created($"/cuentas/{cuenta.Ncuenta}", cuenta);
 });
 
 // maquinas
-app.MapGet("/maquinas", (IDAO db) =>
+
+app.MapGet("/maquinas", async (IDAO db) =>
 {
-    var maquinas = db.ObtenerTodasLasMaquinas();
+    var maquinas = await db.ObtenerTodasLasMaquinasAsync();
     return Results.Ok(maquinas);
 });
 
-app.MapGet("/maquinas/{id}", (int id, IDAO db) =>
+app.MapGet("/maquinas/{id}", async (int id, IDAO db) =>
 {
-    var maquina = db.ObtenerMaquinaPorId(id);
+    var maquina = await db.ObtenerMaquinaPorIdAsync(id);
     return maquina is not null ? Results.Ok(maquina) : Results.NotFound();
 });
 
-app.MapPost("/maquinas", (Maquina maquina, IDAO db) =>
+app.MapPost("/maquinas", async (Maquina maquina, IDAO db) =>
 {
-    db.AgregarMaquina(maquina);
+    await db.AgregarMaquinaAsync(maquina);
     return Results.Created($"/maquinas/{maquina.Nmaquina}", maquina);
 });
+
 app.Run();

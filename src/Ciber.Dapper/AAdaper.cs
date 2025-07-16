@@ -8,11 +8,11 @@ namespace Ciber.Dapper
 {
 public class ADOD: IDAO
 {
-        private readonly MySqlConnection _dbConnection;
+        private readonly IDbConnection _dbConnection;
 
-        public ADOD(string connectionString)
+        public ADOD(IDbConnection connectionString)
         {
-            _dbConnection = new MySqlConnection(connectionString);
+            _dbConnection = connectionString;
         }
                                         
        public void AgregarCuenta(Cuenta cuenta)
