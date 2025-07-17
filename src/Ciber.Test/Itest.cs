@@ -1,15 +1,17 @@
-﻿using Ciber.core;
-using Ciber.Dapper;
-using Xunit;
+﻿using System.Data;
+using Microsoft.Extensions.Configuration;
 using MySqlConnector;
 
 namespace Ciber.Test;
 public class TestAdo
 {
-    protected readonly IDAO Ado;
-    private const string   _cadena = "Server=localhost;Database=5to_Ciber;Uid=5to_agbd;pwd=Trigg3rs!;Allow User Variables=True";
-    // private const string   _cadena = "Server=localhost;Database=5to_Ciber;Uid=root;pwd=1234;Allow User Variables=True";
-
-    public TestAdo() => Ado = new ADOD(_cadena);
-    public TestAdo(string cadena) => Ado = new ADOD(cadena);
-} 
+    protected readonly IDbConnection Conexion;
+    public TestAdo()
+    {
+        IConfiguration config = new ConfigurationBuilder()
+            .AddJsonFile("appSettings.json", optional: true, reloadOnChange: true)
+            .Build();
+        string cadena = config.GetConnectionString("MySQL")!;
+        Conexion = new MySqlConnection(cadena);
+    }        
+}

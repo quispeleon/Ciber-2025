@@ -1,123 +1,106 @@
 using Ciber.core;
+using Ciber.Dapper;
 using Xunit;
-using System.Threading.Tasks;
 
-namespace Ciber.Test
+namespace Ciber.Test;
+
+public class TestMaquina : TestAdo
+
 {
-    public class TestMaquina : TestAdo
+    
+    
+    private IDAO Ado;
+    public TestMaquina() : base()
     {
-        //Sincronico
+        Ado = new ADOD(Conexion);
+    }
 
-        [Fact]
-        public void TestAgregarMaquina()
+    
+    [Fact]
+    public void TesstMaquina()
+    {
+        var maquina1 = new Maquina
         {
-            var maquina1 = new Maquina
-            {
-                Estado = true,
-                Caracteristicas = "julio aaa"
-            };
+            Estado = true,
+            Caracteristicas = "julio aaa"
+        };
+        Ado.AgregarMaquina(maquina1);
 
-            Ado.AgregarMaquina(maquina1); 
+    }
 
-            var maquinaObtenida = Ado.ObtenerMaquinaPorId(maquina1.Nmaquina); 
-            Assert.NotNull(maquinaObtenida);
-            Assert.Equal(maquina1.Caracteristicas, maquinaObtenida.Caracteristicas);
-        }
+    [Theory]
+    [InlineData(5)]
+    [InlineData(6)]
+    public void TestObtenerMaquinaPorId(int id)
+    {
+        var Maquinaid = Ado.ObtenerMaquinaPorId(id);
 
-        [Theory]
-        [InlineData(5)]
-        [InlineData(6)]
-        public void TestObtenerMaquinaPorId(int id)
-        {
-            var maquina = Ado.ObtenerMaquinaPorId(id); 
-            Assert.NotNull(maquina);
-            Assert.Equal(id, maquina.Nmaquina);
-        }
+        Assert.NotNull(Maquinaid);
+        Assert.Equal(id, Maquinaid.Nmaquina);
+    }
 
-        [Theory]
-        [InlineData(5)]
-        [InlineData(6)]
-        public void TestActualizarMaquina(int id)
-        {
-            var maquina1 = Ado.ObtenerMaquinaPorId(id); 
-            Assert.NotNull(maquina1); 
+    [Theory]
+    [InlineData(5)]
+    [InlineData(6)]
+    public void TestActulizarMaquina(int id)
+    {
+        var  maquina1 = Ado.ObtenerMaquinaPorId(id);
+        maquina1.Caracteristicas = "Windows 13 Actualizado";  // Update the correct value
+        Ado.ActualizarMaquina(maquina1);
 
-            maquina1.Caracteristicas = "Windows 13 Actualizado";
-            Ado.ActualizarMaquina(maquina1); 
+        var maquina = Ado.ObtenerMaquinaPorId(maquina1.Nmaquina);
 
-            var maquinaActualizada = Ado.ObtenerMaquinaPorId(id);
+        Assert.NotNull(maquina);
+        Assert.Equal("Windows 13 Actualizado", maquina.Caracteristicas);  // Assert the expected value
+    }
 
-            Assert.NotNull(maquinaActualizada);
-            Assert.Equal("Windows 13 Actualizado", maquinaActualizada.Caracteristicas);
-        }
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    public void TestEliminarMaquina(int idMaquina)
+    {
 
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        [InlineData(4)]
-        public void TestEliminarMaquina(int idMaquina)
-        {
-            Ado.EliminarMaquina(idMaquina); 
-            var maquina = Ado.ObtenerMaquinaPorId(idMaquina);
-            Assert.Null(maquina);
-        }
+        Ado.EliminarMaquina(idMaquina);
+        var maquin1 = Ado.ObtenerMaquinaPorId(idMaquina);
+        Assert.Null(maquin1);
+    }
 
-        //Async
-        [Fact]
-        public async Task TestAgregarMaquinaAsync()
-        {
-            var maquina1 = new Maquina
-            {
-                Estado = true,
-                Caracteristicas = "julio aaa"
-            };
+    // async 
+    [Fact]
+    public async Task TestAgregarYObtenerMaquinaAsync()
+    {
+        var maquina = new Maquina { Estado = true, Caracteristicas = "Intel i5, 8GB RAM" };
 
-            await Ado.AgregarMaquina(maquina1);
+        await Ado.AgregarMaquinaAsync(maquina);
+        var obtenida = await Ado.ObtenerMaquinaPorIdAsync(maquina.Nmaquina);
 
-            var maquinaObtenida = await Ado.ObtenerMaquinaPorId(maquina1.Nmaquina);
-            Assert.NotNull(maquinaObtenida);
-            Assert.Equal(maquina1.Caracteristicas, maquinaObtenida.Caracteristicas);
-        }
+        Assert.NotNull(obtenida);
+        Assert.Equal(maquina.Caracteristicas, obtenida.Caracteristicas);
+    }
 
-        [Theory]
-        [InlineData(5)]
-        [InlineData(6)]
-        public async Task TestObtenerMaquinaPorIdAsync(int id)
-        {
-            var maquina = await Ado.ObtenerMaquinaPorId(id);
+    [Fact]
+    public async Task TestActualizarMaquinaAsync()
+    {
+        var maquina = new Maquina { Estado = true, Caracteristicas = "Vieja" };
+        await Ado.AgregarMaquinaAsync(maquina);
 
-            Assert.NotNull(maquina);
-            Assert.Equal(id, maquina.Nmaquina);
-        }
+        maquina.Caracteristicas = "Nueva";
+        await Ado.ActualizarMaquinaAsync(maquina);
 
-        [Theory]
-        [InlineData(5)]
-        [InlineData(6)]
-        public async Task TestActualizarMaquinaAsync(int id)
-        {
-            var maquina1 = await Ado.ObtenerMaquinaPorId(id);
-            Assert.NotNull(maquina1); // Asegura que existe
+        var obtenida = await Ado.ObtenerMaquinaPorIdAsync(maquina.Nmaquina);
+        Assert.Equal("Nueva", obtenida.Caracteristicas);
+    }
 
-            maquina1.Caracteristicas = "Windows 13 Actualizado";
-            await Ado.ActualizarMaquina(maquina1);
+    [Fact]
+    public async Task TestEliminarMaquinaAsync()
+    {
+        var maquina = new Maquina { Estado = false, Caracteristicas = "Eliminar esta" };
+        await Ado.AgregarMaquinaAsync(maquina);
+        await Ado.EliminarMaquinaAsync(maquina.Nmaquina);
 
-            var maquinaActualizada = await Ado.ObtenerMaquinaPorId(id);
-
-            Assert.NotNull(maquinaActualizada);
-            Assert.Equal("Windows 13 Actualizado", maquinaActualizada.Caracteristicas);
-        }
-
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        [InlineData(4)]
-        public async Task TestEliminarMaquinaAsync(int idMaquina)
-        {
-            await Ado.EliminarMaquina(idMaquina);
-            var maquina = await Ado.ObtenerMaquinaPorId(idMaquina);
-            Assert.Null(maquina);
-        }
+        var obtenida = await Ado.ObtenerMaquinaPorIdAsync(maquina.Nmaquina);
+        Assert.Null(obtenida);
     }
 }
