@@ -20,24 +20,23 @@
 # Antes de correr el programa
 Cambia estos datos con los tuyos , esta en src/Ciber.Test/itest.cs
 ```c#
-public class TestAdo
+public TestAdo()
 {
-    protected readonly IDAO Ado;
-    private const string   _cadena = "Server=localhost;Database=LATABLA;Uid=LABASEDEDATOS;pwd=TUCONTRASEÑA;Allow User Variables=True";
-    
-
-    public TestAdo() => Ado = new CuentaRepository(_cadena);
-    public TestAdo(string cadena) => Ado = new CuentaRepository(cadena);
-} 
+    IConfiguration config = new ConfigurationBuilder()
+        .AddJsonFile("appSettings.json", optional: true, reloadOnChange: true)
+        .Build();
+    string cadena = config.GetConnectionString("MySQL")!;
+    Conexion = new MySqlConnection(cadena);
+}       
 ```
 
 ## Abre 2 terminales 
 * <h4>Primer terminal 
 
-Dirigete ala carpeta Scripts 
+Dirigete a la carpeta Scripts 
 dentro de tu terminal, ejecuta 
 ```
-mysql -u NombreDeBaseDeDatos -p 
+mysql -u NombreDeUsuario -p 
 ```
 te pedira tu contraseña 
 Una vez dentro ejecuta 
@@ -45,7 +44,7 @@ Una vez dentro ejecuta
 source install.sql
 ```
 * <h4>Segunda terminal
-Dirigete ala carpeta Ciber.Test y ejecuta 
+Dirigete a la carpeta Ciber.Test y ejecuta 
 ```c#
 dotnet test
 ``` 
