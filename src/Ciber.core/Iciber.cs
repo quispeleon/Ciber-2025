@@ -54,4 +54,6 @@ public interface IDAO
     Task AgregarHistorialAsync(HistorialdeAlquiler historial);
     Task<HistorialdeAlquiler> ObtenerHistorialPorIdAsync(int idHistorial);
     Task<IEnumerable<HistorialdeAlquiler>> ObtenerTodoElHistorialAsync();
+
 }
+

@@ -103,4 +103,6 @@ public class TestMaquina : TestAdo
         var obtenida = await Ado.ObtenerMaquinaPorIdAsync(maquina.Nmaquina);
         Assert.Null(obtenida);
     }
+
 }
+

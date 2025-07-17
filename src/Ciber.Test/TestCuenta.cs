@@ -169,7 +169,9 @@ public class TestCuenta : TestAdo
         var cuentaObtenida = await Ado.ObtenerCuentaPorIdAsync(cuenta.Ncuenta);
 
         Assert.Equal("Actualizado", cuentaObtenida.Nombre);
+
         // Assert.Equal("nuevoPass", cuentaObtenida.Pass);
+
     }
 
     [Fact]
