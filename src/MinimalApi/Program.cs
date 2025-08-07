@@ -80,16 +80,22 @@ app.MapGet("/alquileres", async (IDAO db) =>
     return Results.Ok(alquileres);
 });
 
-app.MapGet("/alquileres/{id}", async (int id, IDAO db)=>
+app.MapGet("/alquileres/{id}", async (int id, IDAO db) =>
 {
     var alquiler = await db.ObtenerAlquilerPorIdAsync(id);
     return alquiler is not null ? Results.Ok(alquiler) : Results.NotFound();
 });
 
-app.MapPost("/alquileres", async (Maquina maquina, IDAO db)=>
+app.MapPost("/alquileres", async (Alquiler alquiler, IDAO db) =>
 {
-    await db.AgregarAlquilerAsync(alquiler);
-    return Results.Created("/alquileres", alquiler);
-});
+    bool tipoAlquiler = true; // Valor predeterminado
 
+    if (alquiler == null)
+    {
+        return Results.BadRequest("El objeto Alquiler es inválido.");
+    }
+
+    await db.AgregarAlquilerAsync(alquiler, tipoAlquiler);
+    return Results.Created($"/alquileres/{alquiler.IdAlquiler}", alquiler);
+});
 app.Run();

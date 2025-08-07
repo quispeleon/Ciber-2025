@@ -127,7 +127,6 @@ public class ADOD: IDAO
         }
 
 
-
         public Alquiler ObtenerAlquilerPorId(int idAlquiler)
         {
             var sql = "SELECT * FROM Alquiler WHERE idAlquiler = @IdAlquiler";

@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example", "Example\Example.csproj", "{F0F159CE-98B1-4D51-9C50-D9FCB31622C3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C7D5797B-E568-4F00-BBD9-C9AD2B679F98}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ciber.Dapper", "src\Ciber.Dapper\Ciber.Dapper.csproj", "{6A150C70-0C17-4B94-9320-9AF59794A57B}"

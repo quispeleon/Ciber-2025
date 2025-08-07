@@ -10,7 +10,7 @@ public interface IDAO
 
 
     // Tabla maquina 
-    void AgregarMaquina(Maquina maquina);
+    void AgregarMaquina(Maquina Nmaquina);
     Maquina ObtenerMaquinaPorId(int nmaquina);
     void ActualizarMaquina(Maquina maquina);
     void EliminarMaquina(int nmaquina);
