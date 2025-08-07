@@ -72,4 +72,24 @@ app.MapPost("/maquinas", async (Maquina maquina, IDAO db) =>
     return Results.Created($"/maquinas/{maquina.Nmaquina}", maquina);
 });
 
+// alquileres
+
+app.MapGet("/alquileres", async (IDAO db) =>
+{
+    var alquileres = await db.ObtenerTodosLosAlquileresAsync();
+    return Results.Ok(alquileres);
+});
+
+app.MapGet("/alquileres/{id}", async (int id, IDAO db)=>
+{
+    var alquiler = await db.ObtenerAlquilerPorIdAsync(id);
+    return alquiler is not null ? Results.Ok(alquiler) : Results.NotFound();
+});
+
+app.MapPost("/alquileres", async (Maquina maquina, IDAO db)=>
+{
+    await db.AgregarAlquilerAsync(alquiler);
+    return Results.Created("/alquileres", alquiler);
+});
+
 app.Run();
