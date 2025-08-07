@@ -246,6 +246,10 @@ public class ADOD: IDAO
 
         public async Task AgregarAlquilerAsync(Alquiler alquiler, bool tipoAlquiler)
         {
+            var maquinaExistente = await ObtenerMaquinaPorIdAsync(alquiler.Nmaquina);
+            if ( maquinaExistente == null){
+                throw new Exception($"La máquina con ID {alquiler.Nmaquina} no existe.");
+            }
             var procedureName = tipoAlquiler ? "alquilarMaquina2" : "alquilarMaquina1";
             var parameters = new DynamicParameters();
             parameters.Add("unNcuenta", alquiler.Ncuenta);

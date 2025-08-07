@@ -52,6 +52,18 @@ app.MapPost("/cuentas", async (Cuenta cuenta, IDAO db) =>
     return Results.Created($"/cuentas/{cuenta.Ncuenta}", cuenta);
 });
 
+app.MapDelete("/cuentas/{id}", async (int id, IDAO db) =>
+{
+    var cuenta = await db.ObtenerCuentaPorIdAsync(id);
+    if (cuenta == null)
+    {
+        return Results.NotFound($"La cuenta con ID {id} no existe.");
+    }
+
+    await db.EliminarCuentaAsync(id);
+    return Results.NoContent();
+});
+
 // maquinas
 
 app.MapGet("/maquinas", async (IDAO db) =>
@@ -72,6 +84,18 @@ app.MapPost("/maquinas", async (Maquina maquina, IDAO db) =>
     return Results.Created($"/maquinas/{maquina.Nmaquina}", maquina);
 });
 
+app.MapDelete("/maquinas/{id}", async (int id, IDAO db) =>
+{
+    var maquina = await db.ObtenerMaquinaPorIdAsync(id);
+    if (maquina == null)
+    {
+        return Results.NotFound($"La máquina con ID {id} no existe.");
+    }
+
+    await db.EliminarMaquinaAsync(id);
+    return Results.NoContent();
+});
+
 // alquileres
 
 app.MapGet("/alquileres", async (IDAO db) =>
@@ -88,14 +112,20 @@ app.MapGet("/alquileres/{id}", async (int id, IDAO db) =>
 
 app.MapPost("/alquileres", async (Alquiler alquiler, IDAO db) =>
 {
-    bool tipoAlquiler = true; // Valor predeterminado
-
-    if (alquiler == null)
-    {
-        return Results.BadRequest("El objeto Alquiler es inválido.");
-    }
-
-    await db.AgregarAlquilerAsync(alquiler, tipoAlquiler);
+    await db.AgregarAlquilerAsync(alquiler,true);
     return Results.Created($"/alquileres/{alquiler.IdAlquiler}", alquiler);
 });
+
+app.MapDelete("/alquileres/{id}", async (int id, IDAO db) =>
+{
+    var alquiler = await db.ObtenerAlquilerPorIdAsync(id);
+    if (alquiler == null)
+    {
+        return Results.NotFound($"El alquiler con ID {id} no existe.");
+    }
+
+    await db.EliminarAlquilerAsync(id);
+    return Results.NoContent();
+});
+
 app.Run();
