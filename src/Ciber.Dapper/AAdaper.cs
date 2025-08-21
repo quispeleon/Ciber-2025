@@ -38,10 +38,18 @@ public class ADOD: IDAO
             return _dbConnection.QueryFirstOrDefault<Cuenta>(sql, new { Ncuenta = ncuenta });
         }   
 
-        public void ActualizarCuenta(Cuenta cuenta)
+        public void ActualizarCuenta(int ncuenta, Cuenta cuenta)
         {
             var sql = "UPDATE Cuenta SET nombre = @Nombre, pass = sha2(@Pass, 256), dni = @Dni, horaRegistrada = @HoraRegistrada WHERE Ncuenta = @Ncuenta";
-            _dbConnection.Execute(sql, cuenta);
+            var parametros = new
+            {
+                Ncuenta = ncuenta,
+                Nombre = cuenta.Nombre,
+                Pass = cuenta.Pass,
+                Dni = cuenta.Dni,
+                HoraRegistrada = cuenta.HoraRegistrada
+            };
+            _dbConnection.Execute(sql, parametros);
         }
 
         public void EliminarCuenta(int ncuenta)
@@ -94,9 +102,6 @@ public class ADOD: IDAO
             var sql = "SELECT * FROM Maquina";
             return _dbConnection.Query<Maquina>(sql);
         }
-
-
-
 
         public void AgregarTipo(Tipo tipo)
         {
@@ -189,6 +194,14 @@ public class ADOD: IDAO
         public async Task ActualizarCuentaAsync(Cuenta cuenta)
         {
             var sql = "UPDATE Cuenta SET nombre = @Nombre, pass = sha2(@Pass, 256), dni = @Dni, horaRegistrada = @HoraRegistrada WHERE Ncuenta = @Ncuenta";
+            var parameters = new
+            {
+                Ncuenta = ncuenta,
+                Nombre =cuena.Nombre,
+                Pass = cuenta.Pass,
+                Dni = cuenta.Dni,
+                HoraRegistrada = cuenta.HoraRegistrada
+            };
             await _dbConnection.ExecuteAsync(sql, cuenta);
         }
 

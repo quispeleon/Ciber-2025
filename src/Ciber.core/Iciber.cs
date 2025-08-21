@@ -4,7 +4,7 @@ public interface IDAO
 {
     void AgregarCuenta(Cuenta cuenta);
     Cuenta ObtenerCuentaPorId(int ncuenta);
-    void ActualizarCuenta(Cuenta cuenta);
+    void ActualizarCuenta(int ncuenta, Cuenta cuenta);
     void EliminarCuenta(int ncuenta);
     IEnumerable<Cuenta> ObtenerTodasLasCuentas();
 
@@ -35,7 +35,7 @@ public interface IDAO
     // Métodos asíncronos
     Task AgregarCuentaAsync(Cuenta cuenta);
     Task<Cuenta> ObtenerCuentaPorIdAsync(int ncuenta);
-    Task ActualizarCuentaAsync(Cuenta cuenta);
+    Task ActualizarCuentaAsync(int ncuenta, Cuenta cuenta);
     Task EliminarCuentaAsync(int ncuenta);
     Task<IEnumerable<Cuenta>> ObtenerTodasLasCuentasAsync();
 

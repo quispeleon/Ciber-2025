@@ -34,24 +34,28 @@ if (app.Environment.IsDevelopment())
 
 // cuentas
 
+//Obtener todas las cuentas
 app.MapGet("/cuentas", async (IDAO db) =>
 {
     var cuentas = await db.ObtenerTodasLasCuentasAsync();
     return Results.Ok(cuentas);
 });
 
+//Obtener cuenta por ID
 app.MapGet("/cuentas/{id}", async (int id, IDAO db) =>
 {
     var cuenta = await db.ObtenerCuentaPorIdAsync(id);
     return cuenta is not null ? Results.Ok(cuenta) : Results.NotFound();
 });
 
+//Agregar Cuenta
 app.MapPost("/cuentas", async (Cuenta cuenta, IDAO db) =>
 {
     await db.AgregarCuentaAsync(cuenta);
     return Results.Created($"/cuentas/{cuenta.Ncuenta}", cuenta);
 });
 
+//Eliminar cuenta
 app.MapDelete("/cuentas/{id}", async (int id, IDAO db) =>
 {
     var cuenta = await db.ObtenerCuentaPorIdAsync(id);
@@ -64,7 +68,22 @@ app.MapDelete("/cuentas/{id}", async (int id, IDAO db) =>
     return Results.NoContent();
 });
 
-// maquinas
+//actualizar cuenta
+app.MapPut("/cuentas/{id}", async (int id, Cuenta cuenta, IDAO db) =>
+{
+    if (id != cuenta.Ncuenta)
+        return Results.BadRequest("El ID de la URL no coincide con el de la cuenta.");
+
+    var cuentaExistente = await db.ObtenerCuentaPorIdAsync(id);
+    if (cuentaExistente == null)
+        return Results.NotFound($"La cuenta con ID {id} no existe.");
+
+    await db.ActualizarCuentaAsync(cuenta);
+    return Results.NoContent();
+});
+
+
+// Maquina
 
 app.MapGet("/maquinas", async (IDAO db) =>
 {
