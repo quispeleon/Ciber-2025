@@ -1,21 +1,27 @@
 using Dapper;
 using MySqlConnector;
-
-// using MySql.Data.MySqlClient;
 using Ciber.core;
 using System.Data;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 namespace Ciber.Dapper
 {
-public class ADOD: IDAO
-{
+    public class ADOD : IDAO
+    {
         private readonly IDbConnection _dbConnection;
 
         public ADOD(IDbConnection connectionString)
         {
             _dbConnection = connectionString;
         }
-                                        
-       public void AgregarCuenta(Cuenta cuenta)
+
+        // ==============================
+        // MÉTODOS SINCRÓNICOS
+        // ==============================
+
+        // Cuentas
+        public void AgregarCuenta(Cuenta cuenta)
         {
             var parameters = new DynamicParameters();
             parameters.Add("uNcuenta", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -30,26 +36,16 @@ public class ADOD: IDAO
             cuenta.Ncuenta = parameters.Get<int>("uNcuenta");
         }
 
-
-
         public Cuenta ObtenerCuentaPorId(int ncuenta)
         {
             var sql = "SELECT * FROM Cuenta WHERE Ncuenta = @Ncuenta";
             return _dbConnection.QueryFirstOrDefault<Cuenta>(sql, new { Ncuenta = ncuenta });
         }   
 
-        public void ActualizarCuenta(int ncuenta, Cuenta cuenta)
+        public void ActualizarCuenta(Cuenta cuenta)
         {
             var sql = "UPDATE Cuenta SET nombre = @Nombre, pass = sha2(@Pass, 256), dni = @Dni, horaRegistrada = @HoraRegistrada WHERE Ncuenta = @Ncuenta";
-            var parametros = new
-            {
-                Ncuenta = ncuenta,
-                Nombre = cuenta.Nombre,
-                Pass = cuenta.Pass,
-                Dni = cuenta.Dni,
-                HoraRegistrada = cuenta.HoraRegistrada
-            };
-            _dbConnection.Execute(sql, parametros);
+            _dbConnection.Execute(sql, cuenta);
         }
 
         public void EliminarCuenta(int ncuenta)
@@ -58,15 +54,14 @@ public class ADOD: IDAO
             _dbConnection.Execute(sql, new { Ncuenta = ncuenta });
         }
 
-
         public IEnumerable<Cuenta> ObtenerTodasLasCuentas()
         {
             var sql = "SELECT * FROM Cuenta";
             return _dbConnection.Query<Cuenta>(sql);
         }
 
-
-       public void AgregarMaquina(Maquina maquina)
+        // Maquinas
+        public void AgregarMaquina(Maquina maquina)
         {
             var parameters = new DynamicParameters();
             parameters.Add("uNmaquina", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -78,8 +73,6 @@ public class ADOD: IDAO
             maquina.Nmaquina = parameters.Get<int>("uNmaquina");
         }
 
-
-      
         public Maquina ObtenerMaquinaPorId(int nmaquina)
         {
             var sql = "SELECT * FROM Maquina WHERE Nmaquina = @Nmaquina";
@@ -98,18 +91,21 @@ public class ADOD: IDAO
             _dbConnection.Execute(sql, new { Nmaquina = nmaquina });
         }
 
-        public IEnumerable<Maquina> ObtenerTodasLasMaquinas(){
+        public IEnumerable<Maquina> ObtenerTodasLasMaquinas()
+        {
             var sql = "SELECT * FROM Maquina";
             return _dbConnection.Query<Maquina>(sql);
         }
 
+        // Tipo
         public void AgregarTipo(Tipo tipo)
         {
             var sql = "INSERT INTO Tipo (IdTipo, TipoDescripcion) VALUES (@IdTipo, @TipoDescripcion)";
             _dbConnection.Execute(sql, tipo);
         }
 
-       public void AgregarAlquiler(Alquiler alquiler, bool tipoAlquiler)
+        // Alquiler
+        public void AgregarAlquiler(Alquiler alquiler, bool tipoAlquiler)
         {
             var procedureName = tipoAlquiler ? "alquilarMaquina2" : "alquilarMaquina1";
             var parameters = new DynamicParameters();
@@ -122,15 +118,12 @@ public class ADOD: IDAO
                 parameters.Add("pagadood", alquiler.Pagado);
             }
 
-            // Añade el parametro de salida para el ID
             parameters.Add("nIdAlquiler", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
             _dbConnection.Execute(procedureName, parameters, commandType: CommandType.StoredProcedure);
 
-            // Asigna el ID obtenido al alquiler
             alquiler.IdAlquiler = parameters.Get<int>("nIdAlquiler");
         }
-
 
         public Alquiler ObtenerAlquilerPorId(int idAlquiler)
         {
@@ -150,6 +143,7 @@ public class ADOD: IDAO
             return _dbConnection.Query<Alquiler>(sql);
         }
 
+        // Historial
         public void AgregarHistorial(HistorialdeAlquiler historial)
         {
             var sql = "INSERT INTO HistorialAlquiler (Ncuenta, Nmaquina, FechaInicio, FechaFin, TotalPagara) VALUES (@Ncuenta, @Nmaquina, @FechaInicio, @FechaFin, @TotalPagara)";
@@ -161,18 +155,18 @@ public class ADOD: IDAO
             var sql = "SELECT * FROM HistorialAlquiler WHERE idHistorial = @IdHistorial";
             return _dbConnection.QueryFirstOrDefault<HistorialdeAlquiler>(sql, new { IdHistorial = idHistorial });
         }
-       
 
         public IEnumerable<HistorialdeAlquiler> ObtenerTodoElHistorial()
-
         {
             var sql = "SELECT * FROM HistorialAlquiler";
             return _dbConnection.Query<HistorialdeAlquiler>(sql);
         }
-        
 
-        // Métodos asincronos ------------------------------------------------------------
+        // ==============================
+        // MÉTODOS ASÍNCRONICOS
+        // ==============================
 
+        // Cuentas
         public async Task AgregarCuentaAsync(Cuenta cuenta)
         {
             var parameters = new DynamicParameters();
@@ -181,6 +175,7 @@ public class ADOD: IDAO
             parameters.Add("unPas", cuenta.Pass);
             parameters.Add("dni", cuenta.Dni);
             parameters.Add("hora", cuenta.HoraRegistrada);
+
             await _dbConnection.ExecuteAsync("Cuentas", parameters, commandType: CommandType.StoredProcedure);
             cuenta.Ncuenta = parameters.Get<int>("uNcuenta");
         }
@@ -194,14 +189,6 @@ public class ADOD: IDAO
         public async Task ActualizarCuentaAsync(Cuenta cuenta)
         {
             var sql = "UPDATE Cuenta SET nombre = @Nombre, pass = sha2(@Pass, 256), dni = @Dni, horaRegistrada = @HoraRegistrada WHERE Ncuenta = @Ncuenta";
-            var parameters = new
-            {
-                Ncuenta = ncuenta,
-                Nombre =cuena.Nombre,
-                Pass = cuenta.Pass,
-                Dni = cuenta.Dni,
-                HoraRegistrada = cuenta.HoraRegistrada
-            };
             await _dbConnection.ExecuteAsync(sql, cuenta);
         }
 
@@ -217,12 +204,14 @@ public class ADOD: IDAO
             return await _dbConnection.QueryAsync<Cuenta>(sql);
         }
 
+        // Maquinas
         public async Task AgregarMaquinaAsync(Maquina maquina)
         {
             var parameters = new DynamicParameters();
             parameters.Add("uNmaquina", dbType: DbType.Int32, direction: ParameterDirection.Output);
             parameters.Add("unestado", maquina.Estado);
             parameters.Add("UnaCaracteristicas", maquina.Caracteristicas);
+
             await _dbConnection.ExecuteAsync("Maquinas", parameters, commandType: CommandType.StoredProcedure);
             maquina.Nmaquina = parameters.Get<int>("uNmaquina");
         }
@@ -251,27 +240,27 @@ public class ADOD: IDAO
             return await _dbConnection.QueryAsync<Maquina>(sql);
         }
 
+        // Tipo
         public async Task AgregarTipoAsync(Tipo tipo)
         {
             var sql = "INSERT INTO Tipo (IdTipo, TipoDescripcion) VALUES (@IdTipo, @TipoDescripcion)";
             await _dbConnection.ExecuteAsync(sql, tipo);
         }
 
+        // Alquiler
         public async Task AgregarAlquilerAsync(Alquiler alquiler, bool tipoAlquiler)
         {
-            var maquinaExistente = await ObtenerMaquinaPorIdAsync(alquiler.Nmaquina);
-            if ( maquinaExistente == null){
-                throw new Exception($"La máquina con ID {alquiler.Nmaquina} no existe.");
-            }
             var procedureName = tipoAlquiler ? "alquilarMaquina2" : "alquilarMaquina1";
             var parameters = new DynamicParameters();
             parameters.Add("unNcuenta", alquiler.Ncuenta);
             parameters.Add("unNmaquina", alquiler.Nmaquina);
+
             if (tipoAlquiler)
             {
                 parameters.Add("tcantidad", alquiler.CantidadTiempo);
                 parameters.Add("pagadood", alquiler.Pagado);
             }
+
             parameters.Add("nIdAlquiler", dbType: DbType.Int32, direction: ParameterDirection.Output);
             await _dbConnection.ExecuteAsync(procedureName, parameters, commandType: CommandType.StoredProcedure);
             alquiler.IdAlquiler = parameters.Get<int>("nIdAlquiler");
@@ -295,6 +284,7 @@ public class ADOD: IDAO
             return await _dbConnection.QueryAsync<Alquiler>(sql);
         }
 
+        // Historial
         public async Task AgregarHistorialAsync(HistorialdeAlquiler historial)
         {
             var sql = "INSERT INTO HistorialAlquiler (Ncuenta, Nmaquina, FechaInicio, FechaFin, TotalPagara) VALUES (@Ncuenta, @Nmaquina, @FechaInicio, @FechaFin, @TotalPagara)";
@@ -312,6 +302,18 @@ public class ADOD: IDAO
             var sql = "SELECT * FROM HistorialAlquiler";
             return await _dbConnection.QueryAsync<HistorialdeAlquiler>(sql);
         }
-    }   
 
+        // Consultas adicionales para Maquina
+        public async Task<IEnumerable<Maquina>> ObtenerMaquinaDisponiblesAsync()
+        {
+            var sql = "SELECT * FROM Maquina WHERE estado";
+            return await _dbConnection.QueryAsync<Maquina>(sql);
+        }
+
+        public async Task<IEnumerable<Maquina>> ObtenerMaquinaNoDisponiblesesAsync()
+        {
+            var sql = "SELECT * FROM Maquina WHERE NOT estado";
+            return await _dbConnection.QueryAsync<Maquina>(sql);
+        }
+    }   
 }
