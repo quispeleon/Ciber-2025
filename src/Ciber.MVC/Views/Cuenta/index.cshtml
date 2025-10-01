@@ -21,10 +21,13 @@
             <tr>
                 <td>@cuenta.Nombre</td>
                 <td>@cuenta.Dni</td>
-                <td>@cuenta.HoraRegistrada</td> <!-- Mostramos la hora registrada -->
+                <td>@cuenta.HoraRegistrada</td>
                 <td>
-                    <!-- Puedes agregar botones para editar o eliminar, si es necesario -->
-                    <a href="@Url.Action("Eliminar", "Cuenta", new { Ncuenta = cuenta.Ncuenta })" class="btn btn-danger">Eliminar</a>
+                    <!-- Formulario para eliminar, utilizando la propiedad Ncuenta -->
+                    <form action="@Url.Action("EliminarConfirmado", "Cuenta", new { ncuenta = cuenta.Ncuenta })" method="post" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
                 </td>
             </tr>
         }

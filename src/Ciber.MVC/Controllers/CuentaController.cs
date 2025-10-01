@@ -39,38 +39,30 @@ public class CuentaController : Controller
         var cuentas = await _iDAO.ObtenerTodasLasCuentasAsync();
         return View(cuentas);
     }
-    
-    // Acción para mostrar la confirmación de la eliminación (GET)
+
     public async Task<IActionResult> Eliminar(int ncuenta)
     {
-        // Busca la cuenta por ID (o DNI si lo prefieres)
         var cuenta = await _iDAO.ObtenerCuentaPorIdAsync(ncuenta);
-        
         if (cuenta == null)
         {
-            return NotFound();  // Si no se encuentra la cuenta, devolver error 404
+            return NotFound();
         }
-        
-        return View(cuenta);  // Devuelve la vista de confirmación con la cuenta
+        return View(cuenta);
     }
 
-    // Acción para eliminar la cuenta (POST)
     [HttpPost, ActionName("Eliminar")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> EliminarConfirmado(int ncuenta)
     {
-    // Busca la cuenta a eliminar
-    var cuenta = await _iDAO.ObtenerCuentaPorIdAsync(ncuenta);
-    
-    if (cuenta == null)
-    {
-        return NotFound();  // Si no se encuentra la cuenta, devolver error 404
+        var cuenta = await _iDAO.ObtenerCuentaPorIdAsync(ncuenta);
+        if (cuenta == null)
+        {
+            return NotFound();
+        }
+
+        await _iDAO.EliminarCuentaAsync(ncuenta);
+        return RedirectToAction("Index");
     }
-    
-    // Llama al método de eliminación en el DAO
-    await _iDAO.EliminarCuentaAsync(ncuenta);
-    
-    // Redirige al índice para mostrar todas las cuentas restantes
-    return RedirectToAction("Index");
-}
+
+
 }
