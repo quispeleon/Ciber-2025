@@ -2,25 +2,16 @@
 
 @model List<Maquina>
 @{
-    ViewData["Title"] = "Maquinas";
-    var i = 1; // contador
+    ViewData["Title"] = "Index";
 }
 
-<h1 class="text-center my-4">@ViewData["Title"]</h1>
+<h1>@ViewData["Title"]</h1>
 
-<div class="container">
-    <div class="row">
-        @foreach (var maquina in Model)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Máquina @i</h5>
-                        <p class="card-text">@maquina.Caracteristicas</p>
-                    </div>
-                </div>
-            </div>
-            i++; // incremento
-        }
-    </div>
+<div>
+    
+    @foreach (var maquina in Model){
+        <div>
+            <p>@maquina.Caracteristicas</p>
+        </div>
+    }
 </div>

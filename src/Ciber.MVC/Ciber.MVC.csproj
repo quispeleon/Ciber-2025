@@ -1,11 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
+
   <ItemGroup>
     <ProjectReference Include="..\Ciber.core\Ciber.core.csproj" />
     <ProjectReference Include="..\Ciber.Dapper\Ciber.Dapper.csproj" />
+    <ProjectReference Include="..\MinimalAPI\MinimalAPI.csproj" />
   </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
 </Project>
