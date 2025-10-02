@@ -12,7 +12,7 @@
             <th>Nombre</th>
             <th>DNI</th>
             <th>Hora Registrada</th>
-            <th>Acciones</th> <!-- Columna de acciones como editar, eliminar -->
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -21,18 +21,13 @@
             <tr>
                 <td>@cuenta.Nombre</td>
                 <td>@cuenta.Dni</td>
-                <td>@cuenta.HoraRegistrada</td>
+                <td>@cuenta.HoraRegistrada.ToString(@"hh\:mm\:ss")</td>
                 <td>
-                    <!-- Formulario para eliminar, utilizando la propiedad Ncuenta -->
-                    <form action="@Url.Action("EliminarConfirmado", "Cuenta", new { ncuenta = cuenta.Ncuenta })" method="post" style="display:inline;">
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                    </form>
+                    <a asp-action="Eliminar" asp-route-ncuenta="@cuenta.Ncuenta" class="btn btn-warning">Eliminar</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<!-- Botón para ir a la página de registrarse -->
 <a href="@Url.Action("Registrarte", "Cuenta")" class="btn btn-success">Registrarme</a>

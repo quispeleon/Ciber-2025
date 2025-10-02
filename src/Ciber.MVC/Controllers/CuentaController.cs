@@ -1,11 +1,11 @@
-using Microsoft.AspNetCore.Mvc;
-using Ciber.core;
-namespace Ciber.MVC.Controllers;
-
+using Microsoft.AspNetCore.Mvc;   // Para Controller, IActionResult, atributos como HttpPost, ValidateAntiForgeryToken, ActionName
+using Ciber.core;                 // Para IDAO, Cuenta y demás modelos y interfaces de tu proyecto
+using Microsoft.Extensions.Logging;  // Para ILogger si lo usas
+using System.Threading.Tasks;         // Para usar Task y async/await
+ 
 public class CuentaController : Controller
 {
     private readonly IDAO _iDAO;
-
     private readonly ILogger<CuentaController> _logger;
 
     public CuentaController(ILogger<CuentaController> logger, IDAO iDAO)
@@ -13,33 +13,39 @@ public class CuentaController : Controller
         _iDAO = iDAO;
         _logger = logger;
     }
-    public async Task<IActionResult> Registrarte()
+
+    // GET: Mostrar formulario para registrarse
+    public IActionResult Registrarte()
     {
-        return View(); // Renderiza la vista 'Registrarte.cshtml'
+        return View();
     }
+
+    // POST: Crear nueva cuenta
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Registrarte(Cuenta cuenta)
     {
-        if (cuenta == null)
+        if (!ModelState.IsValid)
         {
-            return BadRequest("La cuenta es nula.");
+            return View(cuenta); // Devuelve la vista con los errores
         }
 
-        // Asigna la hora actual a la propiedad HoraRegistrada
-        cuenta.HoraRegistrada = DateTime.Now.TimeOfDay; // Asignar la hora del sistema al momento del registro
+        // Asignar la hora actual
+        cuenta.HoraRegistrada = DateTime.Now.TimeOfDay;
 
-        // Llama al método de la interfaz para agregar la cuenta
         await _iDAO.AgregarCuentaAsync(cuenta);
 
-        // Redirige al Index para mostrar todas las cuentas
-        return RedirectToAction("Index");
+        return RedirectToAction(nameof(Index));
     }
+
+    // GET: Mostrar lista de cuentas
     public async Task<IActionResult> Index()
     {
         var cuentas = await _iDAO.ObtenerTodasLasCuentasAsync();
         return View(cuentas);
     }
 
+    // GET: Confirmar eliminación
     public async Task<IActionResult> Eliminar(int ncuenta)
     {
         var cuenta = await _iDAO.ObtenerCuentaPorIdAsync(ncuenta);
@@ -50,6 +56,7 @@ public class CuentaController : Controller
         return View(cuenta);
     }
 
+    // POST: Eliminar cuenta confirmada
     [HttpPost, ActionName("Eliminar")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> EliminarConfirmado(int ncuenta)
@@ -61,8 +68,6 @@ public class CuentaController : Controller
         }
 
         await _iDAO.EliminarCuentaAsync(ncuenta);
-        return RedirectToAction("Index");
+        return RedirectToAction(nameof(Index));
     }
-
-
 }

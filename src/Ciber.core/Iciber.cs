@@ -37,8 +37,7 @@ namespace Ciber.core
         // ===========================
         // MÉTODOS ASÍNCRONICOS
         // ===========================
-
-        // Cuentas
+        // Cuentas 
         Task AgregarCuentaAsync(Cuenta cuenta);
         Task<Cuenta> ObtenerCuentaPorIdAsync(int ncuenta);
         Task ActualizarCuentaAsync(Cuenta cuenta);

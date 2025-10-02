@@ -12,13 +12,14 @@
     <ul>
         <li><strong>Nombre:</strong> @Model.Nombre</li>
         <li><strong>DNI:</strong> @Model.Dni</li>
-        <li><strong>Hora Registrada:</strong> @Model.HoraRegistrada</li>
+        <li><strong>Hora Registrada:</strong> @Model.HoraRegistrada.ToString(@"hh\:mm\:ss")</li>
     </ul>
 </div>
 
-<form method="post" asp-action="EliminarConfirmado" asp-route-ncuenta="@Model.Ncuenta">
+<form method="post" asp-action="Eliminar">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="ncuenta" value="@Model.Ncuenta" />
     <button type="submit" class="btn btn-danger">Eliminar</button>
     <a href="@Url.Action("Index", "Cuenta")" class="btn btn-secondary">Cancelar</a>
 </form>
-
 
