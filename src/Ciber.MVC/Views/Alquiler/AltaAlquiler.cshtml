@@ -1,0 +1,66 @@
+@model Ciber.core.Alquiler
+
+@{
+    ViewData["Title"] = "Nuevo Alquiler";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Crear" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="Ncuenta">Número de Cuenta del Cliente</label>
+        <input asp-for="Ncuenta" class="form-control" placeholder="Ejemplo: 12345" />
+        <small class="form-text text-muted">Ingresa el número de cuenta asociado al cliente que alquilará la máquina.</small>
+        <span asp-validation-for="Ncuenta" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Nmaquina">Número de Máquina a Alquilar</label>
+        <input asp-for="Nmaquina" class="form-control" placeholder="Ejemplo: 10" />
+        <small class="form-text text-muted">Indica el código o número de la máquina que se desea alquilar.</small>
+        <span asp-validation-for="Nmaquina" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Tipo">Tipo de Alquiler</label>
+        <input asp-for="Tipo" class="form-control" placeholder="Ejemplo: 1 para hora, 2 para día" />
+        <small class="form-text text-muted">Define el tipo o modalidad del alquiler (p.ej., 1 = por hora, 2 = por día).</small>
+        <span asp-validation-for="Tipo" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CantidadTiempo">Duración del Alquiler</label>
+        <input asp-for="CantidadTiempo" type="time" class="form-control" />
+        <small class="form-text text-muted">Selecciona el tiempo que durará el alquiler (si aplica).</small>
+        <span asp-validation-for="CantidadTiempo" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Pagado">Estado de Pago</label>
+        <select asp-for="Pagado" class="form-control">
+            <option value="">-- Seleccione --</option>
+            <option value="true">Sí, ya fue pagado</option>
+            <option value="false">No, está pendiente</option>
+        </select>
+        <small class="form-text text-muted">Indica si el alquiler ya fue pagado o no.</small>
+        <span asp-validation-for="Pagado" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Tipo de Alquiler (para procedimiento interno)</label>
+        <select name="tipoAlquiler" class="form-control">
+            <option value="false">Tipo 1 (estándar)</option>
+            <option value="true">Tipo 2 (con tiempo definido)</option>
+        </select>
+        <small class="form-text text-muted">Selecciona el tipo de alquiler para que el sistema use el procedimiento correcto.</small>
+    </div>
+
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

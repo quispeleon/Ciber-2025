@@ -1,17 +1,41 @@
-@using Ciber.core;
+@using Ciber.core
 
 @model List<Maquina>
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Lista de Máquinas";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<div>
-    
-    @foreach (var maquina in Model){
-        <div>
-            <p>@maquina.Caracteristicas</p>
-        </div>
-    }
-</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Características</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var maquina in Model)
+        {
+            <tr>
+                <td>@maquina.Nmaquina</td>
+                <td>@maquina.Caracteristicas</td>
+                <td>
+                    @(maquina.Estado ? "Disponible" : "No Disponible")
+                </td>
+                <td>
+                    <form asp-controller="EstadoMaquina" asp-action="CambiarEstado" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="nmaquina" value="@maquina.Nmaquina" />
+                        <button type="submit" class="btn btn-sm btn-warning">
+                            Cambiar Estado
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

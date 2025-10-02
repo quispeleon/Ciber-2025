@@ -1,0 +1,39 @@
+@model IEnumerable<Ciber.core.Alquiler>
+
+@{
+    ViewData["Title"] = "Listado de Alquileres";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id Alquiler</th>
+            <th>N° Cuenta</th>
+            <th>N° Máquina</th>
+            <th>Tipo</th>
+            <th>Cantidad Tiempo</th>
+            <th>Pagado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var alquiler in Model)
+        {
+            <tr>
+                <td>@alquiler.IdAlquiler</td>
+                <td>@alquiler.Ncuenta</td>
+                <td>@alquiler.Nmaquina</td>
+                <td>@alquiler.Tipo</td>
+                <td>@(alquiler.CantidadTiempo.HasValue ? alquiler.CantidadTiempo.ToString() : "-")</td>
+                <td>@(alquiler.Pagado.HasValue ? (alquiler.Pagado.Value ? "Sí" : "No") : "-")</td>
+                <td>
+                    <a asp-action="Eliminar" asp-route-idAlquiler="@alquiler.IdAlquiler" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Crear" class="btn btn-primary">Nuevo Alquiler</a>
