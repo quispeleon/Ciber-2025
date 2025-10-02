@@ -25,10 +25,11 @@
 
     <div class="form-group">
         <label asp-for="Tipo">Tipo de Alquiler</label>
-        <input asp-for="Tipo" class="form-control" placeholder="Ejemplo: 1 para hora, 2 para día" />
-        <small class="form-text text-muted">Define el tipo o modalidad del alquiler (p.ej., 1 = por hora, 2 = por día).</small>
+        <input asp-for="Tipo" type="number" class="form-control" min="1" max="2" step="1" placeholder="1 o 2 " />
+        <small class="form-text text-muted">Define el tipo de alquiler (1 = Por Hora, 2 = Por Día).</small>
         <span asp-validation-for="Tipo" class="text-danger"></span>
     </div>
+
 
     <div class="form-group">
         <label asp-for="CantidadTiempo">Duración del Alquiler</label>
@@ -49,7 +50,7 @@
     </div>
 
     <div class="form-group">
-        <label>Tipo de Alquiler (para procedimiento interno)</label>
+        <label>Tipo de Alquiler</label>
         <select name="tipoAlquiler" class="form-control">
             <option value="false">Tipo 1 (estándar)</option>
             <option value="true">Tipo 2 (con tiempo definido)</option>
