@@ -11,10 +11,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th>#</th>
+            <th>Nmaquina</th>
             <th>Características</th>
             <th>Estado</th>
-            <th>Acción</th>
         </tr>
     </thead>
     <tbody>
@@ -25,15 +24,6 @@
                 <td>@maquina.Caracteristicas</td>
                 <td>
                     @(maquina.Estado ? "Disponible" : "No Disponible")
-                </td>
-                <td>
-                    <form asp-controller="EstadoMaquina" asp-action="CambiarEstado" method="post">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="nmaquina" value="@maquina.Nmaquina" />
-                        <button type="submit" class="btn btn-sm btn-warning">
-                            Cambiar Estado
-                        </button>
-                    </form>
                 </td>
             </tr>
         }

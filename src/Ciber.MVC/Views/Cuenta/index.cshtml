@@ -9,6 +9,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th>Ncuenta</th>
             <th>Nombre</th>
             <th>DNI</th>
             <th>Hora Registrada</th>
@@ -19,6 +20,7 @@
         @foreach (var cuenta in Model)
         {
             <tr>
+                <td>@cuenta.Ncuenta</td>
                 <td>@cuenta.Nombre</td>
                 <td>@cuenta.Dni</td>
                 <td>@cuenta.HoraRegistrada.ToString(@"hh\:mm\:ss")</td>
