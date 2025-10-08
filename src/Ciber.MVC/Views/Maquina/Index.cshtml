@@ -1,5 +1,4 @@
 @using Ciber.core
-
 @model List<Maquina>
 
 @{
@@ -8,12 +7,13 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<table class="table">
+<table class="table mt-3">
     <thead>
         <tr>
             <th>Nmaquina</th>
             <th>Características</th>
             <th>Estado</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -22,10 +22,12 @@
             <tr>
                 <td>@maquina.Nmaquina</td>
                 <td>@maquina.Caracteristicas</td>
+                <td>@(maquina.Estado ? "Disponible" : "No Disponible")</td>
                 <td>
-                    @(maquina.Estado ? "Disponible" : "No Disponible")
+                    <a asp-action="Eliminar" asp-route-nmaquina="@maquina.Nmaquina" class="btn btn-danger btn-sm">Eliminar</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<a asp-action="RegistrarMaquina" class="btn btn-primary">Agregar Nueva Máquina</a>

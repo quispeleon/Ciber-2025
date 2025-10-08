@@ -75,7 +75,7 @@ BEGIN
    	 end if;
     	if new.pagado = true then
    		 signal sqlstate '45000'
-        	set MESSAGE_TEXT = 'Como pagaste si es libre animal';
+        	set MESSAGE_TEXT = 'Como pagaste si es ';
    	 end if ;
 	end if ;
     
