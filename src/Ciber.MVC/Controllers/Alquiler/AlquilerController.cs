@@ -85,9 +85,31 @@ namespace Ciber.MVC.Controllers
 
             return View("EliminarAlquiler", viewModel);
         }
+        
+        // GET: Mostrar detalle de un alquiler
+public async Task<IActionResult> Detalle(int idAlquiler)
+{
+    var alquiler = await _iDAO.ObtenerAlquilerPorIdAsync(idAlquiler);
+    if (alquiler == null)
+        return NotFound();
+
+    // Convertir a ViewModel si estás usando ViewModel
+    var viewModel = new AlquilerViewModel
+    {
+        IdAlquiler = alquiler.IdAlquiler,
+        Ncuenta = alquiler.Ncuenta,
+        Nmaquina = alquiler.Nmaquina,
+        Tipo = alquiler.Tipo,
+        CantidadTiempo = alquiler.CantidadTiempo,
+        Pagado = alquiler.Pagado
+    };
+
+    return View(viewModel); // Vista Detalle.cshtml
+}
+
 
 // POST: Eliminar confirmado
-[HttpPost, ActionName("Eliminar")]
+        [HttpPost, ActionName("Eliminar")]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> EliminarConfirmado(int idAlquiler)
 {
