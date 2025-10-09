@@ -55,20 +55,88 @@ namespace Ciber.MVC.Controllers
             return View(maquina);
         }
 
-        // ✅ POST: Confirmar eliminación
-        [HttpPost, ActionName("Eliminar")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EliminarConfirmado(int nmaquina)
-        {
-            var maquina = await _iDAO.ObtenerMaquinaPorIdAsync(nmaquina);
-            if (maquina == null)
-            {
-                return NotFound();
-            }
+// POST: Eliminar confirmado
+[HttpPost, ActionName("Eliminar")]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> EliminarConfirmado(int idAlquiler)
+{
+    // 1️⃣ Obtener el alquiler para saber qué máquina estaba ocupando
+    var alquiler = await _iDAO.ObtenerAlquilerPorIdAsync(idAlquiler);
+    if (alquiler == null) return NotFound();
 
-            await _iDAO.EliminarMaquinaAsync(nmaquina);
-            return RedirectToAction(nameof(Index));
-        }
+    // 2️⃣ Eliminar el alquiler
+    await _iDAO.EliminarAlquilerAsync(idAlquiler);
+
+    // 3️⃣ Liberar la máquina
+    var maquina = await _iDAO.ObtenerMaquinaPorIdAsync(alquiler.Nmaquina);
+    if (maquina != null)
+    {
+        maquina.Estado = true; // Disponible
+        await _iDAO.ActualizarMaquinaAsync(maquina);
+    }
+
+    return RedirectToAction(nameof(Index));
+}
+
+/// MUCHAAAAAAAAAAAAAAAA ATENCION
+// GET: Mostrar formulario editar
+public async Task<IActionResult> Edit(int nmaquina)
+{
+    var maquina = await _iDAO.ObtenerMaquinaPorIdAsync(nmaquina);
+    if (maquina == null) return NotFound();
+    return View(maquina); // Vista espera Ciber.core.Maquina
+}
+
+// POST: Guardar cambios de edición
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Edit(Ciber.core.Maquina maquina)
+{
+    if (!ModelState.IsValid)
+    {
+        return View(maquina);
+    }
+
+    // opcional: cargar la máquina actual para evitar sobrescribir datos no editables
+    var current = await _iDAO.ObtenerMaquinaPorIdAsync(maquina.Nmaquina);
+    if (current == null) return NotFound();
+
+    // aplicar cambios permitidos
+    current.Caracteristicas = maquina.Caracteristicas;
+    current.Estado = maquina.Estado; // true = disponible, false = ocupada/deshabilitada
+    await _iDAO.ActualizarMaquinaAsync(current);
+
+    return RedirectToAction("Index", "Maquina");
+}
+
+// POST: Deshabilitar (poner Estado = false) — acción pensada para botones rápidos
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Disable(int nmaquina)
+{
+    var maquina = await _iDAO.ObtenerMaquinaPorIdAsync(nmaquina);
+    if (maquina == null) return NotFound();
+
+    maquina.Estado = false;
+    await _iDAO.ActualizarMaquinaAsync(maquina);
+
+    return RedirectToAction("Index", "Maquina");
+}
+
+// POST: Habilitar (poner Estado = true)
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Enable(int nmaquina)
+{
+    var maquina = await _iDAO.ObtenerMaquinaPorIdAsync(nmaquina);
+    if (maquina == null) return NotFound();
+
+    maquina.Estado = true;
+    await _iDAO.ActualizarMaquinaAsync(maquina);
+
+    return RedirectToAction("Index", "Maquina");
+}
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

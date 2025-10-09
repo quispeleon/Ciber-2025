@@ -1,4 +1,5 @@
-@model Ciber.core.Alquiler
+@model Ciber.MVC.Models.AlquilerViewModel
+
 
 @{
     ViewData["Title"] = "Nuevo Alquiler";
@@ -34,12 +35,13 @@
         <span asp-validation-for="Tipo" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="CantidadTiempo">Duración del Alquiler</label>
-        <input asp-for="CantidadTiempo" type="time" class="form-control" />
-        <small class="form-text text-muted">Selecciona el tiempo que durará el alquiler (si aplica).</small>
-        <span asp-validation-for="CantidadTiempo" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label asp-for="CantidadTiempo">Duración del Alquiler</label>
+            <input asp-for="CantidadTiempo" type="time" step="1" class="form-control" />
+            <small class="form-text text-muted">Selecciona el tiempo que durará el alquiler (si aplica).</small>
+            <span asp-validation-for="CantidadTiempo" class="text-danger"></span>
+        </div>
+
 
     <div class="form-group">
         <label asp-for="Pagado">Estado de Pago</label>

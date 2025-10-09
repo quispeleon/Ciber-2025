@@ -263,7 +263,7 @@ namespace Ciber.Dapper
 
             parameters.Add("nIdAlquiler", dbType: DbType.Int32, direction: ParameterDirection.Output);
             await _dbConnection.ExecuteAsync(procedureName, parameters, commandType: CommandType.StoredProcedure);
-            alquiler.IdAlquiler = parameters.Get<int>("nIdAlquiler");
+            alquiler.IdAlquiler = parameters.Get<int?>("nIdAlquiler");
         }
 
         public async Task<Alquiler> ObtenerAlquilerPorIdAsync(int idAlquiler)

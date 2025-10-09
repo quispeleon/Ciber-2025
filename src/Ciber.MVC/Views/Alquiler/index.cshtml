@@ -1,39 +1,52 @@
-@model IEnumerable<Ciber.core.Alquiler>
+@model IEnumerable<Ciber.MVC.Models.AlquilerViewModel>
 
 @{
     ViewData["Title"] = "Listado de Alquileres";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h2>@ViewData["Title"]</h2>
 
-<table class="table table-striped">
-    <thead>
+<div class="mb-3">
+    <a asp-action="Crear" class="btn btn-primary">+ Crear nuevo alquiler</a>
+</div>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
         <tr>
-            <th>Id Alquiler</th>
-            <th>N° Cuenta</th>
-            <th>N° Máquina</th>
+            <th>ID</th>
+            <th>Cuenta</th>
+            <th>Máquina</th>
             <th>Tipo</th>
-            <th>Hora Inicial</th>
+            <th>Tiempo</th>
             <th>Pagado</th>
             <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var alquiler in Model)
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.IdAlquiler</td>
+                    <td>@item.Ncuenta</td>
+                    <td>@item.Nmaquina</td>
+                    <td>@item.Tipo</td>
+                    <td>@item.CantidadTiempo</td>
+                    <td>@(item.Pagado == true ? "Sí" : "No")</td>
+                    <td>
+                        <a asp-action="Eliminar" asp-route-idAlquiler="@item.IdAlquiler" class="btn btn-danger btn-sm">
+                            Eliminar
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
         {
             <tr>
-                <td>@alquiler.IdAlquiler</td>
-                <td>@alquiler.Ncuenta</td>
-                <td>@alquiler.Nmaquina</td>
-                <td>@alquiler.Tipo</td>
-                <td>@(alquiler.CantidadTiempo.HasValue ? alquiler.CantidadTiempo.ToString() : "-")</td>
-                <td>@(alquiler.Pagado.HasValue ? (alquiler.Pagado.Value ? "Sí" : "No") : "-")</td>
-                <td>
-                    <a asp-action="Eliminar" asp-route-idAlquiler="@alquiler.IdAlquiler" class="btn btn-danger btn-sm">Eliminar</a>
-                </td>
+                <td colspan="7" class="text-center">No hay alquileres registrados.</td>
             </tr>
         }
     </tbody>
 </table>
-
-<a asp-action="Crear" class="btn btn-primary">Nuevo Alquiler</a>

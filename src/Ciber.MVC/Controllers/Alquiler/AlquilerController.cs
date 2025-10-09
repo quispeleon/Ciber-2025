@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Ciber.core;
+using Ciber.MVC.Models;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ciber.MVC.Controllers
 {
@@ -20,26 +22,48 @@ namespace Ciber.MVC.Controllers
         // GET: Mostrar todos los alquileres
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Alquiler> alquileres = await _iDAO.ObtenerTodosLosAlquileresAsync();
-            return View(alquileres);
+            var alquileresCore = await _iDAO.ObtenerTodosLosAlquileresAsync();
+
+            // Convertir a modelos de vista
+            var alquileresView = alquileresCore.Select(a => new AlquilerViewModel
+            {
+                IdAlquiler = a.IdAlquiler,
+                Ncuenta = a.Ncuenta,
+                Nmaquina = a.Nmaquina,
+                Tipo = a.Tipo,
+                CantidadTiempo = a.CantidadTiempo,
+                Pagado = a.Pagado
+            }).ToList();
+
+            return View(alquileresView);
         }
 
         // GET: Mostrar formulario para crear alquiler
         public IActionResult Crear()
         {
-            // Le indicamos el nombre exacto de la vista
             return View("AltaAlquiler");
         }
 
         // POST: Crear nuevo alquiler
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Crear(Alquiler alquiler, bool tipoAlquiler)
+        public async Task<IActionResult> Crear(AlquilerViewModel alquilerView, bool tipoAlquiler)
         {
             if (!ModelState.IsValid)
-                return View("AltaAlquiler", alquiler); // Vista con modelo para mostrar errores
+                return View("AltaAlquiler", alquilerView);
 
-            await _iDAO.AgregarAlquilerAsync(alquiler, tipoAlquiler);
+            // Convertir de ViewModel a Core
+            var alquilerCore = new Alquiler
+            {
+                IdAlquiler = alquilerView.IdAlquiler,
+                Ncuenta = alquilerView.Ncuenta,
+                Nmaquina = alquilerView.Nmaquina,
+                Tipo = alquilerView.Tipo,
+                CantidadTiempo = alquilerView.CantidadTiempo,
+                Pagado = alquilerView.Pagado
+            };
+
+            await _iDAO.AgregarAlquilerAsync(alquilerCore, tipoAlquiler);
             return RedirectToAction(nameof(Index));
         }
 
@@ -49,16 +73,43 @@ namespace Ciber.MVC.Controllers
             var alquiler = await _iDAO.ObtenerAlquilerPorIdAsync(idAlquiler);
             if (alquiler == null) return NotFound();
 
-            return View("EliminarAlquiler", alquiler);
+            var viewModel = new AlquilerViewModel
+            {
+                IdAlquiler = alquiler.IdAlquiler,
+                Ncuenta = alquiler.Ncuenta,
+                Nmaquina = alquiler.Nmaquina,
+                Tipo = alquiler.Tipo,
+                CantidadTiempo = alquiler.CantidadTiempo,
+                Pagado = alquiler.Pagado
+            };
+
+            return View("EliminarAlquiler", viewModel);
         }
 
-        // POST: Eliminar confirmado
-        [HttpPost, ActionName("Eliminar")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EliminarConfirmado(int idAlquiler)
+// POST: Eliminar confirmado
+[HttpPost, ActionName("Eliminar")]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> EliminarConfirmado(int idAlquiler)
+{
+    // Primero obtengo el alquiler
+    var alquiler = await _iDAO.ObtenerAlquilerPorIdAsync(idAlquiler);
+    if (alquiler != null)
+    {
+        // Obtengo la máquina asociada
+        var maquina = await _iDAO.ObtenerMaquinaPorIdAsync(alquiler.Nmaquina);
+        if (maquina != null)
         {
-            await _iDAO.EliminarAlquilerAsync(idAlquiler);
-            return RedirectToAction(nameof(Index));
+            // La libero
+            maquina.Estado = true; 
+            await _iDAO.ActualizarMaquinaAsync(maquina);
         }
+
+        // Ahora elimino el alquiler
+        await _iDAO.EliminarAlquilerAsync(idAlquiler);
+    }
+
+    return RedirectToAction(nameof(Index));
+}
+
     }
 }

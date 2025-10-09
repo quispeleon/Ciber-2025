@@ -1,33 +1,61 @@
-@using Ciber.core
-@model List<Maquina>
+@model IEnumerable<Ciber.core.Maquina>
 
 @{
-    ViewData["Title"] = "Lista de Máquinas";
+    ViewData["Title"] = "Listado de Máquinas";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h2>@ViewData["Title"]</h2>
 
-<table class="table mt-3">
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>Nmaquina</th>
+            <th>N° Máquina</th>
             <th>Características</th>
             <th>Estado</th>
             <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var maquina in Model)
+        @foreach (var item in Model)
         {
             <tr>
-                <td>@maquina.Nmaquina</td>
-                <td>@maquina.Caracteristicas</td>
-                <td>@(maquina.Estado ? "Disponible" : "No Disponible")</td>
+                <td>@item.Nmaquina</td>
+                <td>@item.Caracteristicas</td>
                 <td>
-                    <a asp-action="Eliminar" asp-route-nmaquina="@maquina.Nmaquina" class="btn btn-danger btn-sm">Eliminar</a>
+                    @if (item.Estado)
+                    {
+                        <span class="badge bg-success">Disponible</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Ocupada / Deshabilitada</span>
+                    }
+                </td>
+                <td>
+                    @* Enlace a editar *@
+                    <a asp-action="Edit" asp-route-nmaquina="@item.Nmaquina" class="btn btn-sm btn-outline-secondary">Editar</a>
+
+                    @* Botón rápido para deshabilitar/habilitar *@
+                    @if (item.Estado)
+                    {
+                        <form asp-action="Disable" method="post" style="display:inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="nmaquina" value="@item.Nmaquina" />
+                            <button type="submit" class="btn btn-sm btn-warning">Deshabilitar</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="Enable" method="post" style="display:inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="nmaquina" value="@item.Nmaquina" />
+                            <button type="submit" class="btn btn-sm btn-success">Habilitar</button>
+                        </form>
+                    }
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<a asp-action="RegistrarMaquina" class="btn btn-primary">Agregar Nueva Máquina</a>
+
+<a asp-action="Crear" class="btn btn-primary">Agregar Nueva Máquina</a>

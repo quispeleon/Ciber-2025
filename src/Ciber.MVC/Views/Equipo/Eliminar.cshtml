@@ -1,0 +1,11 @@
+@model Ciber.MVC.Models.Equipo
+
+<h2>Eliminar Equipo</h2>
+
+<p>¿Desea eliminar el equipo <strong>@Model.Nombre</strong>?</p>
+
+<form asp-action="Eliminar" method="post">
+    <input type="hidden" asp-for="Nmaquina" />
+    <button type="submit">Sí, eliminar</button>
+    <a asp-action="Index">Cancelar</a>
+</form>

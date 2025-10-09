@@ -1,4 +1,4 @@
-@model Ciber.core.Alquiler
+@model Ciber.MVC.Models.AlquilerViewModel
 
 @{
     ViewData["Title"] = "Confirmar Eliminación";
@@ -6,18 +6,23 @@
 
 <h2>@ViewData["Title"]</h2>
 
-<div class="alert alert-danger">
+<div class="alert alert-danger mt-3 mb-4">
     <p>¿Seguro que deseas eliminar el alquiler con ID <strong>@Model.IdAlquiler</strong>?</p>
     <ul>
-        <li>Cuenta: @Model.Ncuenta</li>
-        <li>Máquina: @Model.Nmaquina</li>
-        <li>Tipo: @Model.Tipo</li>
+        <li><strong>Cuenta:</strong> @Model.Ncuenta</li>
+        <li><strong>Máquina:</strong> @Model.Nmaquina</li>
+        <li><strong>Tipo:</strong> @Model.Tipo</li>
+        <li><strong>Tiempo:</strong> @Model.CantidadTiempo</li>
+        <li><strong>Pagado:</strong> @(Model.Pagado == true ? "Sí" : "No")</li>
     </ul>
 </div>
 
 <form asp-action="Eliminar" method="post">
     @Html.AntiForgeryToken()
     <input type="hidden" asp-for="IdAlquiler" />
-    <button type="submit" class="btn btn-danger">Eliminar</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+
+    <div class="mt-3">
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </div>
 </form>

@@ -2,7 +2,7 @@ namespace Ciber.core;
 
 public class Alquiler
 {
-    public int IdAlquiler { get; set; }
+    public int? IdAlquiler { get; set; }
     public int Ncuenta { get; set; }
     public int Nmaquina { get; set; }
     public int Tipo { get; set; }
