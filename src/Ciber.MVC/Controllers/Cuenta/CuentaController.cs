@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Mvc;   // Para Controller, IActionResult, atributos como HttpPost, ValidateAntiForgeryToken, ActionName
-using Ciber.core;                 // Para IDAO, Cuenta y demás modelos y interfaces de tu proyecto
-using Microsoft.Extensions.Logging;  // Para ILogger si lo usas
-using System.Threading.Tasks;         // Para usar Task y async/await
- 
+using Microsoft.AspNetCore.Mvc;
+using Ciber.core;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
+
 public class CuentaController : Controller
 {
     private readonly IDAO _iDAO;
@@ -27,12 +27,10 @@ public class CuentaController : Controller
     {
         if (!ModelState.IsValid)
         {
-            return View(cuenta); // Devuelve la vista con los errores
+            return View(cuenta);
         }
 
-        // Asignar la hora actual
         cuenta.HoraRegistrada = DateTime.Now.TimeOfDay;
-
         await _iDAO.AgregarCuentaAsync(cuenta);
 
         return RedirectToAction(nameof(Index));
@@ -43,6 +41,36 @@ public class CuentaController : Controller
     {
         var cuentas = await _iDAO.ObtenerTodasLasCuentasAsync();
         return View(cuentas);
+    }
+
+    // GET: Cuenta/Editar/12345
+    public async Task<IActionResult> Editar(int ncuenta)
+    {
+        var cuenta = await _iDAO.ObtenerCuentaPorIdAsync(ncuenta);
+        if (cuenta == null)
+        {
+            return NotFound();
+        }
+        return View(cuenta);
+    }
+
+    // POST: Cuenta/Editar/12345
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Editar(int ncuenta, Cuenta cuenta)
+    {
+        if (ncuenta != cuenta.Ncuenta)
+        {
+            return BadRequest();
+        }
+
+        if (ModelState.IsValid)
+        {
+            await _iDAO.ActualizarCuentaAsync(cuenta);
+            return RedirectToAction(nameof(Index));
+        }
+
+        return View(cuenta);
     }
 
     // GET: Confirmar eliminación
@@ -71,3 +99,4 @@ public class CuentaController : Controller
         return RedirectToAction(nameof(Index));
     }
 }
+
