@@ -1,52 +1,68 @@
-@model IEnumerable<Ciber.MVC.Models.AlquilerViewModel>
-
+@model IEnumerable<Alquiler>
 @{
-    ViewData["Title"] = "Listado de Alquileres";
+    ViewData["Title"] = "Todos los Alquileres";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>@ViewData["Title"]</h2>
-    <a asp-action="Crear" class="btn btn-primary">
-        <i class="bi bi-plus-circle"></i> Nuevo Alquiler
-    </a>
+    <h2> @ViewData["Title"]</h2>
+    <div>
+        <a href="@Url.Action("Activos")" class="btn btn-warning me-2">
+            <i class="fas fa-play-circle"></i> Ver Activos
+        </a>
+        <a href="@Url.Action("Create")" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Nuevo Alquiler
+        </a>
+    </div>
 </div>
 
-<table class="table table-striped table-hover table-bordered align-middle">
-    <thead class="table-dark text-center">
-        <tr>
-            <th>ID</th>
-            <th>Cuenta</th>
-            <th>Máquina</th>
-            <th>Pagado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null && Model.Any())
-        {
-            foreach (var item in Model)
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Cuenta</th>
+                <th>Máquina</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+                <th>Duración</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var alquiler in Model)
             {
-                <tr class="text-center">
-                    <td>@item.IdAlquiler</td>
-                    <td>@item.Ncuenta</td>
-                    <td>@item.Nmaquina</td>
-                    <td>@(item.Pagado ?? false ? "Sí" : "No")</td>
+                <tr>
+                    <td>@alquiler.IdAlquiler</td>
+                    <td>#@alquiler.Ncuenta</td>
+                    <td>#@alquiler.Nmaquina</td>
+                    <td>@alquiler.FechaInicio.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@(alquiler.FechaFin?.ToString("dd/MM/yyyy HH:mm") ?? "En curso")</td>
+                    <td>@(alquiler.TiempoUsado?.ToString() ?? "En curso")</td>
+                    <td>$@alquiler.TotalAPagar.ToString("N2")</td>
                     <td>
-                        <a asp-action="Detalle" asp-route-idAlquiler="@item.IdAlquiler" class="btn btn-info btn-sm me-1">
-                            <i class="bi bi-eye"></i> Ver
-                        </a>
-                        <a asp-action="Eliminar" asp-route-idAlquiler="@item.IdAlquiler" class="btn btn-danger btn-sm">
-                            <i class="bi bi-trash"></i> Eliminar
-                        </a>
+                        <span class="badge bg-@(alquiler.SesionActiva ? "success" : "secondary")">
+                            @(alquiler.SesionActiva ? "Activo" : "Finalizado")
+                        </span>
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <a href="@Url.Action("Details", new { id = alquiler.IdAlquiler })" 
+                               class="btn btn-info" title="Detalles">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            @if (alquiler.SesionActiva)
+                            {
+                                <a href="@Url.Action("Finalizar", new { id = alquiler.IdAlquiler })" 
+                                   class="btn btn-warning" title="Finalizar">
+                                    <i class="fas fa-stop"></i>
+                                </a>
+                            }
+                        </div>
                     </td>
                 </tr>
             }
-        }
-        else
-        {
-            <tr>
-                <td colspan="5" class="text-center text-muted">No hay alquileres registrados.</td>
-            </tr>
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>

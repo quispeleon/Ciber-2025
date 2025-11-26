@@ -1,8 +1,122 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model Ciber.MVC.Controllers.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard Principal";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>@Model.MaquinasDisponibles</h4>
+                        <p class="card-text">Máquinas Disponibles</p>
+                    </div>
+                    <div class="align-self-center">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>@Model.AlquileresActivos</h4>
+                        <p class="card-text">Alquileres Activos</p>
+                    </div>
+                    <div class="align-self-center">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>$@Model.IngresosHoy.ToString("N2")</h4>
+                        <p class="card-text">Ingresos Hoy</p>
+                    </div>
+                    <div class="align-self-center">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>@DateTime.Now.ToString("HH:mm")</h4>
+                        <p class="card-text">Hora Actual</p>
+                    </div>
+                    <div class="align-self-center">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5> Acciones Rápidas</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="@Url.Action("Create", "Alquiler")" class="btn btn-primary">
+                       Nuevo Alquiler
+                    </a>
+                    <a href="@Url.Action("Create", "Cuenta")" class="btn btn-success">
+                         Nueva Cuenta
+                    </a>
+                    <a href="@Url.Action("Create", "Maquina")" class="btn btn-info">
+                        Nueva Máquina
+                    </a>
+                    <a href="@Url.Action("Activos", "Alquiler")" class="btn btn-warning">
+                        Ver Alquileres Activos
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5> Máquinas Más Rentables</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.TopMaquinas != null)
+                {
+                    <div class="list-group">
+                        @foreach (var maquina in Model.TopMaquinas)
+                        {
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>@maquina.caracteristicas</strong>
+                                    <br>
+                                    <small class="text-muted">@maquina.tipoMaquina</small>
+                                </div>
+                                <span class="badge bg-primary rounded-pill">$@(((decimal)maquina.IngresosGenerados).ToString("N2"))</span>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No hay datos disponibles</p>
+                }
+            </div>
+        </div>
+    </div>
 </div>

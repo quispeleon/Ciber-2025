@@ -1,59 +1,209 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Ciber.MVC</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - Ciber MVC</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Ciber.MVC.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <style>
+        /* ===== VARIABLES ===== */
+        :root {
+            --primary-bg: #111;
+            --sidebar-bg: rgba(0, 0, 0, 0.95);
+            --header-bg: #333;
+            --accent-color: #397ce6;
+            --hover-color: #2b2b2b;
+            --text-color: #fff;
+            --radius: 12px;
+            --speed: 0.28s;
+        }
+
+        /* ===== RESET ===== */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-color);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 270px;
+            height: 100vh;
+            background: var(--sidebar-bg);
+            padding: 25px 18px;
+            position: fixed;
+            left: 0; top: 0;
+            overflow-y: auto;
+            transition: transform var(--speed);
+            z-index: 1000;
+        }
+
+        .sidebar h3 {
+            text-align: center;
+            margin-bottom: 22px;
+            font-size: 1.25rem;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,.15);
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 13px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            font-size: 1rem;
+            color: var(--text-color);
+            border-radius: var(--radius);
+            transition: background var(--speed), transform var(--speed);
+        }
+        .sidebar a:hover { background: var(--hover-color); transform: translateX(4px); }
+        .sidebar a.active { background: var(--accent-color); font-weight: bold; }
+
+        /* ===== MAIN ===== */
+        .main-content {
+            margin-left: 270px;
+            width: calc(100% - 270px);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--header-bg);
+            padding: 18px 25px;
+            border-radius: var(--radius);
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,.35);
+        }
+
+        header h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 18px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,.65);
+        }
+
+        /* ===== BOTÓN HAMBURGUESA ===== */
+        #menuToggleBtn {
+            display: none;
+            position: fixed;
+            top: 14px; left: 14px;
+            font-size: 30px;
+            background: rgba(0,0,0,.78);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius);
+            padding: 8px 14px;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        /* ===== FONDO DEL MENÚ PARA MOVIL ===== */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.5);
+            z-index: 900;
+        }
+
+        /* ===== RESPONSIVE ===== */
+
+        /* Tablet y móvil */
+        @@media (max-width: 992px) {
+            body { display: block; }
+
+            .sidebar {
+                transform: translateX(-100%);
+                width: 260px;
+            }
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            #menuToggleBtn {
+                display: block;
+            }
+            .main-content {
+                width: 100%;
+                margin-left: 0;
+                padding: 18px;
+            }
+            header h1 {
+                text-align: center;
+                font-size: 1.6rem;
+            }
+            .sidebar-overlay.active {
+                display: block;
+            }
+        }
+
+        /* Celulares pequeños */
+        @@media (max-width: 576px) {
+            header { padding: 14px 18px; }
+            header h1 { font-size: 1.35rem; }
+            .sidebar a { font-size: 0.95rem; padding: 11px; }
+            footer { font-size: 0.8rem; padding: 14px; }
+        }
+    </style>
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Ciber.MVC</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Maquina" asp-action="Index">Maquina</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cuenta" asp-action="Index">Cuenta</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Alquiler" asp-action="Index">Alquiler</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - Ciber.MVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+<button id="menuToggleBtn">&#9776;</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<nav class="sidebar" id="sidebarMenu">
+    <h3>🗂 Menú</h3>
+    <a href="/">🏡 Inicio</a>
+    <a href="/Maquina">🛠 Máquinas</a>
+    <a href="/Cuenta">🔒 Cuentas</a>
+    <a href="/Alquiler">📦 Alquileres</a>
+    <a href="/Historial">📜 Historial</a>
+    <a href="/Reportes">📊 Reportes</a>
+</nav>
+
+<div class="main-content">
+    <header><h1>@ViewData["Title"]</h1></header>
+    <main class="pb-3">@RenderBody()</main>
+    <footer>&copy; 2025 - Ciber MVC</footer>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("menuToggleBtn");
+    const menu = document.getElementById("sidebarMenu");
+    const overlay = document.getElementById("sidebarOverlay");
+
+    btn.onclick = () => {
+        menu.classList.toggle("show");
+        overlay.classList.toggle("active");
+    };
+    overlay.onclick = () => {
+        menu.classList.remove("show");
+        overlay.classList.remove("active");
+    };
+
+    // Activar enlace del menú actual
+    const path = location.pathname.toLowerCase();
+    document.querySelectorAll(".sidebar a").forEach(a => {
+        if (path === a.getAttribute("href").toLowerCase()) a.classList.add("active");
+    });
+});
+</script>
+
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

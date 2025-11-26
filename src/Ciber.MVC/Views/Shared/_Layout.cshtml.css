@@ -1,48 +1,155 @@
-﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿/* 🌑🎨 TEMA OSCURO + PÚRPURA */
 
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+body {
+    background-color: #0a0b0f;
+    color: #d6d6d8;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-a {
-  color: #0077cc;
+/* ---------------- NAVBAR / SIDEBAR ---------------- */
+
+.sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 100%;
+    width: 250px;
+    background: #0d0d14;
+    padding-top: 20px;
+    transition: all 0.3s ease;
+    border-right: 1px solid #2b2740;
+    z-index: 1000;
 }
+
+.sidebar a {
+    display: block;
+    color: #c5b6ff;
+    padding: 12px 25px;
+    text-decoration: none;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.sidebar a:hover {
+    background: #2d2147;
+    color: #fff;
+    padding-left: 32px;
+}
+
+.sidebar a.active {
+    background: #502d9b;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* ICONOS */
+.sidebar a i {
+    width: 25px;
+    color: #b590ff;
+}
+
+/* ---------------- CONTENIDO ---------------- */
+
+.main-content {
+    margin-left: 250px;
+    padding: 20px 40px;
+    transition: all 0.3s ease;
+}
+
+header {
+    background: #141120;
+    padding: 12px 25px;
+    border-bottom: 1px solid #42376b;
+    font-size: 18px;
+    font-weight: bold;
+    color: #d8caff;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.35);
+}
+
+/* ---------------- FOOTER ---------------- */
+
+footer {
+    background: #141120;
+    border-top: 1px solid #42376b;
+    padding: 10px 25px;
+    color: #a18aff;
+    margin-top: 50px;
+    text-align: center;
+}
+
+/* ---------------- BOTONES / COMPONENTES ---------------- */
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #6a29ff;
+    border-color: #5a12ff;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.btn-primary:hover {
+    background-color: #7d43ff;
+    border-color: #5a12ff;
 }
 
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+.alert {
+    border-radius: 8px;
 }
 
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+/* 💎 Tarjetas mejoradas */
+.card {
+    background: #14121d;
+    border: 1px solid #2d2546;
+    border-radius: 10px;
+    transition: 0.2s ease;
 }
 
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+.card:hover {
+    box-shadow: 0 0 12px rgba(149, 91, 255, 0.4);
+    transform: translateY(-3px);
 }
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+.card-title {
+    color: #c9a6ff;
+    font-weight: 600;
+}
+
+/* 🔥 --------- RESPONSIVE DESIGN --------- 🔥 */
+
+/* 📱 Para celulares */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+        padding: 10px 0;
+        border-right: none;
+        border-bottom: 1px solid #2b2740;
+    }
+
+    .sidebar a {
+        padding: 10px 15px;
+        font-size: 14px;
+        display: inline-block;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    header {
+        text-align: center;
+        font-size: 16px;
+    }
+}
+
+/* 📲 Tablets y pantallas medianas */
+@media (max-width: 1024px) {
+    .main-content {
+        margin-left: 220px;
+    }
 }

@@ -3,7 +3,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Ciber.core\Ciber.core.csproj" />
     <ProjectReference Include="..\Ciber.Dapper\Ciber.Dapper.csproj" />
-    <ProjectReference Include="..\MinimalAPI\MinimalAPI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="MySqlConnector" Version="2.4.0" />
   </ItemGroup>
 
   <PropertyGroup>

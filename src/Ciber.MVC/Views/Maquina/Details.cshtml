@@ -1,0 +1,141 @@
+@model Maquina
+@{
+    ViewData["Title"] = "Detalles de Máquina";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-desktop"></i> @ViewData["Title"]</h2>
+    <div>
+        <a href="@Url.Action("Index")" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Volver
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Información de la Máquina</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">ID:</dt>
+                    <dd class="col-sm-8">@Model.Nmaquina</dd>
+
+                    <dt class="col-sm-4">Estado:</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge bg-@(Model.Estado == "Disponible" ? "success" : 
+                                              Model.Estado == "Ocupada" ? "warning" : "danger")">
+                            @Model.Estado
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-4">Características:</dt>
+                    <dd class="col-sm-8">@Model.Caracteristicas</dd>
+
+                    <dt class="col-sm-4">Tipo:</dt>
+                    <dd class="col-sm-8">@Model.TipoMaquina</dd>
+
+                    <dt class="col-sm-4">Precio por Hora:</dt>
+                    <dd class="col-sm-8">$@Model.PrecioPorHora.ToString("N2")</dd>
+
+                    @if (Model.UltimoMantenimiento.HasValue)
+                    {
+                        <dt class="col-sm-4">Último Mantenimiento:</dt>
+                        <dd class="col-sm-8">@Model.UltimoMantenimiento.Value.ToString("dd/MM/yyyy")</dd>
+                    }
+
+                    @if (Model.ProximoMantenimiento.HasValue)
+                    {
+                        <dt class="col-sm-4">Próximo Mantenimiento:</dt>
+                        <dd class="col-sm-8">@Model.ProximoMantenimiento.Value.ToString("dd/MM/yyyy")</dd>
+                    }
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Acciones</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="@Url.Action("Edit", new { id = Model.Nmaquina })" 
+                       class="btn btn-warning">
+                        <i class="fas fa-edit"></i> Editar Máquina
+                    </a>
+                    
+                    @if (Model.Estado == "Disponible")
+                    {
+                        <a href="@Url.Action("CambiarEstado", new { id = Model.Nmaquina, estado = "Ocupada" })" 
+                           class="btn btn-warning">
+                            <i class="fas fa-pause"></i> Marcar como Ocupada
+                        </a>
+                    }
+                    else if (Model.Estado == "Ocupada")
+                    {
+                        <a href="@Url.Action("CambiarEstado", new { id = Model.Nmaquina, estado = "Disponible" })" 
+                           class="btn btn-success">
+                            <i class="fas fa-play"></i> Marcar como Disponible
+                        </a>
+                    }
+                    
+                    <a href="@Url.Action("CambiarEstado", new { id = Model.Nmaquina, estado = "Mantenimiento" })" 
+                       class="btn btn-secondary">
+                        <i class="fas fa-tools"></i> Enviar a Mantenimiento
+                    </a>
+                    
+                    <a href="@Url.Action("Create", "Alquiler")" 
+                       class="btn btn-primary">
+                        <i class="fas fa-play"></i> Iniciar Alquiler
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-history"></i> Historial de Uso</h5>
+            </div>
+            <div class="card-body">
+                @if (ViewBag.Historial != null && ((IEnumerable<dynamic>)ViewBag.Historial).Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Cuenta</th>
+                                    <th>Duración</th>
+                                    <th>Ingreso</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var historial in ViewBag.Historial)
+                                {
+                                    <tr>
+                                        <td>@historial.FechaInicio.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td>#@historial.Ncuenta</td>
+                                        <td>@historial.tiempoUsado</td>
+                                        <td>$@(((decimal)historial.TotalPagar).ToString("N2"))</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No hay historial de uso para esta máquina</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+@model IEnumerable<dynamic>
+@{
+    ViewData["Title"] = "Top 10 Clientes";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-trophy"></i> @ViewData["Title"]</h2>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Volver
+    </a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Posición</th>
+                <th>Nombre</th>
+                <th>DNI</th>
+                <th>Total Alquileres</th>
+                <th>Total Gastado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int posicion = 1; }
+            @foreach (var cliente in Model)
+            {
+                <tr>
+                    <td>
+                        @if (posicion == 1)
+                        {
+                            <span class="badge bg-warning">🥇</span>
+                        }
+                        else if (posicion == 2)
+                        {
+                            <span class="badge bg-secondary">🥈</span>
+                        }
+                        else if (posicion == 3)
+                        {
+                            <span class="badge bg-danger">🥉</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-light text-dark">#@posicion</span>
+                        }
+                    </td>
+                    <td>@cliente.nombre</td>
+                    <td>@cliente.dni</td>
+                    <td>@cliente.TotalAlquileres</td>
+                    <td>
+                        <span class="badge bg-success">$@(((decimal)cliente.TotalGastado).ToString("N2"))</span>
+                    </td>
+                </tr>
+                posicion++;
+            }
+        </tbody>
+    </table>
+</div>

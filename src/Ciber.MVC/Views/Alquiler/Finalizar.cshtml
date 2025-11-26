@@ -1,0 +1,48 @@
+@model Alquiler
+@{
+    ViewData["Title"] = "Finalizar Alquiler";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning">
+                <h4><i class="fas fa-stop"></i> @ViewData["Title"]</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <h5>Resumen del Alquiler</h5>
+                    <p class="mb-1"><strong>ID:</strong> #@Model.IdAlquiler</p>
+                    <p class="mb-1"><strong>Cuenta:</strong> #@Model.Ncuenta</p>
+                    <p class="mb-1"><strong>Máquina:</strong> #@Model.Nmaquina</p>
+                    <p class="mb-1"><strong>Inicio:</strong> @Model.FechaInicio.ToString("dd/MM/yyyy HH:mm")</p>
+                    <p class="mb-1"><strong>Tiempo Transcurrido:</strong> @ViewBag.TiempoTranscurrido</p>
+                    <p class="mb-0"><strong>Costo Estimado:</strong> 
+                       <span class="text-success fw-bold">$@ViewBag.CostoActual.ToString("N2")</span></p>
+                </div>
+
+                <form asp-action="Finalizar" method="post">
+                    <input type="hidden" name="id" value="@Model.IdAlquiler" />
+                    
+                    <div class="mb-3">
+                        <label for="montoPagado" class="form-label">Monto a Pagar</label>
+                        <input type="number" name="montoPagado" class="form-control" 
+                               step="0.01" value="@ViewBag.CostoActual.ToString("F2")" required>
+                        <div class="form-text">
+                            Ajuste el monto si es necesario. El sistema calculará automáticamente el tiempo real utilizado.
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="@Url.Action("Details", new { id = Model.IdAlquiler })" class="btn btn-secondary me-md-2">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-stop"></i> Confirmar Finalización
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

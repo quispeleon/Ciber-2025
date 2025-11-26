@@ -1,78 +1,161 @@
-## INTEGRANTES 
+# Sistema de Gestión de Ciber
 
-<a href="https://github.com/Sherklan12e">
-  <img src="https://github.com/Sherklan12e.png" alt="tercer-contribuidor" width="50" style="border-radius: 50%;">
-</a>
-<a href="https://github.com/ET12JULIO">
-  <img src="https://github.com/ET12JULIO.png" alt="tercer-contribuidor" width="50" style="border-radius: 50%;">
-</a>
-<a href="https://github.com/quispeleon">
-  <img src="https://github.com/quispeleon.png" alt="tercer-contribuidor" width="50" style="border-radius: 50%;">
-</a>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+## Descripción
+Sistema completo de gestión para un cibercafé desarrollado con ASP.NET Core MVC, Dapper y MySQL.
 
+## Características
 
-# Antes de correr el programa
-Cambia estos datos con los tuyos , esta en src/Ciber.Test/itest.cs
-```c#
-public TestAdo()
-{
-    IConfiguration config = new ConfigurationBuilder()
-        .AddJsonFile("appSettings.json", optional: true, reloadOnChange: true)
-        .Build();
-    string cadena = config.GetConnectionString("MySQL")!;
-    Conexion = new MySqlConnection(cadena);
-}       
+### 🏠 Dashboard Principal
+- Vista general del estado del ciber
+- Estadísticas en tiempo real
+- Acceso rápido a todas las funcionalidades
+
+### 👥 Gestión de Cuentas
+- Crear nuevas cuentas de usuarios
+- Editar información de cuentas existentes
+- Ver detalles de cada cuenta
+- Eliminar cuentas (con confirmación)
+
+### 💻 Gestión de Máquinas
+- Agregar nuevas máquinas al sistema
+- Actualizar estado y características
+- Filtrar por máquinas disponibles/ocupadas
+- Eliminar máquinas del sistema
+
+### ⏰ Gestión de Alquileres
+- Crear nuevos alquileres
+- Dos tipos de alquiler:
+  - Tipo 1: Por tiempo específico
+  - Tipo 2: Por cantidad de tiempo con estado de pago
+- Ver detalles de alquileres activos
+- Eliminar alquileres
+
+### 📊 Historial de Alquileres
+- Registrar alquileres completados
+- Ver historial completo
+- Calcular duración y totales
+- Consultar detalles de cada registro
+
+## Tecnologías Utilizadas
+
+- **Backend**: ASP.NET Core 9.0 MVC
+- **Base de Datos**: MySQL con Dapper ORM
+- **Frontend**: Bootstrap 5 + Font Awesome
+- **Arquitectura**: Clean Architecture (Core, Dapper, MVC)
+
+## Estructura del Proyecto
+
+```
+src/
+├── Ciber.core/          # Entidades del dominio
+├── Ciber.Dapper/        # Capa de acceso a datos
+├── Ciber.MVC/           # Aplicación web MVC
+├── Ciber.Test/          # Pruebas unitarias
+└── MinimalAPI/           # API mínima alternativa
 ```
 
-## Abre 2 terminales 
-* <h4>Primer terminal 
+## Configuración
 
-Dirigete a la carpeta Scripts 
-dentro de tu terminal, ejecuta 
-```
-mysql -u NombreDeUsuario -p 
-```
-te pedira tu contraseña 
-Una vez dentro ejecuta 
+### 1. Base de Datos
+Asegúrate de tener MySQL instalado y ejecuta los scripts en la carpeta `Scripts/`:
+
 ```sql
-source install.sql
+-- Ejecutar en orden:
+-- 00 DDL.sql (estructura de tablas)
+-- 01 SPF.sql (procedimientos almacenados)
+-- 02 Triggers.sql (triggers)
+-- 03 inserts.sql (datos iniciales)
+-- 04 Roles.sql (roles y permisos)
 ```
-* <h4>Segunda terminal
-Dirigete a la carpeta Ciber.Test y ejecuta 
-```c#
-dotnet test
-``` 
 
+### 2. Cadena de Conexión
+Configura la cadena de conexión en `appsettings.json`:
 
-<!-- 
-# use json para tu db
 ```json
 {
   "ConnectionStrings": {
-    "CiberDb": "Server=localhost;Database=5to_Ciber;Uid=5to_agbd;pwd=Trigg3rs!;Allow User Variables=True",
-    "Ciber": "Server=localhost;Database=Ciber;Uid=5to_agbd;pwd=Trigg3rs!;Allow User Variables=True"
-
+    "MySQL": "server=localhost;user=root;password=root;database=5to_ciber;CharSet=utf8mb4"
   }
-} -->
+}
+```
 
+### 3. Ejecutar la Aplicación
 
-<!-- using Microsoft.Extensions.Configuration;
-var configuration = new ConfigurationBuilder()
-                .SetBasePath(AppContext.BaseDirectory)
-                .AddJsonFile("appsettings.json")
-                .Build();
+```bash
+# Navegar al directorio del proyecto MVC
+cd src/Ciber.MVC
 
-                        var cadena = configuration.GetConnectionString("CiberDb");
+# Restaurar dependencias
+dotnet restore
 
-                        var cadena1 = configuration.GetConnectionString("Ciber"); -->
+# Compilar
+dotnet build
 
-# DIAGRAMA DE CLASES 
-![plot](./docs/der/CiberD.png)
-# DER(DIAGRAMA DE ENTIDAD RELACION)
-![plot](./docs/der/DER.png)
+# Ejecutar
+dotnet run
+```
+
+La aplicación estará disponible en: `https://localhost:5001` o `http://localhost:5000`
+
+## Funcionalidades Principales
+
+### Dashboard
+- **Total de Cuentas**: Número de usuarios registrados
+- **Máquinas Disponibles**: Computadoras libres para usar
+- **Máquinas Ocupadas**: Computadoras en uso
+- **Alquileres Activos**: Sesiones en curso
+
+### Navegación
+- Menú principal con dropdowns organizados
+- Acceso rápido a todas las funcionalidades
+- Diseño responsive para móviles y tablets
+
+### Interfaz de Usuario
+- Diseño moderno con Bootstrap 5
+- Iconos Font Awesome para mejor UX
+- Alertas de éxito y error
+- Confirmaciones para acciones destructivas
+- Formularios con validación
+
+## Características Técnicas
+
+### Controladores
+- **HomeController**: Dashboard principal
+- **CuentaController**: CRUD de cuentas
+- **MaquinaController**: CRUD de máquinas + filtros
+- **AlquilerController**: Gestión de alquileres
+- **HistorialController**: Registro de historial
+
+### Vistas
+- Layout responsive con navegación mejorada
+- Vistas CRUD completas para todas las entidades
+- Formularios con validación del lado cliente
+- Tablas con acciones rápidas
+- Modales de confirmación
+
+### Base de Datos
+- Procedimientos almacenados para operaciones complejas
+- Triggers para automatización
+- Índices optimizados
+- Relaciones bien definidas
+
+## Próximas Mejoras
+
+- [ ] Sistema de autenticación y autorización
+- [ ] Reportes y estadísticas avanzadas
+- [ ] Notificaciones en tiempo real
+- [ ] API REST completa
+- [ ] Integración con sistemas de pago
+- [ ] App móvil complementaria
+
+## Contribución
+
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para detalles.

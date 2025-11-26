@@ -1,31 +1,55 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Ciber.MVC.Models;
+using Ciber.core;
+using Ciber.Dapper;
 
-namespace Ciber.MVC.Controllers;
-
-public class HomeController : Controller
+namespace Ciber.MVC.Controllers
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    public class HomeController : Controller
     {
-        _logger = logger;
+        private readonly IDAO _dao;
+
+        public HomeController(IDAO dao)
+        {
+            _dao = dao;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var dashboard = new DashboardViewModel
+            {
+                MaquinasDisponibles = await _dao.ObtenerCantidadMaquinasDisponiblesAsync(),
+                AlquileresActivos = (await _dao.ObtenerAlquileresActivosAsync()).Count(),
+                IngresosHoy = await _dao.ObtenerIngresosPorFechaAsync(DateTime.Today),
+                TopMaquinas = await _dao.ObtenerMaquinasMasRentablesAsync()
+            };
+            return View(dashboard);
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(string dni, string password)
+        {
+            if (await _dao.ValidarCredencialesAsync(dni, password))
+            {
+                // Aquí podrías implementar autenticación
+                TempData["SuccessMessage"] = "Login exitoso";
+                return RedirectToAction("Index");
+            }
+            
+            TempData["ErrorMessage"] = "Credenciales inválidas";
+            return View();
+        }
     }
 
-    public IActionResult Index()
+    public class DashboardViewModel
     {
-        return View();
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public int MaquinasDisponibles { get; set; }
+        public int AlquileresActivos { get; set; }
+        public decimal IngresosHoy { get; set; }
+        public dynamic? TopMaquinas { get; set; }
     }
 }

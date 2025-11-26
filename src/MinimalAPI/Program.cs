@@ -1,6 +1,3 @@
-// ==============================
-// DIRECTIVAS USING
-// ==============================
 using System.Data;
 using MySqlConnector;
 using Scalar.AspNetCore;
@@ -8,18 +5,17 @@ using Ciber.Dapper;
 using Ciber.core;
 using MinimalAPI.DTO;
 
-// ==============================
-// CONFIGURACIÓN Y REGISTRO DE SERVICIOS
-// ==============================
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Obtener la cadena de conexión desde appsettings.json
+//  Obtener la cadena de conexión desde appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("MySQL");
 
-// Registrar IDbConnection para inyección de dependencias
+//  Registrando IDbConnection para que se inyecte como dependencia
+//  Cada vez que se inyecte, se creará una nueva instancia con la cadena de conexión
 builder.Services.AddScoped<IDbConnection>(sp => new MySqlConnection(connectionString));
 
-// Registrar la interfaz IDAO y su implementación ADOD
+//Cada vez que necesite la interfaz, se va a instanciar automaticamente AdoDapper y se va a pasar al metodo de la API
 builder.Services.AddScoped<IDAO, ADOD>();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -27,7 +23,6 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configuración de Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger(options =>
@@ -37,28 +32,25 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
-// ==============================
-// ENDPOINTS DE ALQUILERES
-// ==============================
 
-// Obtener todos los alquileres
+// ALQUILERES
+
 app.MapGet("/alquileres", async (IDAO db) =>
 {
     var alquileres = await db.ObtenerTodosLosAlquileresAsync();
-    return Results.Ok(alquileres.Select(alquiler => new AlquilerDto(alquiler.Tipo, alquiler.CantidadTiempo, alquiler.Pagado)));
+    return Results.Ok(alquileres.Select(alquileres => new AlquilerDto(alquileres.Tipo, alquileres.CantidadTiempo, alquileres.Pagado )));
 }).WithTags("Alquileres");
 
-// Obtener alquiler por ID
 app.MapGet("/alquileres/{id}", async (int id, IDAO db) =>
 {
     var alquiler = await db.ObtenerAlquilerPorIdAsync(id);
     return alquiler is not null ? Results.Ok(alquiler) : Results.NotFound();
 }).WithTags("Alquileres");
 
-// Crear un nuevo alquiler
 app.MapPost("/Alquileres", async (AlquilerAltaDTO alquiler, IDAO db) =>
 {
-    Alquiler alquilerAlta = new Alquiler
+
+    Alquiler alquileralta = new Alquiler
     {
         Ncuenta = alquiler.ncuenta,
         Nmaquina = alquiler.nmaquina,
@@ -67,30 +59,26 @@ app.MapPost("/Alquileres", async (AlquilerAltaDTO alquiler, IDAO db) =>
         Pagado = alquiler.Pagado
     };
 
-    await db.AgregarAlquilerAsync(alquilerAlta, true);
-    return Results.Created($"/alquileres/{alquilerAlta.IdAlquiler}", alquiler);
+    await db.AgregarAlquilerAsync(alquileralta, true);
+    return Results.Created($"/alquileres/{alquileralta.IdAlquiler}", alquiler);
 }).WithTags("Alquileres");
 
 
-// ==============================
-// ENDPOINTS DE MAQUINAS
-// ==============================
 
-// Obtener todas las maquinas
+// maquinas
+
 app.MapGet("/maquinas", async (IDAO db) =>
 {
     var maquinas = await db.ObtenerTodasLasMaquinasAsync();
     return Results.Ok(maquinas.Select(maquina => new MaquinaDto(maquina.Estado, maquina.Caracteristicas)));
-}).WithTags("Maquinas");
+}).WithTags("maquinas");
 
-// Obtener máquina por ID
 app.MapGet("/maquinas/{id}", async (int id, IDAO db) =>
 {
     var maquina = await db.ObtenerMaquinaPorIdAsync(id);
     return maquina is not null ? Results.Ok(maquina) : Results.NotFound();
-}).WithTags("Maquinas");
+}).WithTags("maquinas");
 
-// Crear una nueva máquina
 app.MapPost("/maquinas", async (MaquinaDto maquina, IDAO db) =>
 {
     Maquina maquinaAlta = new Maquina
@@ -100,29 +88,25 @@ app.MapPost("/maquinas", async (MaquinaDto maquina, IDAO db) =>
     };
     await db.AgregarMaquinaAsync(maquinaAlta);
     return Results.Created($"/maquinas/{maquinaAlta.Nmaquina}", maquina);
-}).WithTags("Maquinas");
+}).WithTags("maquinas");
 
-// ==============================
-// ENDPOINTS DE CUENTAS
-// ==============================
+// Cuentas
 
-// Obtener todas las cuentas
 app.MapGet("/cuentas", async (IDAO db) =>
 {
     var cuentas = await db.ObtenerTodasLasCuentasAsync();
-    return Results.Ok(cuentas.Select(cuenta => new CuentaDto(cuenta.Nombre, cuenta.Dni, cuenta.HoraRegistrada)));
-}).WithTags("Cuentas");
+    return Results.Ok(cuentas.Select(cuenta => new CuentaDto(cuenta.Nombre, cuenta.Dni, cuenta.HoraRegistrada )) );
+}).WithTags("cuentas");
 
-// Obtener cuenta por ID
 app.MapGet("/cuentas/{id}", async (int id, IDAO db) =>
 {
     var cuenta = await db.ObtenerCuentaPorIdAsync(id);
     return cuenta is not null ? Results.Ok(cuenta) : Results.NotFound();
-}).WithTags("Cuentas");
+}).WithTags("cuentas");
 
-// Crear una nueva cuenta
 app.MapPost("/cuentas", async (CuentaAltaDTO cuenta, IDAO db) =>
 {
+
     Cuenta cuentaAlta = new Cuenta
     {
         Nombre = cuenta.nombre,
@@ -131,29 +115,24 @@ app.MapPost("/cuentas", async (CuentaAltaDTO cuenta, IDAO db) =>
         HoraRegistrada = cuenta.Horaregistrada
     };
 
+
     await db.AgregarCuentaAsync(cuentaAlta);
     return Results.Created($"/cuentas/{cuentaAlta.Ncuenta}", cuenta);
-}).WithTags("Cuentas");
+}).WithTags("cuentas");
 
-// ==============================
-// ENDPOINTS DE MAQUINAS DISPONIBLES
-// ==============================
-
-// Obtener maquinas disponibles
 app.MapGet("/maquinas/disponibles", async (IDAO db) =>
 {
     var disponibles = await db.ObtenerMaquinaDisponiblesAsync();
-    return Results.Ok(disponibles.Select(maquina => new MaquinaDto(maquina.Estado, maquina.Caracteristicas)));
+    return Results.Ok(disponibles.Select(disponibles => new MaquinaDto(disponibles.Estado , disponibles.Caracteristicas)));
 }).WithTags("MaquinasDisponibles");
 
-// Obtener maquinas no disponibles
+
+
 app.MapGet("/maquinas/no-disponibles", async (IDAO db) =>
 {
     var noDisponibles = await db.ObtenerMaquinaNoDisponiblesesAsync();
-    return Results.Ok(noDisponibles.Select(maquina => new MaquinaDto(maquina.Estado, maquina.Caracteristicas)));
+    return Results.Ok(noDisponibles.Select(noDisponibles=> new MaquinaDto(noDisponibles.Estado ,noDisponibles.Caracteristicas)));
 }).WithTags("MaquinasDisponibles");
 
-// ==============================
-// INICIAR LA APLICACIÓN
-// ==============================
+
 app.Run();

@@ -1,0 +1,128 @@
+@model Alquiler
+
+@{
+    ViewData["Title"] = "Eliminar Alquiler";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="display-6 text-danger">
+                <i class="fas fa-clock-times me-2"></i>Eliminar Alquiler
+            </h1>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Volver a la Lista
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Confirmar Eliminación
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>¡Atención!</strong> Esta acción no se puede deshacer. Se eliminará permanentemente el alquiler seleccionado.
+                </div>
+                
+                <h6 class="text-muted mb-3">¿Está seguro que desea eliminar este alquiler?</h6>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-hashtag me-1"></i>ID de Alquiler:
+                        </label>
+                        <p class="form-control-plaintext">
+                            <span class="badge bg-primary fs-6">@Model.IdAlquiler</span>
+                        </p>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-tag me-1"></i>Tipo de Alquiler:
+                        </label>
+                        <p class="form-control-plaintext">
+                            <span class="badge bg-secondary fs-6">Tipo @Model.Tipo</span>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-user me-1"></i>Cuenta:
+                        </label>
+                        <p class="form-control-plaintext">
+                            <span class="badge bg-info fs-6">@Model.Ncuenta</span>
+                        </p>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-desktop me-1"></i>Máquina:
+                        </label>
+                        <p class="form-control-plaintext">
+                            <span class="badge bg-success fs-6">@Model.Nmaquina</span>
+                        </p>
+                    </div>
+                </div>
+                
+                @if (Model.TiempoContratado.HasValue)
+                {
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-clock me-1"></i>Tiempo Contratado:
+                            </label>
+                            <p class="form-control-plaintext fs-5">
+                                <i class="fas fa-clock me-1 text-muted"></i>@Model.TiempoContratado.Value.ToString(@"hh\:mm")
+                            </p>
+                        </div>
+                    </div>
+                }
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-dollar-sign me-1"></i>Total a Pagar:
+                        </label>
+                        <p class="form-control-plaintext">
+                            <span class="badge bg-success fs-6">
+                                $@Model.TotalAPagar.ToString("N2")
+                            </span>
+                        </p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-money-bill me-1"></i>Monto Pagado:
+                        </label>
+                        <p class="form-control-plaintext">
+                            <span class="badge bg-info fs-6">
+                                $@Model.MontoPagado.ToString("N2")
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="IdAlquiler" />
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a asp-action="Index" class="btn btn-outline-secondary me-md-2">
+                            <i class="fas fa-times me-2"></i>Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash me-2"></i>Eliminar Definitivamente
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

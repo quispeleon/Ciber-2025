@@ -1,36 +1,66 @@
-@model IEnumerable<Ciber.core.Cuenta>
-
+@model IEnumerable<Cuenta>
 @{
-    ViewData["Title"] = "Lista de Cuentas";
+    ViewData["Title"] = "Gestión de Cuentas";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2> @ViewData["Title"]</h2>
+    <a href="@Url.Action("Create")" class="btn btn-success">
+       Nueva Cuenta
+    </a>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Ncuenta</th>
-            <th>Nombre</th>
-            <th></th>
-            <th>Hora Registrada</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var cuenta in Model)
-        {
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
             <tr>
-                <td>@cuenta.Ncuenta</td>
-                <td>@cuenta.Nombre</td>
-                <td></td>
-                <td>@cuenta.HoraRegistrada.ToString(@"hh\:mm\:ss")</td>
-                <td>
-                    <a asp-action="Editar" asp-route-ncuenta="@cuenta.Ncuenta" class="btn btn-primary">Editar</a>
-                    <a asp-action="Eliminar" asp-route-ncuenta="@cuenta.Ncuenta" class="btn btn-warning">Eliminar</a>
-                </td>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>DNI</th>
+                <th>Saldo</th>
+                <th>Estado</th>
+                <th>Acciones</th>
             </tr>
-        }
-    </tbody>
-</table>
-
-<a href="@Url.Action("Registrarte", "Cuenta")" class="btn btn-success">Registrar</a>
+        </thead>
+        <tbody>
+            @foreach (var cuenta in Model)
+            {
+                <tr>
+                    <td>@cuenta.Ncuenta</td>
+                    <td>@cuenta.Nombre</td>
+                    <td>@cuenta.Dni</td>
+                    <td>
+                        <span class="badge bg-@(cuenta.Saldo > 0 ? "success" : "warning")">
+                            $@cuenta.Saldo.ToString("N2")
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge bg-@(cuenta.Activa ? "success" : "danger")">
+                            @(cuenta.Activa ? "Activa" : "Inactiva")
+                        </span>
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <a href="@Url.Action("Details", new { id = cuenta.Ncuenta })" 
+                               class="btn btn-info" title="Detalles">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="@Url.Action("Edit", new { id = cuenta.Ncuenta })" 
+                               class="btn btn-warning" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="@Url.Action("Recargar", new { id = cuenta.Ncuenta })" 
+                               class="btn btn-success" title="Recargar">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </a>
+                            <a href="@Url.Action("Delete", new { id = cuenta.Ncuenta })" 
+                               class="btn btn-danger" title="Eliminar">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

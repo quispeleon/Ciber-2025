@@ -1,0 +1,116 @@
+@model Ciber.MVC.Controllers.ReporteViewModel
+@{
+    ViewData["Title"] = "Reportes y Estadísticas";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-chart-bar"></i> @ViewData["Title"]</h2>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>$@Model.IngresosHoy.ToString("N2")</h4>
+                        <p class="card-text">Ingresos Hoy</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-dollar-sign fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>$@Model.IngresosSemana.ToString("N2")</h4>
+                        <p class="card-text">Ingresos Semana</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-chart-line fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>@Model.TotalClientes</h4>
+                        <p class="card-text">Total Clientes</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>@Model.MaquinasDisponibles</h4>
+                        <p class="card-text">Máquinas Disponibles</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-desktop fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-search"></i> Reporte por Fecha</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="ReportePorFecha" method="post">
+                    <div class="mb-3">
+                        <label for="fecha" class="form-label">Seleccionar Fecha</label>
+                        <input type="date" name="fecha" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-chart-pie"></i> Generar Reporte
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-chart-line"></i> Reportes Disponibles</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <a href="@Url.Action("TopClientes")" class="list-group-item list-group-item-action">
+                        <i class="fas fa-trophy"></i> Top 10 Clientes
+                    </a>
+                    <a href="@Url.Action("MaquinasRentables")" class="list-group-item list-group-item-action">
+                        <i class="fas fa-desktop"></i> Máquinas Más Rentables
+                    </a>
+                    <a href="@Url.Action("Transacciones")" class="list-group-item list-group-item-action">
+                        <i class="fas fa-exchange-alt"></i> Todas las Transacciones
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

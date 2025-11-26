@@ -1,0 +1,108 @@
+@model Ciber.MVC.Controllers.AlquilerViewModel
+@{
+    ViewData["Title"] = "Nuevo Alquiler";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4><i class="fas fa-plus"></i> @ViewData["Title"]</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Ncuenta" class="form-label">Cuenta</label>
+                                <select asp-for="Ncuenta" class="form-control" required>
+                                    <option value="">Seleccionar cuenta...</option>
+                                    @foreach (var cuenta in ViewBag.Cuentas)
+                                    {
+                                        <option value="@cuenta.Ncuenta">#@cuenta.Ncuenta - @cuenta.Nombre ($@cuenta.Saldo.ToString("N2"))</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Ncuenta" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Nmaquina" class="form-label">Máquina</label>
+                                <select asp-for="Nmaquina" class="form-control" required>
+                                    <option value="">Seleccionar máquina...</option>
+                                    @foreach (var maquina in ViewBag.MaquinasDisponibles)
+                                    {
+                                        <option value="@maquina.Nmaquina" data-precio="@maquina.PrecioPorHora">
+                                            #@maquina.Nmaquina - @maquina.Caracteristicas ($@maquina.PrecioPorHora.ToString("N2")/hora)
+                                        </option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Nmaquina" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Alquiler</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="TipoAlquiler" value="false" id="tipoLibre" checked>
+                                <label class="form-check-label" for="tipoLibre">
+                                    Libre (hasta agotar saldo)
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="TipoAlquiler" value="true" id="tipoDefinido">
+                                <label class="form-check-label" for="tipoDefinido">
+                                    Tiempo Definido
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tiempoContratadoGroup" class="mb-3" style="display: none;">
+                        <label asp-for="TiempoContratado" class="form-label">Tiempo Contratado</label>
+                        <input asp-for="TiempoContratado" type="time" class="form-control" step="1">
+                        <small class="text-muted">Seleccione la duración del alquiler (formato HH:MM:SS)</small>
+                        <span asp-validation-for="TiempoContratado" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="@Url.Action("Activos")" class="btn btn-secondary me-md-2">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-play"></i> Iniciar Alquiler
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tipoLibre = document.getElementById('tipoLibre');
+            const tipoDefinido = document.getElementById('tipoDefinido');
+            const tiempoGroup = document.getElementById('tiempoContratadoGroup');
+
+            function toggleTiempoGroup() {
+                if (tipoDefinido.checked) {
+                    tiempoGroup.style.display = 'block';
+                } else {
+                    tiempoGroup.style.display = 'none';
+                }
+            }
+
+            tipoLibre.addEventListener('change', toggleTiempoGroup);
+            tipoDefinido.addEventListener('change', toggleTiempoGroup);
+            
+            // Inicializar
+            toggleTiempoGroup();
+        });
+    </script>
+}

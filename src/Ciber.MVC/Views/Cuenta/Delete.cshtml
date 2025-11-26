@@ -1,0 +1,47 @@
+@model Cuenta
+@{
+    ViewData["Title"] = "Eliminar Cuenta";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h4><i class="fas fa-exclamation-triangle"></i> @ViewData["Title"]</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <h5>¿Está seguro que desea eliminar esta cuenta?</h5>
+                    <p class="mb-0">Esta acción marcará la cuenta como inactiva y no se podrá recuperar.</p>
+                </div>
+
+                <dl class="row">
+                    <dt class="col-sm-4">ID:</dt>
+                    <dd class="col-sm-8">@Model.Ncuenta</dd>
+
+                    <dt class="col-sm-4">Nombre:</dt>
+                    <dd class="col-sm-8">@Model.Nombre</dd>
+
+                    <dt class="col-sm-4">DNI:</dt>
+                    <dd class="col-sm-8">@Model.Dni</dd>
+
+                    <dt class="col-sm-4">Saldo:</dt>
+                    <dd class="col-sm-8">$@Model.Saldo.ToString("N2")</dd>
+                </dl>
+
+                <form asp-action="DeleteConfirmed" method="post">
+                    <input type="hidden" name="id" value="@Model.Ncuenta" />
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="@Url.Action("Details", new { id = Model.Ncuenta })" class="btn btn-secondary me-md-2">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Confirmar Eliminación
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

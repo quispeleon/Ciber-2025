@@ -1,3 +1,4 @@
+
 namespace MinimalAPI.DTO;
 
 // obtener todos los arlquileres
@@ -16,3 +17,9 @@ public readonly record struct MaquinalAltaDTIO(bool Estado , string Caracteristi
 
 // Alta Cuenta 
 public readonly record struct CuentaAltaDTO(string nombre, string pass ,int dni, TimeSpan Horaregistrada);
+
+
+
+
+
+

@@ -1,0 +1,202 @@
+@model IEnumerable<HistorialdeAlquiler>
+@{
+    ViewData["Title"] = "Historial de Alquileres";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2> @ViewData["Title"]</h2>
+    <div>
+        <a href="@Url.Action("Reporte")" class="btn btn-info me-2">
+            <i class="fas fa-chart-bar"></i> Ver Reportes
+        </a>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#buscarModal">
+            <i class="fas fa-search"></i> Buscar
+        </button>
+    </div>
+</div>
+
+@if (ViewBag.TipoBusqueda != null)
+{
+    <div class="alert alert-info">
+        <i class="fas fa-info-circle"></i> 
+        Mostrando resultados de búsqueda: 
+        <strong>@ViewBag.TipoBusqueda</strong> = 
+        <strong>@ViewBag.ValorBusqueda</strong>
+        @if (ViewBag.FechaInicio != null)
+        {
+            <text>desde @(((DateTime)ViewBag.FechaInicio).ToString("dd/MM/yyyy")) hasta @(((DateTime)ViewBag.FechaFin).ToString("dd/MM/yyyy"))</text>
+        }
+        <a href="@Url.Action("Index")" class="float-end">Ver todos</a>
+    </div>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning">
+        <i class="fas fa-exclamation-triangle"></i> No se encontraron registros en el historial.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Cuenta</th>
+                    <th>Máquina</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Duración</th>
+                    <th>Precio/Hora</th>
+                    <th>Total</th>
+                    <th>Pagado</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var historial in Model.OrderByDescending(h => h.FechaFin))
+                {
+                    <tr>
+                        <td>@historial.IdHistorial</td>
+                        <td>
+                            <a href="@Url.Action("Details", "Cuenta", new { id = historial.Ncuenta })" 
+                               class="text-decoration-none">
+                                #@historial.Ncuenta
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Details", "Maquina", new { id = historial.Nmaquina })" 
+                               class="text-decoration-none">
+                                #@historial.Nmaquina
+                            </a>
+                        </td>
+                        <td>@historial.FechaInicio.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@historial.FechaFin.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@historial.TiempoUsado?.ToString(@"hh\:mm\:ss")</td>
+                        <td>$@historial.PrecioPorHora.ToString("N2")</td>
+                        <td>
+                            <span class="badge bg-success">$@historial.TotalPagar.ToString("N2")</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-@(historial.MontoPagado >= historial.TotalPagar ? "success" : "warning")">
+                                $@historial.MontoPagado.ToString("N2")
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge bg-secondary">@historial.EstadoFinal</span>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a href="@Url.Action("Details", new { id = historial.IdHistorial })" 
+                                   class="btn btn-info" title="Detalles">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="@Url.Action("Delete", new { id = historial.IdHistorial })" 
+                                   class="btn btn-danger" title="Eliminar">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Resumen del Historial</h6>
+                    <p class="card-text">
+                        <strong>Total de registros:</strong> @Model.Count() | 
+                        <strong>Ingresos totales:</strong> 
+                        <span class="text-success">$@Model.Sum(h => h.TotalPagar).ToString("N2")</span> | 
+                        <strong>Promedio por alquiler:</strong> 
+                        $@(Model.Average(h => h.TotalPagar).ToString("N2"))
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Modal de Búsqueda -->
+<div class="modal fade" id="buscarModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-search"></i> Buscar en Historial</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="Buscar" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Búsqueda</label>
+                        <select name="tipo" class="form-control" id="tipoBusqueda" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="cuenta">Por Cuenta</option>
+                            <option value="maquina">Por Máquina</option>
+                            <option value="fecha">Por Rango de Fechas</option>
+                        </select>
+                    </div>
+
+                    <div id="campoValor" class="mb-3" style="display: none;">
+                        <label class="form-label" id="labelValor">Valor</label>
+                        <input type="text" name="valor" class="form-control" 
+                               placeholder="Ingrese el ID">
+                    </div>
+
+                    <div id="campoFechas" class="mb-3" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">Fecha Inicio</label>
+                                <input type="date" name="fechaInicio" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Fecha Fin</label>
+                                <input type="date" name="fechaFin" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tipoBusqueda = document.getElementById('tipoBusqueda');
+            const campoValor = document.getElementById('campoValor');
+            const campoFechas = document.getElementById('campoFechas');
+            const labelValor = document.getElementById('labelValor');
+
+            tipoBusqueda.addEventListener('change', function() {
+                const valor = this.value;
+                
+                // Ocultar todos los campos primero
+                campoValor.style.display = 'none';
+                campoFechas.style.display = 'none';
+                
+                // Mostrar el campo correspondiente
+                if (valor === 'cuenta' || valor === 'maquina') {
+                    campoValor.style.display = 'block';
+                    labelValor.textContent = valor === 'cuenta' ? 'ID de Cuenta' : 'ID de Máquina';
+                    campoValor.querySelector('input').placeholder = `Ingrese el ID de ${valor}`;
+                } else if (valor === 'fecha') {
+                    campoFechas.style.display = 'block';
+                }
+            });
+        });
+    </script>
+}
