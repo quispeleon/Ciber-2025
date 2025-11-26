@@ -4,65 +4,157 @@
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2> @ViewData["Title"]</h2>
+    <h2 class="mb-0">📋 @ViewData["Title"]</h2>
     <div>
         <a href="@Url.Action("Activos")" class="btn btn-warning me-2">
-            <i class="fas fa-play-circle"></i> Ver Activos
+            ▶️ Ver Activos
         </a>
         <a href="@Url.Action("Create")" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Nuevo Alquiler
+            ➕ Nuevo Alquiler
         </a>
     </div>
 </div>
 
-<div class="table-responsive">
-    <table class="table table-striped table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Cuenta</th>
-                <th>Máquina</th>
-                <th>Inicio</th>
-                <th>Fin</th>
-                <th>Duración</th>
-                <th>Total</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var alquiler in Model)
-            {
-                <tr>
-                    <td>@alquiler.IdAlquiler</td>
-                    <td>#@alquiler.Ncuenta</td>
-                    <td>#@alquiler.Nmaquina</td>
-                    <td>@alquiler.FechaInicio.ToString("dd/MM/yyyy HH:mm")</td>
-                    <td>@(alquiler.FechaFin?.ToString("dd/MM/yyyy HH:mm") ?? "En curso")</td>
-                    <td>@(alquiler.TiempoUsado?.ToString() ?? "En curso")</td>
-                    <td>$@alquiler.TotalAPagar.ToString("N2")</td>
-                    <td>
-                        <span class="badge bg-@(alquiler.SesionActiva ? "success" : "secondary")">
-                            @(alquiler.SesionActiva ? "Activo" : "Finalizado")
+@if (Model.Any())
+{
+    <div class="row g-4">
+        @foreach (var alquiler in Model)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-header d-flex justify-content-between align-items-center @(alquiler.SesionActiva ? "bg-success" : "bg-secondary") text-white">
+                        <span class="fw-bold">Alquiler #@alquiler.IdAlquiler</span>
+                        <span class="badge @(alquiler.SesionActiva ? "bg-warning text-dark" : "bg-light text-dark")">
+                            @(alquiler.SesionActiva ? "🟢 Activo" : "⚫ Finalizado")
                         </span>
-                    </td>
-                    <td>
-                        <div class="btn-group btn-group-sm">
+                    </div>
+                    
+                    <div class="card-body">
+                        <!-- Información del cliente -->
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                 style="width: 40px; height: 40px;">
+                                <span class="text-white">👤</span>
+                            </div>
+                            <div>
+                                <strong>Cuenta #@alquiler.Ncuenta</strong>
+                            </div>
+                        </div>
+
+                        <!-- Información de la máquina -->
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-info rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                 style="width: 40px; height: 40px;">
+                                <span class="text-white">🖥️</span>
+                            </div>
+                            <div>
+                                <strong>Máquina #@alquiler.Nmaquina</strong>
+                            </div>
+                        </div>
+
+                        <!-- Tiempo y fechas -->
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <small class="text-muted">🕐 Inicio:</small>
+                                <small><strong>@alquiler.FechaInicio.ToString("dd/MM/yyyy HH:mm")</strong></small>
+                            </div>
+                            <div class="d-flex justify-content-between mb-1">
+                                <small class="text-muted">⏰ Fin:</small>
+                                <small><strong>@(alquiler.FechaFin?.ToString("dd/MM/yyyy HH:mm") ?? "🔄 En curso")</strong></small>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <small class="text-muted">⏱️ Duración:</small>
+                                <small><strong>@(alquiler.TiempoUsado?.ToString() ?? "🔄 En curso")</strong></small>
+                            </div>
+                        </div>
+
+                        <!-- Total a pagar -->
+                        <div class="bg-light rounded p-3 mb-3 text-center">
+                            <small class="text-muted d-block">💰 Total a Pagar</small>
+                            <strong class="h5 text-success">$@alquiler.TotalAPagar.ToString("N2")</strong>
+                        </div>
+
+                        <!-- Acciones -->
+                        <div class="d-flex justify-content-around align-items-center pt-2 border-top">
                             <a href="@Url.Action("Details", new { id = alquiler.IdAlquiler })" 
-                               class="btn btn-info" title="Detalles">
-                                <i class="fas fa-eye"></i>
+                               class="action-emoji" title="Ver Detalles">
+                                👁️
                             </a>
+
                             @if (alquiler.SesionActiva)
                             {
                                 <a href="@Url.Action("Finalizar", new { id = alquiler.IdAlquiler })" 
-                                   class="btn btn-warning" title="Finalizar">
-                                    <i class="fas fa-stop"></i>
+                                   class="action-emoji finalizar-emoji" 
+                                   title="Finalizar Alquiler"
+                                   onclick="return confirm('¿Estás seguro de que quieres finalizar el alquiler #@alquiler.IdAlquiler?')">
+                                    ⏹️
                                 </a>
                             }
+                            else
+                            {
+                                <span class="action-emoji disabled-emoji" title="Alquiler Finalizado">
+                                    ✅
+                                </span>
+                            }
                         </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="text-center py-5">
+        <div class="display-1">📋</div>
+        <h3 class="text-muted mt-3">No hay alquileres registrados</h3>
+        <p class="text-muted">Comienza creando tu primer alquiler</p>
+        <a href="@Url.Action("Create")" class="btn btn-primary mt-3">
+            ➕ Crear Primer Alquiler
+        </a>
+    </div>
+}
+
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 12px;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+    }
+
+    .action-emoji {
+        font-size: 1.4rem;
+        text-decoration: none;
+        padding: 8px 12px;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        display: inline-block;
+    }
+
+    .action-emoji:hover {
+        transform: scale(1.3);
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .finalizar-emoji:hover {
+        background-color: rgba(255, 193, 7, 0.3);
+    }
+
+    .disabled-emoji {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .card-header {
+        border-radius: 12px 12px 0 0 !important;
+        padding: 15px 20px;
+    }
+
+    .bg-light {
+        background-color: #f8f9fa !important;
+    }
+</style>
