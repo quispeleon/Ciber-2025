@@ -122,7 +122,7 @@
                                     <tr>
                                         <td>@historial.FechaInicio.ToString("dd/MM/yyyy HH:mm")</td>
                                         <td>#@historial.Ncuenta</td>
-                                        <td>@historial.tiempoUsado</td>
+                                        <td>@historial.TiempoUsado?.ToString(@"hh\:mm\:ss")</td>
                                         <td>$@(((decimal)historial.TotalPagar).ToString("N2"))</td>
                                     </tr>
                                 }
