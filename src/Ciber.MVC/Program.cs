@@ -5,6 +5,7 @@ using MySqlConnector;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession();
 
 
 
@@ -27,18 +28,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-
-var username = "brenda"; // Cambia a tu usuario
-var password = "2345";  // Cambia a tu contraseña
-
-app.UseMiddleware<BasicAuthMiddleware>(username, password);
 
 app.UseRouting();
 
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

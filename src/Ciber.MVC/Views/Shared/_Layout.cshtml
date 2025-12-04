@@ -134,10 +134,24 @@
             </li>
         </ul>
         
-        <!-- Botón de login en la derecha -->
+    @{
+        var usuario = Context.Session.GetString("UsuarioNombre");
+    }
+
+    @if (usuario == null)
+    {
         <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#loginModal">
             🔐 Iniciar Sesión
         </button>
+    }
+    else
+    {
+        <div class="d-flex align-items-center text-white">
+            👤 Hola, @usuario |
+            <a class="ms-2 btn btn-sm btn-danger" href="/Login/Cerrar">Cerrar sesión</a>
+        </div>
+    }
+
     </div>
 </nav>
 
