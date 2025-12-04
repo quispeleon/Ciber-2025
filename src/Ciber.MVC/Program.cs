@@ -30,7 +30,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 var username = "brenda"; // Cambia a tu usuario
-var password = "brenda123";  // Cambia a tu contraseña
+var password = "2345";  // Cambia a tu contraseña
 
 app.UseMiddleware<BasicAuthMiddleware>(username, password);
 
