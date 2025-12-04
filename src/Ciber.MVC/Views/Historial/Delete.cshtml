@@ -7,7 +7,7 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header bg-danger text-white">
-                <h4><i class="fas fa-exclamation-triangle"></i> @ViewData["Title"]</h4>
+                <h4><i class="fas fa-exclamation-triangle"></i> @ViewData["Eliminar Registro del Historial"]</h4>
             </div>
             <div class="card-body">
                 <div class="alert alert-warning">
@@ -31,13 +31,13 @@
                             <dt class="col-sm-4">Máquina:</dt>
                             <dd class="col-sm-8">#@Model.Nmaquina</dd>
 
-                            <dt class="col-sm-4">Fecha:</dt>
+                            <dt class="col-sm-4">Fecha Inicio:</dt>
                             <dd class="col-sm-8">@Model.FechaInicio.ToString("dd/MM/yyyy HH:mm")</dd>
 
-                            <dt class="col-sm-4">Duración:</dt>
+                            <dt class="col-sm-4">Duración Total:</dt>
                             <dd class="col-sm-8">@Model.DuracionTotal.ToString(@"hh\:mm\:ss")</dd>
 
-                            <dt class="col-sm-4">Total:</dt>
+                            <dt class="col-sm-4">Total a Pagar:</dt>
                             <dd class="col-sm-8">$@Model.TotalPagar.ToString("N2")</dd>
                         </dl>
                     </div>
