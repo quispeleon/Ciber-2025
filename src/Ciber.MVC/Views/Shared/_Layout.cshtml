@@ -1,3 +1,9 @@
+@{
+    var usuarioNombre = User.Identity?.IsAuthenticated == true 
+                        ? User.Identity.Name 
+                        : null;
+}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -26,7 +32,6 @@
             padding-top: 70px;
         }
 
-        /* NAVBAR HORIZONTAL */
         nav.navbar-custom {
             background: var(--nav-bg);
             box-shadow: 0 3px 10px rgba(0,0,0,.4);
@@ -50,24 +55,18 @@
             font-weight: bold;
         }
 
-        /* Estilos para el modal de login */
-        .modal-login {
-            color: #333;
-        }
-        
         .modal-login .modal-content {
             border-radius: 15px;
             border: none;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-        
+
         .modal-login .modal-header {
             background: linear-gradient(135deg, var(--accent), #2a5fc1);
             color: white;
             border-radius: 15px 15px 0 0;
-            border: none;
         }
-        
+
         .modal-login .btn-login {
             background: var(--accent);
             color: white;
@@ -78,29 +77,12 @@
             border: none;
             transition: background .3s;
         }
-        
+
         .modal-login .btn-login:hover {
             background: #2a5fc1;
         }
-        
-        .modal-login .form-control {
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-        }
-        
-        .modal-login .form-control:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 0.25rem rgba(57, 124, 230, 0.25);
-        }
-
-        /* Móvil */
-        @@media (max-width: 768px) {
-            .navbar-custom {
-                padding: 10px 18px;
-            }
-        }
     </style>
+
 </head>
 <body>
 
@@ -114,48 +96,33 @@
 
     <div class="collapse navbar-collapse" id="mainNavbar">
         <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/">🏡 Inicio</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/Maquina">🛠 Máquinas</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/Cuenta">🔒 Cuentas</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/Alquiler">📦 Alquileres</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/Historial">📜 Historial</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/Reportes">📊 Reportes</a>
-            </li>
+            <li class="nav-item"><a class="nav-link" href="/">🏡 Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Maquina">🛠 Máquinas</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Cuenta">🔒 Cuentas</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Alquiler">📦 Alquileres</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Historial">📜 Historial</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Reportes">📊 Reportes</a></li>
         </ul>
-        
-    @{
-        var usuario = Context.Session.GetString("UsuarioNombre");
-    }
 
-    @if (usuario == null)
-    {
-        <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#loginModal">
-            🔐 Iniciar Sesión
-        </button>
-    }
-    else
-    {
-        <div class="d-flex align-items-center text-white">
-            👤 Hola, @usuario |
-            <a class="ms-2 btn btn-sm btn-danger" href="/Login/Cerrar">Cerrar sesión</a>
-        </div>
-    }
+        <!-- LOGIN / USUARIO -->
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#loginModal">
+                🔐 Iniciar Sesión
+            </button>
+        }
+        else
+        {
+            <div class="d-flex align-items-center text-white">
+                👤 Hola, @User.Identity.Name |
+                <a class="ms-2 btn btn-sm btn-danger" href="/Login/Logout">Cerrar sesión</a>
+            </div>
+        }
 
     </div>
 </nav>
 
-<!-- MODAL DE LOGIN -->
+<!-- MODAL LOGIN -->
 <div class="modal fade modal-login" id="loginModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -163,35 +130,35 @@
                 <h5 class="modal-title">🔐 Iniciar Sesión</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
+
             <div class="modal-body">
-                <form id="loginForm" method="post" action="/Login/Autenticar">
+
+                <form method="post" action="/Login/Index">
                     <div class="mb-3">
-                        <label for="username" class="form-label">Usuario</label>
-                        <input type="text" class="form-control" id="username" name="username" 
-                               placeholder="Ingrese su usuario" required>
+                        <label class="form-label">DNI</label>
+                        <input type="text" class="form-control" name="dni" required />
                     </div>
+
                     <div class="mb-3">
-                        <label for="password" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="password" name="password" 
-                               placeholder="Ingrese su contraseña" required>
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" name="password" required />
                     </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                        <label class="form-check-label" for="remember">Recordar sesión</label>
-                    </div>
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-login">Ingresar</button>
-                    </div>
+
+                    <button type="submit" class="btn btn-login">Ingresar</button>
+
                     <div class="text-center mt-3">
                         <small class="text-muted">
-                            ¿No tienes cuenta? <a href="#" class="text-decoration-none">Regístrate aquí</a>
+                            ¿No tienes cuenta?
+                            <a href="/Cuenta/Create">Regístrate aquí</a>
                         </small>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
 </div>
+
 
 <div class="container mt-4">
     <header><h1>@ViewData["Title"]</h1></header>
@@ -204,58 +171,21 @@
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    // Marcar link activo automáticamente
     document.addEventListener("DOMContentLoaded", () => {
-        const path = location.pathname.toLowerCase();
+        const normalize = p => (p || '').replace(/\/+$/, '').toLowerCase() || '/';
+        const path = normalize(location.pathname);
         document.querySelectorAll(".navbar-nav .nav-link").forEach(a => {
-            if (path === a.getAttribute("href").toLowerCase()) {
+            const href = normalize(a.getAttribute("href"));
+            if (href === path || (href !== '/' && path.startsWith(href))) {
                 a.classList.add("active");
+            } else {
+                a.classList.remove("active");
             }
         });
-        
-        // Manejar el envío del formulario de login
-        const loginForm = document.getElementById('loginForm');
-        if (loginForm) {
-            loginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Aquí iría la lógica de autenticación
-                const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
-                
-                // Ejemplo básico de validación
-                if (username && password) {
-                    // Simular login exitoso
-                    alert(`Bienvenido, ${username}!`);
-                    
-                    // Cerrar modal
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
-                    modal.hide();
-                    
-                    // Actualizar navbar (cambiar botón por nombre de usuario)
-                    const loginBtn = document.querySelector('[data-bs-target="#loginModal"]');
-                    loginBtn.innerHTML = `👤 ${username}`;
-                    loginBtn.classList.remove('btn-outline-light');
-                    loginBtn.classList.add('btn-light');
-                    loginBtn.setAttribute('onclick', 'logout()');
-                    loginBtn.setAttribute('data-bs-toggle', '');
-                    
-                    // Aquí normalmente redirigirías o actualizarías la página
-                } else {
-                    alert('Por favor complete todos los campos');
-                }
-            });
-        }
     });
-    
-    // Función para cerrar sesión
-    function logout() {
-        if (confirm('¿Está seguro de cerrar sesión?')) {
-            location.reload(); // Esto recargaría la página sin sesión
-        }
-    }
 </script>
 
 @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

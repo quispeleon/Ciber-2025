@@ -89,7 +89,7 @@ public interface IDAO
     IEnumerable<dynamic> ObtenerMaquinasMasRentables();
 
     // ========== MÉTODOS ASÍNCRONOS ==========
-    
+
     // CUENTA
     Task AgregarCuentaAsync(Cuenta cuenta);
     Task<Cuenta> ObtenerCuentaPorIdAsync(int ncuenta);
@@ -180,4 +180,5 @@ public interface IDAO
     Task<bool> VerificarYFinalizarSiExcedeSaldoAsync(int idAlquiler);
     Task<IEnumerable<Alquiler>> ObtenerAlquileresQueExcedenSaldoAsync();
     Task FinalizarAlquileresExcedidosAsync();
+
 }
