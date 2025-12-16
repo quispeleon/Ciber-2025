@@ -1,155 +1,270 @@
 @model IEnumerable<Alquiler>
+
 @{
-    ViewData["Title"] = "Todos los Alquileres";
+    ViewData["Title"] = "Alquileres Activos";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-        <a href="@Url.Action("Activos")" class="btn btn-warning me-2">
-            ▶️ Ver Activos
-        </a>
-        <a href="@Url.Action("Create")" class="btn btn-primary">
-            ➕ Nuevo Alquiler
-        </a>
+<div class="container-fluid px-4">
+    <!-- Header con título y acciones -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-play-circle text-primary me-2"></i>@ViewData["Title"]
+            </h1>
+            <p class="text-muted mb-0">Alquileres actualmente en curso</p>
+        </div>
+        <div>
+            <a href="@Url.Action("Create")" class="btn btn-primary btn-lg shadow-sm">
+                <i class="fas fa-plus-circle me-2"></i>Nuevo Alquiler
+            </a>
+            <a href="@Url.Action("Index", "Alquiler")" class="btn btn-outline-secondary btn-lg ms-2">
+                <i class="fas fa-history me-2"></i>Ver Historial
+            </a>
+        </div>
     </div>
-</div>
 
-@if (Model.Any())
-{
-    <div class="row g-4">
-        @foreach (var alquiler in Model)
-        {
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card h-100 shadow-sm border-0">
-                    <div class="card-header d-flex justify-content-between align-items-center @(alquiler.SesionActiva ? "bg-success" : "bg-secondary") text-white">
-                        <span class="fw-bold">Alquiler #@alquiler.IdAlquiler</span>
-                        <span class="badge @(alquiler.SesionActiva ? "bg-warning text-dark" : "bg-light text-dark")">
-                            @(alquiler.SesionActiva ? "🟢 Activo" : "⚫ Finalizado")
-                        </span>
+    <!-- Tarjeta principal -->
+    <div class="card shadow border-0">
+        <div class="card-header bg-gradient-primary text-white py-3">
+            <h5 class="card-title mb-0">
+                <i class="fas fa-list-check me-2"></i>Lista de Alquileres Activos
+                <span class="badge bg-white text-primary ms-2">@Model.Count() activos</span>
+            </h5>
+        </div>
+        
+        <div class="card-body p-0">
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+                    <div class="empty-state">
+                        <i class="fas fa-clock fa-4x text-muted mb-4"></i>
+                        <h3 class="text-muted mb-3">No hay alquileres activos</h3>
+                        <p class="text-muted mb-4">Todos los equipos están disponibles para nuevos alquileres.</p>
+                        <a href="@Url.Action("Create")" class="btn btn-primary btn-lg">
+                            <i class="fas fa-plus me-2"></i>Crear Primer Alquiler
+                        </a>
                     </div>
-                    
-                    <div class="card-body">
-                        <!-- Información del cliente -->
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" 
-                                 style="width: 40px; height: 40px;">
-                                <span class="text-white">👤</span>
-                            </div>
-                            <div>
-                                <strong>Cuenta #@alquiler.Ncuenta</strong>
-                            </div>
-                        </div>
-
-                        <!-- Información de la máquina -->
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="bg-info rounded-circle d-flex align-items-center justify-content-center me-3" 
-                                 style="width: 40px; height: 40px;">
-                                <span class="text-white">🖥️</span>
-                            </div>
-                            <div>
-                                <strong>Máquina #@alquiler.Nmaquina</strong>
-                            </div>
-                        </div>
-
-                        <!-- Tiempo y fechas -->
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between mb-1">
-                                <small class="text-muted">🕐 Inicio:</small>
-                                <small><strong>@alquiler.FechaInicio.ToString("dd/MM/yyyy HH:mm")</strong></small>
-                            </div>
-                            <div class="d-flex justify-content-between mb-1">
-                                <small class="text-muted">⏰ Fin:</small>
-                                <small><strong>@(alquiler.FechaFin?.ToString("dd/MM/yyyy HH:mm") ?? "🔄 En curso")</strong></small>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <small class="text-muted">⏱️ Duración:</small>
-                                <small><strong>@(alquiler.TiempoUsado?.ToString() ?? "🔄 En curso")</strong></small>
-                            </div>
-                        </div>
-
-                        <!-- Total a pagar -->
-                        <div class="bg-light rounded p-3 mb-3 text-center">
-                            <small class="text-muted d-block">💰 Total a Pagar</small>
-                            <strong class="h5 text-success">$@alquiler.TotalAPagar.ToString("N2")</strong>
-                        </div>
-
-                        <!-- Acciones -->
-                        <div class="d-flex justify-content-around align-items-center pt-2 border-top">
-                            <a href="@Url.Action("Details", new { id = alquiler.IdAlquiler })" 
-                               class="action-emoji" title="Ver Detalles">
-                                👁️
-                            </a>
-
-                            @if (alquiler.SesionActiva)
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">
+                                    <i class="fas fa-hashtag text-primary me-1"></i>ID
+                                </th>
+                                <th>
+                                    <i class="fas fa-user text-primary me-1"></i>Cuenta
+                                </th>
+                                <th>
+                                    <i class="fas fa-desktop text-primary me-1"></i>Máquina
+                                </th>
+                                <th>
+                                    <i class="fas fa-calendar-plus text-primary me-1"></i>Inicio
+                                </th>
+                                <th>
+                                    <i class="fas fa-clock text-primary me-1"></i>Tiempo
+                                </th>
+                                <th>
+                                    <i class="fas fa-money-bill-wave text-primary me-1"></i>Costo
+                                </th>
+                                <th>
+                                    <i class="fas fa-tag text-primary me-1"></i>Tipo
+                                </th>
+                                <th>
+                                    <i class="fas fa-bolt text-primary me-1"></i>Estado
+                                </th>
+                                <th class="text-end pe-4">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var a in Model)
                             {
-                                <a href="@Url.Action("Finalizar", new { id = alquiler.IdAlquiler })" 
-                                   class="action-emoji finalizar-emoji" 
-                                   title="Finalizar Alquiler"
-                                   onclick="return confirm('¿Estás seguro de que quieres finalizar el alquiler #@alquiler.IdAlquiler?')">
-                                    ⏹️
-                                </a>
+                                var tiempoTranscurrido = DateTime.Now - a.FechaInicio;
+                                var tiempoDisplay = tiempoTranscurrido.ToString(@"hh\:mm\:ss");
+                                
+                                <tr class="hover-row">
+                                    <td class="ps-4">
+                                        <span class="badge bg-primary bg-opacity-10 text-primary fw-bold">
+                                            #@a.IdAlquiler
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3">
+                                                <i class="fas fa-user text-info"></i>
+                                            </div>
+                                            <div>
+                                                <strong>#@a.Ncuenta</strong>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3">
+                                                <i class="fas fa-desktop text-success"></i>
+                                            </div>
+                                            <div>
+                                                <strong>#@a.Nmaquina</strong>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="text-nowrap">
+                                            <small class="d-block text-muted">Fecha</small>
+                                            <strong>@a.FechaInicio.ToString("dd/MM/yyyy")</strong>
+                                        </div>
+                                        <div class="text-nowrap">
+                                            <small class="d-block text-muted">Hora</small>
+                                            <span class="text-primary">@a.FechaInicio.ToString("HH:mm")</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="timer-badge" data-start="@a.FechaInicio.ToString("O")">
+                                            <span class="badge bg-dark bg-opacity-10 text-dark fs-6">
+                                                <i class="fas fa-hourglass-half me-1"></i>
+                                                <span class="timer-display">@tiempoDisplay</span>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="badge bg-success bg-opacity-10 text-success fs-6 p-2">
+                                                <i class="fas fa-dollar-sign me-1"></i>
+                                                @a.CostoActual.ToString("N2")
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if (a.Tipo == 1)
+                                        {
+                                            <span class="badge bg-info bg-opacity-10 text-info">
+                                                <i class="fas fa-infinity me-1"></i>Libre
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning bg-opacity-10 text-warning">
+                                                <i class="fas fa-clock me-1"></i>Tiempo Definido
+                                            </span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success bg-opacity-20 text-success">
+                                            <i class="fas fa-circle me-1"></i>Activo
+                                        </span>
+                                    </td>
+                                    <td class="text-end pe-4">
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <a href="@Url.Action("Details", new { id = a.IdAlquiler })" 
+                                               class="btn btn-outline-info" title="Ver Detalles">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="@Url.Action("Finalizar", new { id = a.IdAlquiler })" 
+                                               class="btn btn-outline-warning" title="Finalizar Alquiler">
+                                                <i class="fas fa-stop"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
                             }
-                            else
-                            {
-                                <span class="action-emoji disabled-emoji" title="Alquiler Finalizado">
-                                    ✅
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+        
+        @if (Model.Any())
+        {
+            <div class="card-footer bg-light">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Mostrando @Model.Count() alquileres activos
+                        </small>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <div class="me-3">
+                                <span class="badge bg-success bg-opacity-20 text-success me-2">
+                                    <i class="fas fa-circle"></i>
                                 </span>
-                            }
+                                <small>Activo</small>
+                            </div>
+                            <div>
+                                <span class="badge bg-warning bg-opacity-20 text-warning me-2">
+                                    <i class="fas fa-stop"></i>
+                                </span>
+                                <small>Finalizar</small>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         }
     </div>
-}
-else
-{
-    <div class="text-center py-5">
-        <div class="display-1">📋</div>
-        <h3 class="text-muted mt-3">No hay alquileres registrados</h3>
-    </div>
-}
+</div>
 
+@section Styles {
 <style>
-    .card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border-radius: 12px;
+    .hover-row:hover {
+        background-color: rgba(0, 123, 255, 0.02) !important;
+        transform: translateY(-1px);
+        transition: all 0.2s ease;
     }
-
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+    
+    .avatar-sm {
+        width: 36px;
+        height: 36px;
     }
-
-    .action-emoji {
-        font-size: 1.4rem;
-        text-decoration: none;
-        padding: 8px 12px;
-        border-radius: 50%;
-        transition: all 0.3s ease;
-        display: inline-block;
+    
+    .timer-badge {
+        font-family: 'Courier New', monospace;
     }
-
-    .action-emoji:hover {
-        transform: scale(1.3);
-        background-color: rgba(0, 0, 0, 0.1);
+    
+    .empty-state {
+        max-width: 400px;
+        margin: 0 auto;
     }
-
-    .finalizar-emoji:hover {
-        background-color: rgba(255, 193, 7, 0.3);
+    
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
-
-    .disabled-emoji {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-
-    .card-header {
-        border-radius: 12px 12px 0 0 !important;
-        padding: 15px 20px;
-    }
-
-    .bg-light {
-        background-color: #184470 !important;
+    
+    .table th {
+        border-top: none;
+        border-bottom: 2px solid #dee2e6;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
     }
 </style>
+}
+
+@section Scripts {
+<script>
+    // Actualizar contadores de tiempo en tiempo real
+    function updateTimers() {
+        document.querySelectorAll('.timer-badge').forEach(element => {
+            const startTime = new Date(element.getAttribute('data-start'));
+            const now = new Date();
+            const diff = now - startTime;
+            
+            const hours = Math.floor(diff / 3600000);
+            const minutes = Math.floor((diff % 3600000) / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            
+            const display = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            element.querySelector('.timer-display').textContent = display;
+        });
+    }
+    
+    // Actualizar cada segundo
+    setInterval(updateTimers, 1000);
+    updateTimers(); // Llamada inicial
+</script>
+}

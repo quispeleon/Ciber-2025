@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Ciber.core;
 using Ciber.Dapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ciber.MVC.Controllers
 {
+    [Authorize(Roles = "ADMIN_FINANZAS")]
     public class HistorialController : Controller
     {
         private readonly IDAO _dao;

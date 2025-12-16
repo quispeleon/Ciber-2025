@@ -1,7 +1,14 @@
-namespace Ciber.core;
+ namespace Ciber.core;
+
 
 public interface IDAO
 {
+    // ========= USUARIOS DEL SISTEMA =========
+    UsuarioSistema? ObtenerUsuarioSistemaPorUsername(string username);
+    Task<UsuarioSistema?> ObtenerUsuarioSistemaPorUsernameAsync(string username);
+    Task AgregarUsuarioSistemaAsync(UsuarioSistema usuario); 
+    Task MigrarUsuariosInsegurosAsync();
+
     // ========== CUENTA ==========
     void AgregarCuenta(Cuenta cuenta);
     Cuenta ObtenerCuentaPorId(int ncuenta);

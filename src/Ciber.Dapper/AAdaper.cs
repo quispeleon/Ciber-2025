@@ -2,6 +2,8 @@ using Dapper;
 using MySqlConnector;
 using Ciber.core;
 using System.Data;
+using BCrypt.Net;
+ 
 
 namespace Ciber.Dapper
 {
@@ -13,6 +15,22 @@ namespace Ciber.Dapper
         {
             _dbConnection = dbConnection;
         }
+
+        public UsuarioSistema? ObtenerUsuarioSistemaPorUsername(string username)
+{
+    const string sql = """
+        SELECT Id, Username, PasswordHash, Rol, Activo
+        FROM usuarios_sistema
+        WHERE Username = @Username
+        LIMIT 1
+    """;
+
+    return _dbConnection.QueryFirstOrDefault<UsuarioSistema>(
+        sql,
+        new { Username = username }
+    );
+}
+
 
         // ========== CUENTA ==========
         public void AgregarCuenta(Cuenta cuenta)
@@ -555,6 +573,59 @@ namespace Ciber.Dapper
 
         // ========== MÉTODOS ASÍNCRONOS ==========
         // Implementaré solo algunos métodos asíncronos clave para mostrar el patrón
+public async Task<UsuarioSistema?> ObtenerUsuarioSistemaPorUsernameAsync(string username)
+    {
+        const string sql = """
+            SELECT Id, Username, PasswordHash, Rol, Activo
+            FROM usuarios_sistema
+            WHERE Username = @Username
+            LIMIT 1
+        """;
+
+        return await _dbConnection.QueryFirstOrDefaultAsync<UsuarioSistema>(
+            sql,
+            new { Username = username }
+        );
+    }
+
+    public async Task AgregarUsuarioSistemaAsync(UsuarioSistema usuario)
+    {
+        const string sql = """
+            INSERT INTO usuarios_sistema (Username, PasswordHash, Rol, Activo)
+            VALUES (@Username, @PasswordHash, @Rol, @Activo)
+        """;
+
+        await _dbConnection.ExecuteAsync(sql, usuario);
+    }
+
+    public async Task MigrarUsuariosInsegurosAsync()
+    {
+        var usuarios = await _dbConnection.QueryAsync<UsuarioSistema>(
+            "SELECT Id, Username, PasswordHash FROM usuarios_sistema"
+        );
+
+    foreach (var usuario in usuarios)
+    {
+        try
+        {
+            // Verifica si el hash es válido
+            BCrypt.Net.BCrypt.Verify("test", usuario.PasswordHash);
+        }
+        catch (BCrypt.Net.SaltParseException)
+        {
+            // Si la contraseña estaba en texto plano, generar un hash seguro
+            string nuevoHash = BCrypt.Net.BCrypt.HashPassword(usuario.PasswordHash);
+
+            // Actualizar la base de datos con el nuevo hash
+            await _dbConnection.ExecuteAsync(
+                "UPDATE usuarios_sistema SET PasswordHash = @PasswordHash WHERE Id = @Id",
+                new { PasswordHash = nuevoHash, Id = usuario.Id }
+            );
+        }
+    }
+
+    }
+
 
         public async Task AgregarCuentaAsync(Cuenta cuenta)
         {

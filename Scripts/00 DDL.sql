@@ -94,6 +94,22 @@ CREATE TABLE Transacciones (
     CONSTRAINT FK_Transacciones_Cuenta FOREIGN KEY (Ncuenta) REFERENCES Cuenta (Ncuenta),
     CONSTRAINT FK_Transacciones_Alquiler FOREIGN KEY (idAlquiler) REFERENCES Alquiler (idAlquiler)
 );
+-- Tabla de usuarios del sistema (corregida)
+DROP TABLE IF EXISTS usuarios_sistema;
+CREATE TABLE usuarios_sistema (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    PasswordHash VARCHAR(255) NOT NULL,
+    rol VARCHAR(30) NOT NULL,
+    activo TINYINT(1) NOT NULL DEFAULT 1
+);
+
+-- Datos de ejemplo
+INSERT INTO usuarios_sistema (username, PasswordHash, rol, activo)
+VALUES 
+('admin', '1234', 'ADMIN_GENERAL', 1),
+('finanzas', '1234', 'ADMIN_FINANZAS', 1);
+
 
 -- Insertar tipos mejorados
 INSERT INTO Tipo (tipo, descripcion, requierePagoPrevio) VALUES 
