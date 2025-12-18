@@ -24,10 +24,8 @@ body {
 
 .footer {
   position: absolute;
-  bottom: 0;
+  bottom: -1;
   width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {

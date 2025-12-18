@@ -17,10 +17,10 @@
 
     @RenderSection("Styles", required: false)
 </head>
-<body class="bg-light">
+<body >
 
     <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
     <div class="container-fluid">
 
         <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
@@ -107,7 +107,7 @@
 </nav>
 
     <!-- CONTENIDO -->
-    <main class="container mt-4">
+    <main >
 
         @if (TempData["SuccessMessage"] != null)
         {
@@ -129,8 +129,8 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="border-top footer text-muted mt-5 py-3">
-        <div class="container text-center">
+    <footer >
+        <div >
             © @DateTime.Now.Year - Ciber
         </div>
     </footer>
