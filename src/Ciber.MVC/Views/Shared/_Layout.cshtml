@@ -63,11 +63,11 @@
                         </li>
                     }
 
-                    @if (User.IsInRole("ADMIN_FINANZAS"))
+                @if (User.Identity?.IsAuthenticated == true)
                     {
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Reportes" asp-action="Index">
-                                <i class="bi bi-cash-coin"></i> Finanzas
+                                <i class="bi bi-cash-coin"></i> Reportes
                             </a>
                         </li>
                     }
