@@ -7,6 +7,7 @@ using Ciber.Dapper;
 namespace Ciber.MVC.Controllers
 {
     [Authorize] // 🔐 nadie entra sin login
+    [Authorize(Roles = "ADMIN_FINANZAS,ADMIN_GENERAL")]
     public class CuentaController : Controller
     {
         private readonly IDAO _dao;

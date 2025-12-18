@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Ciber.MVC.Controllers
 {
-    [Authorize(Roles = "ADMIN_FINANZAS")] 
+[Authorize(Roles = "ADMIN_FINANZAS,ADMIN_GENERAL")]
     public class ReportesController : Controller
     {
         private readonly IDAO _dao;

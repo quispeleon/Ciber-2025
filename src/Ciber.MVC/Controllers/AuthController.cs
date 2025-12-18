@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Ciber.MVC.Models;
 using Ciber.core;
 using System.Security.Claims;
-using BCrypt.Net;
 
 namespace Ciber.MVC.Controllers
 {
@@ -18,8 +17,7 @@ namespace Ciber.MVC.Controllers
             _dao = dao;
         }
 
-        // ========= LOGIN =========
-
+        // ========= LOGIN (GET) =========
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Login()
@@ -27,6 +25,7 @@ namespace Ciber.MVC.Controllers
             return View(new UsuarioLoginDto());
         }
 
+        // ========= LOGIN (POST) =========
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -43,9 +42,16 @@ namespace Ciber.MVC.Controllers
                 return View(model);
             }
 
-            if (!VerificarPassword(model.Password, usuario.PasswordHash))
+            if (!BCrypt.Net.BCrypt.Verify(model.Password, usuario.PasswordHash))
             {
                 ModelState.AddModelError("", "Usuario o contraseña incorrectos");
+                return View(model);
+            }
+
+            // ⚠️ CLAVE: verificar rol
+            if (string.IsNullOrWhiteSpace(usuario.Rol))
+            {
+                ModelState.AddModelError("", "El usuario no tiene rol asignado");
                 return View(model);
             }
 
@@ -68,14 +74,14 @@ namespace Ciber.MVC.Controllers
                 principal,
                 new AuthenticationProperties
                 {
-                    IsPersistent = true
+                    IsPersistent = true,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddHours(8)
                 });
 
             return RedirectToAction("Index", "Home");
         }
 
         // ========= LOGOUT =========
-
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Logout()
@@ -86,11 +92,11 @@ namespace Ciber.MVC.Controllers
             return RedirectToAction("Login", "Auth");
         }
 
-        // ========= PASSWORD =========
-
-        private bool VerificarPassword(string password, string passwordHash)
+        // ========= ACCESO DENEGADO =========
+        [AllowAnonymous]
+        public IActionResult AccesoDenegado()
         {
-            return BCrypt.Net.BCrypt.Verify(password, passwordHash);
+            return View();
         }
     }
 }

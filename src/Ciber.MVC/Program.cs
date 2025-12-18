@@ -7,66 +7,66 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 var builder = WebApplication.CreateBuilder(args);
 
 // =====================
-// MVC + SESSION
+// MVC
 // =====================
 builder.Services.AddControllersWithViews();
-builder.Services.AddSession();
 
 // =====================
-// CONEXIÓN A MYSQL (DAPPER)
+// SESSION
+// =====================
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(8);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+// =====================
+// CONEXIÓN MYSQL (DAPPER)
 // =====================
 var connectionString = builder.Configuration.GetConnectionString("MySQL");
 
-builder.Services.AddScoped<IDbConnection>(sp =>
-{
-    return new MySqlConnection(connectionString);
-});
+builder.Services.AddScoped<IDbConnection>(_ =>
+    new MySqlConnection(connectionString));
 
 builder.Services.AddScoped<IDAO, ADOD>();
 
 // =====================
-// AUTENTICACIÓN (COOKIES)
+// AUTHENTICATION (COOKIES)
 // =====================
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Auth/Login";
-        options.AccessDeniedPath = "/Auth/Login";
+        options.LoginPath = "/Auth/Login";              // NO autenticado
+        options.AccessDeniedPath = "/Auth/AccesoDenegado"; // Autenticado sin permisos
         options.ExpireTimeSpan = TimeSpan.FromHours(8);
         options.SlidingExpiration = true;
     });
 
 // =====================
-// AUTORIZACIÓN (ROLES)
+// AUTHORIZATION (ROLES)
 // =====================
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("ADMIN_GENERAL", policy =>
-        policy.RequireRole("ADMIN_GENERAL"));
+builder.Services.AddAuthorization();
 
-    options.AddPolicy("ADMIN_FINANZAS", policy =>
-        policy.RequireRole("ADMIN_FINANZAS"));
-});
-
+// =====================
+// BUILD
+// =====================
 var app = builder.Build();
 
 // =====================
-// MIGRAR USUARIOS Y CREAR ADMIN INICIAL
+// MIGRACIONES + ADMIN INICIAL
 // =====================
 using (var scope = app.Services.CreateScope())
 {
     var dao = scope.ServiceProvider.GetRequiredService<IDAO>();
 
-    // Migrar usuarios inseguros (contraseñas en texto plano)
     await dao.MigrarUsuariosInsegurosAsync();
 
-    // Crear usuario admin si no existe
-    var adminExistente = await dao.ObtenerUsuarioSistemaPorUsernameAsync("admin");
-    if (adminExistente == null)
+    var admin = await dao.ObtenerUsuarioSistemaPorUsernameAsync("admin");
+    if (admin == null)
     {
-        string password = "23456789"; // mínimo 8 caracteres
-        string passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
+        string passwordHash = BCrypt.Net.BCrypt.HashPassword("23456789");
 
         await dao.AgregarUsuarioSistemaAsync(new UsuarioSistema
         {
@@ -75,8 +75,6 @@ using (var scope = app.Services.CreateScope())
             Rol = "ADMIN_GENERAL",
             Activo = true
         });
-
-        Console.WriteLine("Usuario admin creado con contraseña segura.");
     }
 }
 
@@ -92,12 +90,13 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseSession();
-app.UseAuthentication();
-app.UseAuthorization();
+
+app.UseSession();        // SIEMPRE antes de auth
+app.UseAuthentication(); // 👈 OBLIGATORIO
+app.UseAuthorization();  // 👈 OBLIGATORIO
 
 // =====================
-// RUTEO
+// ROUTING
 // =====================
 app.MapControllerRoute(
     name: "default",
