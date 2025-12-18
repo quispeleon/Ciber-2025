@@ -22,8 +22,14 @@ namespace Ciber.MVC.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View(new UsuarioLoginDto());
         }
+
 
         // ========= LOGIN (POST) =========
         [AllowAnonymous]
